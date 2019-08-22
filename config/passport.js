@@ -5,7 +5,12 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 module.exports = (passport) => {
-	passport.use(new LocalStrategy((email, passpord, done) => {
+	// for the passport local strategy to authenticate user
+	passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  (email, password, done) => {
 		User.findOne({ email: email }, (err, user) => {
 			if (err) {
 				return done(err)
@@ -13,7 +18,7 @@ module.exports = (passport) => {
 			if (!user) {
 				return done(err, false, { message: 'Can\'t find the user' })
 			}
-			bcrypt.compare(passpord, user.passpord, (err, result) => {
+			bcrypt.compare(password, user.password, (err, result) => {
 				if (err) {
 					console.log(err)
 				}
@@ -21,13 +26,13 @@ module.exports = (passport) => {
 					return done(null, user);
 				}
 				else {
-					return donw(null, false, { message: 'Password is incorrect' })
+					return done(null, false, { message: 'Password is incorrect' })
 				}
 			})
 		})
 	}));
 
-	passport.serializUser((user, done) => {
+	passport.serializeUser((user, done) => {
 		done(null, user.id);
 	})
 

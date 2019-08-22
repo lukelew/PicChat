@@ -21,13 +21,11 @@
     "connect-flash": "^0.1.1",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "mongoose": "^5.6.10",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "install": "^0.13.0",
-    "mongoose": "^5.6.9",
-    "nodemon": "^1.19.1",
-    "npm": "^6.10.3"
+    "nodemon": "^1.19.1"
   }
 }

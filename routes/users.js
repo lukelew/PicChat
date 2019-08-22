@@ -2,46 +2,29 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const saltRounds = 13;
+const saltRounds = 10;
+const passport = require('passport');
 
 router.use(express.json());
-router.use(express.urlencoded({ extended: true }))
 
 router.get('/', (req, res) => {
-	res.send('this is the index of users');
+	res.send('This is the index of users');
 })
 
 router.get('/login', (req, res) => {
-	res.send({message: req.flash('msg')})
+	res.send({ message: req.flash('msg') })
 })
 
-// verify the user informations and login
-router.post('/login', (req, res) => {
-	User.findOne({ name: req.body.name }, (err, user) => {
-		if (err) {
-			console.log(err)
-		}
-		else if (!user) {
-			console.log('can\'t find user')
-		}
-		else {
-			if (!req.body.password) {
-				console.log('no password provided')
-			}
-			else {
-				bcrypt.compare(req.body.password, user.password, (err, result) => {
-					console.log(result);
-				})
-			}
-			
-		}
-		
-	})
-	res.send('Trying to login');
-})
+// login handler
+router.post('/login',
+	passport.authenticate('local'), (req, res) => {
+		console.log('You\'re in!')
+		res.send('User Authenticated')
+	});
 
-// user registeration
-router.post('/sign', (req, res) => {
+
+// register handler
+router.post('/register', (req, res) => {
 	User.findOne({ name: req.body.name }, (err, user) => {
 		// check the uniqueness of user name
 		if (user) {
@@ -60,14 +43,14 @@ router.post('/sign', (req, res) => {
 						var user = new User({
 							name: req.body.name,
 							email: req.body.email,
-							password: hashPassword
+							password: hashPassword,
 						})
 
 						user.save()
 							.then(newUser => {
 								console.log('New user saved!');
 								res.send('Successed!')
-								req.flash('msg', newUser);
+								// req.flash('msg', newUser);
 								// res.redirect('/users/login')
 							})
 							.catch(err => {
@@ -80,6 +63,17 @@ router.post('/sign', (req, res) => {
 	})
 })
 
+// logout handler
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 	
 
 module.exports = router;
+
+
+
+
+
+

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const db = require('../config/db');
 
 const UserSchema = new mongoose.Schema({
 	name: {
@@ -14,7 +13,10 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: true
 		},
-	date: {
+	avatar: {
+		type: Number
+	},
+	create_at: {
 		type: Date,
 		default: Date.now
 	}
