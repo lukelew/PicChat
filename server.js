@@ -39,6 +39,7 @@ app.use('/users', users);
 const topics = require('./routes/topics');
 app.use('/topics', topics);
 
-
+const reacts = require('./routes/reacts');
+app.use('/reacts', reacts);
 
 app.listen(process.env.PORT || 8080);

@@ -16,8 +16,11 @@ const TopicSchema = new mongoose.Schema({
 	create_at: {
 		type: Date,
 		default: Date.now
-	}
-	// reacts: [ ReactModel.schema ],
+	},
+	reacts: [{	
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'ReactModel'
+	}]
 	// replies: [ this ]
 })
 

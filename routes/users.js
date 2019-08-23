@@ -39,7 +39,7 @@ router.post('/register', (req, res) => {
 					res.send('This email has already been signed up')
 				}
 				else {
-					bcrypt.hash(req.body.password, saltRounds, function(err, hashPassword) {
+					bcrypt.hash(req.body.password, saltRounds, (err, hashPassword) => {
 						var user = new User({
 							name: req.body.name,
 							email: req.body.email,
@@ -64,7 +64,7 @@ router.post('/register', (req, res) => {
 })
 
 // logout handler
-router.get('/logout', function(req, res){
+router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
