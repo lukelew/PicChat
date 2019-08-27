@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
+const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
@@ -13,30 +14,20 @@ router.get('/', (req, res) => {
 })
 
 // create a new topic
-router.post('/', (req, res) => {
-	// get the current poster
-	User.findOne({'email': req.body.email},(err, user) => {
-		if(!user){
-			res.send('Can\'t find this user')
-		}
-		else{
-			var user_id = user._id
-			var topic = new Topic({
-				pic_url: req.body.pic_url,
-				create_by: user_id,
-			})
-
-			topic.save()
-				.then(newTopic => {
-					console.log('New topic saved!');
-					res.send('Successed!')
-				})
-				.catch(err => {
-					console.error(err)
-				})
-		}
+router.post('/', ensureAuthenticated, (req, res) => {
+	var topic = new Topic({
+		pic_url: req.body.pic_url,
+		create_by: req.user._id,
 	})
 
+	topic.save()
+		.then(newTopic => {
+			console.log('New topic saved!');
+			res.send('Successed!')
+		})
+		.catch(err => {
+			console.error(err)
+		})
 })
 
 // update a topic

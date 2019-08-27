@@ -11,11 +11,7 @@ router.get('/', (req, res) => {
 	res.send('This is the index of users');
 })
 
-router.get('/login', (req, res) => {
-	res.send({ message: req.flash('msg') })
-})
-
-// login handler
+// login
 router.post('/login',
 	passport.authenticate('local'), (req, res) => {
 		console.log('You\'re in!')
@@ -23,7 +19,7 @@ router.post('/login',
 	});
 
 
-// register handler
+// register
 router.post('/register', (req, res) => {
 	User.findOne({ name: req.body.name }, (err, user) => {
 		// check the uniqueness of user name
@@ -63,10 +59,12 @@ router.post('/register', (req, res) => {
 	})
 })
 
-// logout handler
+// logout
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+	req.logout();
+	// res.redirect('/');
+	res.send('User logout')
+	console.log('User logout')
 });
 	
 

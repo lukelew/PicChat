@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
 const React = require('../models/React');
+const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
 })
 
 // add a new react
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
 	// get the current topic
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
@@ -20,7 +21,7 @@ router.post('/', (req, res) => {
 		else{
 			var react = new React({
 				emoji: req.body.emoji,
-				create_by: topic.create_by
+				create_by: req.user._id
 			})
 
 			react.save()

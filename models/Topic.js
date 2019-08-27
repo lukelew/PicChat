@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const ReactModel = require('./React');
 const UserModel = require('./User');
 const ReplyModel = require('./Reply');
+const ReactModel = require('./React');
 
 const TopicSchema = new mongoose.Schema({
 	pic_url: {
@@ -13,15 +13,18 @@ const TopicSchema = new mongoose.Schema({
 		ref: 'UserModel',
 		required: true
 	},
-	create_at: {
-		type: Date,
-		default: Date.now
-	},
 	reacts: [{	
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'ReactModel'
-	}]
-	// replies: [ this ]
+	}],
+	replies: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'ReplyModel'
+	}],
+	create_at: {
+		type: Date,
+		default: Date.now
+	}
 })
 
 
