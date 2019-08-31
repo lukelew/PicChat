@@ -18,12 +18,12 @@ Front-end part will be created by React and saved in folder `client`
 
 To start use this application by simply run
 
-### `npm install`
+##### `npm install`
 
 to install all the necessary dependencies.
 
 Then run
 
-### `node server.js`
+##### `node server.js`
 
 the server will be running on port 8080 by default.

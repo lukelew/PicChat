@@ -7,8 +7,11 @@ const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
+// fetch topics
 router.get('/', (req, res) => {
-	res.send('This is the index of reacts');
+	React.find({}, (err, docs) => {
+		res.send(docs)
+	})
 })
 
 // add a new react
@@ -21,7 +24,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
 		else{
 			var react = new React({
 				emoji: req.body.emoji,
-				create_by: req.user._id
+				create_by: req.user._id,
+				react_to: topic._id
 			})
 
 			react.save()
@@ -54,13 +58,21 @@ router.put('/', (req, res) => {
 
 // delete a react
 router.delete('/', (req, res) => {
-	React.findById(req.body.react_id, (err, react) => {
+	const currentReactId = req.body.react_id
+	React.findById(currentReactId, (err, react) => {
 		if(!react){
 			res.send('Can\'t find this react')
 		}
 		else{
-			react.remove();
-			res.send('Delete successed!')
+			react.remove((err) => {
+				if(err) throw err;
+				res.send('Delete successed!!!');
+				Topic.findById(react.react_to, (err, topic) => {
+					topic.reacts.pull(currentReactId);
+					topic.save();
+					console.log(topic)
+				})
+			});
 		}
 	})
 })

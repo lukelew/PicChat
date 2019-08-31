@@ -1,26 +1,30 @@
 const mongoose = require('mongoose');
-const UserModel = require('./User');
-const ReplyModel = require('./Reply');
-const ReactModel = require('./React');
+const User = require('./User');
+const React = require('./React');
 
 const TopicSchema = new mongoose.Schema({
 	pic_url: {
 		type: String,
 		required: true
 	},
+	level: {
+		type: Number,
+		require: true
+	},
 	create_by: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'UserModel',
+		ref: 'User',
 		required: true
 	},
 	reacts: [{	
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'ReactModel'
+		ref: 'React'
 	}],
-	replies: [{
+	replies: [this],
+	reply_to: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'ReplyModel'
-	}],
+		ref: 'User'
+	},
 	create_at: {
 		type: Date,
 		default: Date.now

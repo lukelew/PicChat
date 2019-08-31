@@ -2,15 +2,20 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
+const React = require('../models/React');
 const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
 // fetch topics
 router.get('/', (req, res) => {
-	Topic.find({}, (err, docs) => {
-		res.send(docs)
-	})
+	Topic
+		.find({})
+		.populate('reacts')
+		.exec((err, docs) => {
+			console.log(docs)
+			res.send(docs)
+		});
 })
 
 // create a new topic

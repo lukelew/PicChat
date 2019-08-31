@@ -16,6 +16,7 @@ router.post('/login',
 	passport.authenticate('local'), (req, res) => {
 		console.log('You\'re in!')
 		res.send('User Authenticated')
+		// res.redirect('/')
 	});
 
 
