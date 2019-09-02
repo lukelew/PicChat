@@ -3,24 +3,29 @@ const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
 const React = require('../models/React');
+const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
+// fetch topics
 router.get('/', (req, res) => {
-	res.send('This is the index of reacts');
+	React.find({}, (err, docs) => {
+		res.send(docs)
+	})
 })
 
 // add a new react
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
 	// get the current topic
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
-			res.send('Can\'t find this topic')
+			return res.send('Can\'t find this topic')
 		}
 		else{
 			var react = new React({
 				emoji: req.body.emoji,
-				create_by: topic.create_by
+				create_by: req.user._id,
+				react_to: topic._id
 			})
 
 			react.save()
@@ -38,10 +43,10 @@ router.post('/', (req, res) => {
 })
 
 // update a react
-router.put('/', (req, res) => {
+router.put('/', ensureAuthenticated, (req, res) => {
 	React.findById(req.body.react_id, (err, react) => {
 		if(!react){
-			res.send('Can\'t find this react')
+			return res.send('Can\'t find this react')
 		}
 		else{
 			react.emoji = req.body.emoji
@@ -52,14 +57,22 @@ router.put('/', (req, res) => {
 })
 
 // delete a react
-router.delete('/', (req, res) => {
-	React.findById(req.body.react_id, (err, react) => {
+router.delete('/', ensureAuthenticated, (req, res) => {
+	const currentReactId = req.body.react_id
+	React.findById(currentReactId, (err, react) => {
 		if(!react){
-			res.send('Can\'t find this react')
+			return res.send('Can\'t find this react')
 		}
 		else{
-			react.remove();
-			res.send('Delete successed!')
+			react.remove((err) => {
+				if(err) throw err;
+				res.send('Delete successed!!!');
+				Topic.findById(react.react_to, (err, topic) => {
+					topic.reacts.pull(currentReactId);
+					topic.save();
+					console.log(topic)
+				})
+			});
 		}
 	})
 })

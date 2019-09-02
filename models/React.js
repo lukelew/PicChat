@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const UserModel = require('./User');
+const User = require('./User');
+const Topic = require('./Topic');
 
 const ReactSchema = new mongoose.Schema({
 	emoji: {
@@ -8,7 +9,12 @@ const ReactSchema = new mongoose.Schema({
 	},
 	create_by: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'UserModel',
+		ref: 'User',
+		required: true
+	},
+	react_to: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Topic',
 		required: true
 	},
 	create_at: {

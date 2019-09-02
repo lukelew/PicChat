@@ -2,49 +2,46 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
+const React = require('../models/React');
+const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
 // fetch topics
 router.get('/', (req, res) => {
-	Topic.find({}, (err, docs) => {
-		res.send(docs)
-	})
+	Topic
+		.find({})
+		.populate('reacts')
+		.exec((err, docs) => {
+			console.log(docs)
+			res.send(docs)
+		});
 })
 
 // create a new topic
-router.post('/', (req, res) => {
-	// get the current poster
-	User.findOne({'email': req.body.email},(err, user) => {
-		if(!user){
-			res.send('Can\'t find this user')
-		}
-		else{
-			var user_id = user._id
-			var topic = new Topic({
-				pic_url: req.body.pic_url,
-				create_by: user_id,
-			})
-
-			topic.save()
-				.then(newTopic => {
-					console.log('New topic saved!');
-					res.send('Successed!')
-				})
-				.catch(err => {
-					console.error(err)
-				})
-		}
+router.post('/', ensureAuthenticated, (req, res) => {
+	var topic = new Topic({
+		pic_url: req.body.pic_url,
+		create_by: req.user._id,
+		level: 1
 	})
 
+	topic.save()
+		.then(newTopic => {
+			console.log('New topic saved!');
+			res.send('Successed!')
+		})
+		.catch(err => {
+			console.error(err)
+		})
 })
 
 // update a topic
-router.put('/', (req, res) => {
+router.put('/', ensureAuthenticated, (req, res) => {
 	// get the current topic
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
-			res.send('Can\'t find this topic')
+			return res.send('Can\'t find this topic')
 		}
 		else{
 			topic.pic_url = req.body.pic_url
@@ -55,10 +52,10 @@ router.put('/', (req, res) => {
 })
 
 // delete a topic
-router.delete('/', (req, res) => {
+router.delete('/', ensureAuthenticated, (req, res) => {
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
-			res.send('Can\'t find this topic')
+			return res.send('Can\'t find this topic')
 		}
 		else{
 			topic.remove();
@@ -67,5 +64,34 @@ router.delete('/', (req, res) => {
 	})
 })
 
+// reply to a topic
+router.post('/reply', ensureAuthenticated, (req, res) => {
+	Topic.findById(req.body.reply_to, (err, topic) => {
+		if(!topic){
+			return res.send('can\'t find the topic you want to reply')
+		}
+		else{
+			var reply = new Topic({
+				pic_url: req.body.pic_url,
+				create_by: req.user._id,
+				reply_to: req.body.reply_to,
+				level: 2
+			})
+
+			reply.save()
+				.then(newReply => {
+					topic.replies.push(newReply._id)
+					topic.save()
+					console.log('New reply saved!')
+					res.send('Successed!')
+				})
+		}
+	})
+	
+})
 
 module.exports = router;
+
+
+
+
