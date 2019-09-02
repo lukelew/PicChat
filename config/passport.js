@@ -7,16 +7,19 @@ const User = require('../models/User');
 module.exports = (passport) => {
 	// for the passport local strategy to authenticate user
 	passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-  },
-  (email, password, done) => {
+		usernameField: 'email',
+		passwordField: 'password'
+	},
+	(email, password, done) => {
 		User.findOne({ email: email }, (err, user) => {
 			if (err) {
 				return done(err)
 			}
 			if (!user) {
-				return done(err, false, { message: 'Can\'t find the user' })
+				return done(null, false, {
+					status: 'failure',
+					message: 'Can\'t find this user'
+				})
 			}
 			bcrypt.compare(password, user.password, (err, result) => {
 				if (err) {
@@ -26,7 +29,10 @@ module.exports = (passport) => {
 					return done(null, user);
 				}
 				else {
-					return done(null, false, { message: 'Password is incorrect' })
+					return done(null, false, {
+						status: 'failure',
+						message: 'Password is wrong'
+					})
 				}
 			})
 		})

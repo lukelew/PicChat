@@ -19,7 +19,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 	// get the current topic
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
-			res.send('Can\'t find this topic')
+			return res.send('Can\'t find this topic')
 		}
 		else{
 			var react = new React({
@@ -43,10 +43,10 @@ router.post('/', ensureAuthenticated, (req, res) => {
 })
 
 // update a react
-router.put('/', (req, res) => {
+router.put('/', ensureAuthenticated, (req, res) => {
 	React.findById(req.body.react_id, (err, react) => {
 		if(!react){
-			res.send('Can\'t find this react')
+			return res.send('Can\'t find this react')
 		}
 		else{
 			react.emoji = req.body.emoji
@@ -57,11 +57,11 @@ router.put('/', (req, res) => {
 })
 
 // delete a react
-router.delete('/', (req, res) => {
+router.delete('/', ensureAuthenticated, (req, res) => {
 	const currentReactId = req.body.react_id
 	React.findById(currentReactId, (err, react) => {
 		if(!react){
-			res.send('Can\'t find this react')
+			return res.send('Can\'t find this react')
 		}
 		else{
 			react.remove((err) => {
