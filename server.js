@@ -13,6 +13,10 @@ const db = require('./config/db');
 // Passport Config
 require('./config/passport')(passport);
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Session
 app.use(session({
 	secret: 'secret',
@@ -20,21 +24,16 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-// Passport
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Connect flash
 app.use(flash());
 
 // Routers
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 const users = require('./routes/users');
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/users', users);
 
 const topics = require('./routes/topics');

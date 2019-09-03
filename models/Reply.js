@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 const UserModel = require('./User');
 
-const ReactSchema = new mongoose.Schema({
-	emoji: {
+const ReplySchema = new mongoose.Schema({
+	pic_url: {
 		type: String,
 		required: true
 	},
 	create_by: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'UserModel',
+		type: UserModel.schema,
 		required: true
 	},
 	create_at: {
@@ -17,4 +16,5 @@ const ReactSchema = new mongoose.Schema({
 	}
 })
 
-module.exports = mongoose.model('React', ReactSchema);
+
+module.exports = mongoose.model('Reply', ReplySchema);

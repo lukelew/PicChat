@@ -11,47 +11,32 @@ router.get('/', (req, res) => {
 	res.send('This is the index of users');
 })
 
-// login
-router.post('/login', (req, res, next) => {
-	passport.authenticate('local', (err, user, info) => {
-		if (err) { 
-			return res.send(err);
-		}
-		if (!user) { 
-			return res.send(info); 
-		}
-		req.login(user, () => {
-			console.log('You\'re in!')
-			res.send({
-				status: 'success',
-				message: 'You\'re in',
-				user: req.user
-			})
-		});
-	})(req, res, next);
-});
+router.get('/login', (req, res) => {
+	res.send({ message: req.flash('msg') })
+})
+
+// login handler
+router.post('/login',
+	passport.authenticate('local'), (req, res) => {
+		console.log('You\'re in!')
+		res.send('User Authenticated')
+	});
 
 
-// register
+// register handler
 router.post('/register', (req, res) => {
 	User.findOne({ name: req.body.name }, (err, user) => {
 		// check the uniqueness of user name
 		if (user) {
-			console.error('Username exists.')
-			res.send({
-				status: 'failure',
-				message: 'Username exists.'
-			})
+			console.log('user already exisit')
+			res.send('user already exisit')
 		}
 		else {
 			User.findOne({ email: req.body.email }, (err, email) => {
 				// check the uniqueness of user email
 				if (email) {
-					console.error('This email has already been signed up')
-					res.send({
-						status: 'failure',
-						message: 'This email has already been signed up'
-					})
+					console.log('This email has already been signed up')
+					res.send('This email has already been signed up')
 				}
 				else {
 					bcrypt.hash(req.body.password, saltRounds, (err, hashPassword) => {
@@ -64,10 +49,8 @@ router.post('/register', (req, res) => {
 						user.save()
 							.then(newUser => {
 								console.log('New user saved!');
-								res.send({
-									status: 'success',
-									message: 'Register successfully'
-								})
+								res.send('Successed!')
+								// req.flash('msg', newUser);
 								// res.redirect('/users/login')
 							})
 							.catch(err => {
@@ -80,15 +63,10 @@ router.post('/register', (req, res) => {
 	})
 })
 
-// logout
+// logout handler
 router.get('/logout', (req, res) => {
-	req.logout();
-	// res.redirect('/');
-	res.send({
-		status: 'success',
-		message: 'User logout'
-	})
-	console.log('User logout')
+  req.logout();
+  res.redirect('/');
 });
 	
 

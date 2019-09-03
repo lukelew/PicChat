@@ -3,29 +3,24 @@ const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
 const React = require('../models/React');
-const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
-// fetch topics
 router.get('/', (req, res) => {
-	React.find({}, (err, docs) => {
-		res.send(docs)
-	})
+	res.send('This is the index of reacts');
 })
 
 // add a new react
-router.post('/', ensureAuthenticated, (req, res) => {
+router.post('/', (req, res) => {
 	// get the current topic
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
-			return res.send('Can\'t find this topic')
+			res.send('Can\'t find this topic')
 		}
 		else{
 			var react = new React({
 				emoji: req.body.emoji,
-				create_by: req.user._id,
-				react_to: topic._id
+				create_by: topic.create_by
 			})
 
 			react.save()
@@ -43,10 +38,10 @@ router.post('/', ensureAuthenticated, (req, res) => {
 })
 
 // update a react
-router.put('/', ensureAuthenticated, (req, res) => {
+router.put('/', (req, res) => {
 	React.findById(req.body.react_id, (err, react) => {
 		if(!react){
-			return res.send('Can\'t find this react')
+			res.send('Can\'t find this react')
 		}
 		else{
 			react.emoji = req.body.emoji
@@ -57,22 +52,14 @@ router.put('/', ensureAuthenticated, (req, res) => {
 })
 
 // delete a react
-router.delete('/', ensureAuthenticated, (req, res) => {
-	const currentReactId = req.body.react_id
-	React.findById(currentReactId, (err, react) => {
+router.delete('/', (req, res) => {
+	React.findById(req.body.react_id, (err, react) => {
 		if(!react){
-			return res.send('Can\'t find this react')
+			res.send('Can\'t find this react')
 		}
 		else{
-			react.remove((err) => {
-				if(err) throw err;
-				res.send('Delete successed!!!');
-				Topic.findById(react.react_to, (err, topic) => {
-					topic.reacts.pull(currentReactId);
-					topic.save();
-					console.log(topic)
-				})
-			});
+			react.remove();
+			res.send('Delete successed!')
 		}
 	})
 })
