@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
-const flash = require('connect-flash');
 const passport = require('passport');
 
 const app = express();
@@ -23,9 +22,6 @@ app.use(session({
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Connect flash
-app.use(flash());
 
 // Routers
 app.use(express.static(path.join(__dirname, 'client/build')));

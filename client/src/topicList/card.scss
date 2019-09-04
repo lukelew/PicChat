@@ -1,0 +1,54 @@
+.card{
+	width: 300px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 20px;
+	padding: 0 10px;
+	color: rgba(0,0,0,0.65);
+	font-size: 14px;
+	font-variant: tabular-nums;
+	line-height: 1.5;
+	list-style: none;
+	-webkit-font-feature-settings: 'tnum';
+	font-feature-settings: 'tnum';
+	position: relative;
+	background: #fff;
+	border-radius: 2px;
+	-webkit-transition: all .3s;
+	transition: all .3s;
+	border: 1px solid #e8e8e8;
+}
+.card .user_info{
+	display: flex;
+	align-items: center;
+	padding: 14px 0;
+
+	strong{
+		font-size: 16px;
+		padding: 0 0 0 6px;
+	}
+
+	span.date{
+		color: #ccc;
+		margin-left: auto;
+	}
+}
+
+.card img{
+	width: 100%;
+}
+
+.card .interact_box{
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0;
+}
+.card .replies{
+	width: 280px;
+	padding: 10px 0;
+	text-align: center;
+	line-height: 32px;
+	-webkit-transition: all .3s;
+	transition: all .3s;
+	border-top: 1px solid #e8e8e8;
+}

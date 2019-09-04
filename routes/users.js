@@ -4,6 +4,10 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
+const nodemailer = require('nodemailer');
+const { transporter} = require('../config/email');
+const cryptoRandomString = require('crypto-random-string');
+const Token = require('../models/Token');
 
 router.use(express.json());
 
@@ -63,11 +67,28 @@ router.post('/register', (req, res) => {
 
 						user.save()
 							.then(newUser => {
-								console.log('New user saved!');
-								res.send({
-									status: 'success',
-									message: 'Register successfully'
+								var token = new Token({
+									userId: newUser.id,
+									token: cryptoRandomString({length: 64})
 								})
+
+								token.save()
+									.then(newToken => {
+										var sendToken = newToken.token;
+										console.log(sendToken)
+										transporter.sendMail({
+											from: 'noreply@picchat.me', 
+											to: '13298498@student.uts.edu.au', 
+											subject: 'Please use the link below to verify your account', 
+											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="http://localhost:8080/users/verify?token="' + sendToken  + '">Verify Now</a></div>' 
+										});
+
+										res.send({
+											status: 'success',
+											message: 'Register successfully'
+										})
+									})
+								
 								// res.redirect('/users/login')
 							})
 							.catch(err => {
@@ -77,6 +98,37 @@ router.post('/register', (req, res) => {
 				}
 			})
 		}
+	})
+})
+
+// verify a user
+router.get('/verify', (req, res) => {
+	Token.findOne({token: req.query.token}, (err, token) => {
+		if(!token) {
+			res.send({
+				status: 'failure',
+				message: 'Can\'t find this token'
+			})
+		}
+		else{
+			User.findById(token.userId, (err, user) => {
+				if(!user) {
+					res.send({
+						status: 'failure',
+						message: 'Can\'t find this user'
+					})
+				}
+				else{
+					user.isVerified = true
+					user.save()
+					res.send({
+						status: 'success',
+						message: 'Congratulation! You\'re verifed!'
+					})
+				}
+			})
+		}
+
 	})
 })
 
@@ -90,6 +142,17 @@ router.get('/logout', (req, res) => {
 	})
 	console.log('User logout')
 });
+
+// send email
+router.get('/email', (req, res) => {
+	transporter.sendMail({
+		from: 'noreply@picchat.me', // sender address
+		to: 'ailuqun313@hotmail.com', // list of receivers
+		subject: 'Please use the link below to verify your account', // Subject line
+		html: '<b>Your number is ' + cryptoRandomString({length: 64})  + '</b>' // html body
+	});
+	res.send('done')
+})
 	
 
 module.exports = router;

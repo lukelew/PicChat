@@ -1,7 +1,9 @@
+@import '../variables.scss';
+
 #header {
 	margin: 0 auto;
 	padding: 0 40px;
-	background: #00B8D8;
+	background: $primary-blue;
 }
 
 #logo {
@@ -11,33 +13,29 @@
 }
 #login {
 	float: right;
-	padding: 10;
+	height: 57px;
+	line-height: 57px;
 }
 #login_button{
 	margin: auto;
 	font-size: 18px;
 	height: 57px;
-	background: #00B8D8;
 	border: none;
-	color: blue;
+	color: #fff;
 }
 .login{
 	margin: auto;
 	text-align: center;
 	font-size: 18px;
-	// width: 50px;s
 	height: 57px;
-	background: #00B8D8;
 	border: none;
-	color: blue;
+	color: #fff;
 }
 .register{
 	margin-left: 10px;
 	text-align: center;
 	font-size: 18px;
-	// width: 50px;s
 	height: 57px;
-	background: #00B8D8;
 	border: none;
-	color: blue;
+	color: #fff;
 }

@@ -1,6 +1,4 @@
-// import {Router,Route} from 'react-router';
-import {Route, BrowserRouter}from 'react-router-dom';
-import {Link} from 'react-router-dom';
+import {Route, BrowserRouter, Link}from 'react-router-dom';
 import './header.scss';
 
 import React from 'react';
@@ -9,16 +7,6 @@ import Logout from './logout'
 import Register from './register';
 
 import Check_Login from './checkLogin';
-import thunk from 'redux-thunk'
-import {createStore, compose, applyMiddleware} from 'redux'
-import {Provider} from 'react-redux'
-import  reducer  from "../reducer";
-
-//还没写完：未写redux
-// const store = createStore(reducer, compose(
-//   applyMiddleware(thunk), 
-//   window.devToolsExtension ? window.devToolsExtension() : f => f 
-// ))
 
 var loginState = false;
 // const userName=()=>{

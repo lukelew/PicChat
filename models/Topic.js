@@ -3,7 +3,7 @@ const User = require('./User');
 const React = require('./React');
 
 const TopicSchema = new mongoose.Schema({
-	pic_url: {
+	picUrl: {
 		type: String,
 		required: true
 	},
@@ -11,7 +11,7 @@ const TopicSchema = new mongoose.Schema({
 		type: Number,
 		require: true
 	},
-	create_by: {
+	createBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
@@ -21,11 +21,11 @@ const TopicSchema = new mongoose.Schema({
 		ref: 'React'
 	}],
 	replies: [this],
-	reply_to: {
+	replyTo: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	create_at: {
+	createAt: {
 		type: Date,
 		default: Date.now
 	}

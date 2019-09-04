@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
 	Topic
 		.find({})
 		.populate('reacts')
+		.populate('createBy')
 		.exec((err, docs) => {
 			console.log(docs)
 			res.send(docs)
@@ -21,8 +22,8 @@ router.get('/', (req, res) => {
 // create a new topic
 router.post('/', ensureAuthenticated, (req, res) => {
 	var topic = new Topic({
-		pic_url: req.body.pic_url,
-		create_by: req.user._id,
+		picUrl: req.body.picUrl,
+		createBy: req.user._id,
 		level: 1
 	})
 
@@ -44,7 +45,7 @@ router.put('/', ensureAuthenticated, (req, res) => {
 			return res.send('Can\'t find this topic')
 		}
 		else{
-			topic.pic_url = req.body.pic_url
+			topic.pic_url = req.body.picUrl
 			topic.save();
 			res.send('Topic update successed!')
 		}
@@ -72,9 +73,9 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 		}
 		else{
 			var reply = new Topic({
-				pic_url: req.body.pic_url,
-				create_by: req.user._id,
-				reply_to: req.body.reply_to,
+				picUrl: req.body.picUrl,
+				createBy: req.user._id,
+				replyTo: req.body.replyTo,
 				level: 2
 			})
 

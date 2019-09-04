@@ -5,7 +5,6 @@ module.exports = {
 		}
 		else{
 			res.send('You need to login first')
-			// res.redirect('/');
 		}
 	}
 }

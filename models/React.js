@@ -7,17 +7,17 @@ const ReactSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	create_by: {
+	createBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
 	},
-	react_to: {
+	reactTo: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Topic',
 		required: true
 	},
-	create_at: {
+	createAt: {
 		type: Date,
 		default: Date.now
 	}

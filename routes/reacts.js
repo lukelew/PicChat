@@ -24,8 +24,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
 		else{
 			var react = new React({
 				emoji: req.body.emoji,
-				create_by: req.user._id,
-				react_to: topic._id
+				createBy: req.user._id,
+				reactTo: topic._id
 			})
 
 			react.save()
