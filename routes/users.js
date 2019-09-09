@@ -29,7 +29,11 @@ router.post('/login', (req, res, next) => {
 			res.send({
 				status: 'success',
 				message: 'You\'re in',
-				user: req.user
+				user: {
+					name: req.user.name,
+					email: req.user.email,
+					id: req.user.id
+				}
 			})
 		});
 	})(req, res, next);

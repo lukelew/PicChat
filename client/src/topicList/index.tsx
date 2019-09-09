@@ -7,7 +7,7 @@ interface topicListState {
 }
 
 class TopicList extends React.Component<{}, topicListState> {
-	constructor(props:any){
+	constructor(props: any){
 		super(props);
 		this.state = {
 			topics: []
@@ -16,28 +16,38 @@ class TopicList extends React.Component<{}, topicListState> {
 
 	componentDidMount() {
 		fetch('http://localhost:3000/topics')
-			.then(res => {
-				res.json().then(data => {
-					this.setState({
-						topics: data
-					})
+			.then(res => res.json())
+			.then(data => {
+				this.setState({
+					topics: data
 				})
 			})
 	}
 
 	render() {
-		const topiclist = this.state.topics.map( topic => {
+		const topicList = this.state.topics.map( topic => {
+			const yourReact = '';
+			topic.reacts.map( (react: string) => {
+				console.log(react);
+			})
+
 			return (
-					<Card 
-						picUrl={topic.picUrl} 
-						name={topic.createBy.name} 
-						key={topic._id}>
-					</Card>
+				<Card
+					key={topic._id}
+					picUrl={topic.picUrl} 
+					name={topic.createBy.name} 
+					createAt={topic.createAt}
+					topicId={topic._id}
+					replies={topic.replies}
+					reacts={topic.reacts}
+					yourReact='a'
+				>
+				</Card>
 			)
 		})
 		return(
 			<div id="topic_list">
-				{topiclist}
+				{topicList}
 			</div>
 		)
 	}
