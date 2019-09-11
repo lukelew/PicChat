@@ -39,4 +39,7 @@ app.use('/topics', topics);
 const reacts = require('./routes/reacts');
 app.use('/reacts', reacts);
 
+const images = require('./routes/images');
+app.use('/images', images);
+
 app.listen(process.env.PORT || 8080);
