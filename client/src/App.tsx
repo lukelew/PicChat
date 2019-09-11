@@ -13,8 +13,8 @@ const App: React.FC = () => {
     <Router>
       <div className="App" id='App'>
         <Header></Header>
-        <Route path="/" component={TopicList}/>
-        <Route path="/topics_detail" component={TopicDetail}/>
+        <Route path="/" exact component={TopicList}/>
+        <Route path="/topics_detail/:id" component={TopicDetail}/>
       </div>
     </Router>
   );

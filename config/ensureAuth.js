@@ -4,7 +4,10 @@ module.exports = {
 			return next();
 		}
 		else{
-			res.send('You need to login first')
+			res.send({
+				status: 'failure',
+				msg: 'You need to login first'
+			})
 		}
 	}
 }

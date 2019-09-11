@@ -9,14 +9,36 @@ router.use(express.json());
 
 // fetch topics
 router.get('/', (req, res) => {
-	Topic
-		.find({})
-		.populate('reacts')
-		.populate('createBy')
-		.exec((err, docs) => {
-			console.log(docs)
-			res.send(docs)
-		});
+	if(!req.query.id){
+		// fetch all topics
+		Topic
+			.find({level: 1})
+			.populate('reacts')
+			.populate('createBy')
+			.exec((err, docs) => {
+				console.log(docs)
+				res.send(docs)
+			});
+	}
+	else{
+		// fetch one particular topic
+		 Topic
+			.find({ _id: req.query.id })
+			.populate('reacts')
+			.populate('createBy')
+			.populate({
+				path: 'replies',
+				populate: {
+					path: 'createBy'
+				}
+
+			})
+			.exec((err, docs) => {
+				console.log(docs)
+				res.send(docs)
+			});
+	}
+	
 })
 
 // create a new topic
@@ -67,7 +89,7 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 
 // reply to a topic
 router.post('/reply', ensureAuthenticated, (req, res) => {
-	Topic.findById(req.body.reply_to, (err, topic) => {
+	Topic.findById(req.body.replyTo, (err, topic) => {
 		if(!topic){
 			return res.send('can\'t find the topic you want to reply')
 		}

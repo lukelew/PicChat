@@ -1,0 +1,27 @@
+.emoji_box{
+	display: flex;
+	flex-wrap: wrap;
+	width: 200px;
+
+	span{
+		padding: 4px;
+		margin: 0 3px 8px 3px;
+		line-height: 26px;
+		border-radius: 3px;
+
+		&.active{
+			background: #f1f1f1;
+		}
+	}
+
+	i{	
+		display: block;
+		font-size: 26px;
+		transition: all .1s ease-in;
+		cursor: pointer;
+
+		&:hover{
+			transform: scale(1.25);
+		}
+	}
+}
