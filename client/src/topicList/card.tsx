@@ -8,8 +8,6 @@ const MyIcon = Icon.createFromIconfontCN({
   scriptUrl: '/iconfont.js'
 });
 
-
-
 interface cardProps {
 	picUrl: string,
 	name: string,
@@ -17,7 +15,7 @@ interface cardProps {
 	createAt: string,
 	replies: Array<any>,
 	reacts: Array<any>,
-	yourReact: string
+	yourReact: object
 }
 
 class Card extends React.Component<cardProps>  {

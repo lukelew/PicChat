@@ -8,32 +8,15 @@ const MyIcon = Icon.createFromIconfontCN({
 interface emojiProps {
 	reactTo: string,
 	type: string,
-	isActive: string
+	isActive: string,
+	clickHandler: any
 }
 
 class Emoji extends React.Component<emojiProps> {
-
-	onClickHandler = (to: string, type: string) => {
-		const data = {
-			topic_id: to,
-			emoji: type
-		}
-		fetch('http://localhost:3000/reacts', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data)
-		})
-		.then(res => res.json())
-		.then(data => {
-			console.log(data);
-		})
-	}
-
 	render() {
 		return (
-			<span onClick={() => this.onClickHandler(this.props.reactTo, this.props.type)} className={this.props.isActive}>
+
+			<span className={this.props.isActive} onClick={() => this.props.clickHandler(this.props.reactTo, this.props.type)}>
 				<MyIcon type={'icon-' + this.props.type}/>
 			</span>
 		)

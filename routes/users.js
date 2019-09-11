@@ -12,7 +12,23 @@ const Token = require('../models/Token');
 router.use(express.json());
 
 router.get('/', (req, res) => {
-	res.send('This is the index of users');
+	if(!req.user){
+		res.send({
+			status: 'failure',
+			message: 'You haven\'t login'
+		});
+	}
+	else{
+		res.send({
+			status: 'success',
+			user: {
+				name: req.user.name,
+				email: req.user.email,
+				id: req.user.id
+			}
+		})
+	}
+	
 })
 
 // login

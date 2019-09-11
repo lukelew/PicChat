@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
 const Topic = require('../models/Topic');
-const React = require('../models/React');
 const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
@@ -15,9 +13,29 @@ router.get('/', (req, res) => {
 			.find({level: 1})
 			.populate('reacts')
 			.populate('createBy')
+			.lean()
 			.exec((err, docs) => {
-				console.log(docs)
-				res.send(docs)
+				if (err) throw err;
+				// if there is a login user
+				if(req.user){ 
+					// create new array to insert the 'yourReact' field
+					var editedDocs = [];
+					docs.map(topic => {
+						topic.reacts.map(react => {
+							if (react.createBy.equals(req.user._id)) {
+								topic.yourReact = {
+									"_id": react._id,
+									"emoji": react.emoji,
+								}
+							}
+						})
+						editedDocs.push(topic)
+					})
+					res.send(editedDocs)
+				}
+				else{
+					res.send(docs)
+				}
 			});
 	}
 	else{
@@ -34,7 +52,7 @@ router.get('/', (req, res) => {
 
 			})
 			.exec((err, docs) => {
-				console.log(docs)
+				if (err) throw err;
 				res.send(docs)
 			});
 	}

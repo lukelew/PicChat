@@ -8,7 +8,7 @@ const MyIcon = Icon.createFromIconfontCN({
 
 interface ReactPanelProps {
 	topicId: string,
-	yourReact: string
+	yourReact: object
 }
 
 class ReactPanel extends React.Component<ReactPanelProps>{

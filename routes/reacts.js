@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
 const Topic = require('../models/Topic');
 const React = require('../models/React');
 const { ensureAuthenticated } = require('../config/ensureAuth');

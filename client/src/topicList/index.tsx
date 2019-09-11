@@ -1,9 +1,10 @@
 import React from 'react';
 import Card from './card';
+// import { UserConsumer } from '../App';
 import './index.scss';
 
 interface topicListState {
-	topics: Array<any>;
+	topics: Array<any>
 }
 
 class TopicList extends React.Component<{}, topicListState> {
@@ -26,11 +27,6 @@ class TopicList extends React.Component<{}, topicListState> {
 
 	render() {
 		const topicList = this.state.topics.map( topic => {
-			const yourReact = '';
-			topic.reacts.map( (react: string) => {
-				console.log(react);
-			})
-
 			return (
 				<Card
 					key={topic._id}
@@ -40,16 +36,12 @@ class TopicList extends React.Component<{}, topicListState> {
 					topicId={topic._id}
 					replies={topic.replies}
 					reacts={topic.reacts}
-					yourReact='a'
-				>
-				</Card>
+					yourReact={topic.yourReact ? topic.yourReact : '' }
+				/>
 			)
 		})
-		return(
-			<div id="topic_list">
-				{topicList}
-			</div>
-		)
+
+		return(<div id="topic_list">{topicList}</div>)
 	}
 }
 
