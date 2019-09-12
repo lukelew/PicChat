@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './header';
 import TopicList from './topicList';
 import TopicDetail from './topicDetail';
+import AddTopic from './addTopic';
 import './App.scss';
 import { BrowserRouter as Router, Route }from 'react-router-dom';
 
@@ -50,6 +51,7 @@ class App extends React.Component<{}, currentUser> {
 						<Header></Header>
 						<Route path="/" exact component={TopicList} />
 						<Route path="/topics_detail/:id" component={TopicDetail} />
+						<AddTopic/>
 					</div>
 				{/* </UserProvider> */}
 			</Router>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/picChat', {useNewUrlParser: true})
-// mongoose.connect('mongodb+srv://Luke:l9u9q9u9n9@development-2nzet.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true })
+// mongoose.connect('mongodb://localhost:27017/picChat', {useNewUrlParser: true})
+mongoose.connect('mongodb+srv://Luke:l9u9q9u9n9@development-2nzet.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true })
 	.then(() => {
 		console.log('Database connection successfully')
 	})

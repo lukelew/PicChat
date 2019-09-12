@@ -43,7 +43,6 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			.then(res => res.json())
 			.then(data => {
 				const curTopic = data[0];
-				// console.log(curTopic);
 				this.setState({
 					name: curTopic.createBy.name,
 					picUrl: curTopic.picUrl,
