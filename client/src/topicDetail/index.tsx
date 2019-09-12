@@ -39,7 +39,8 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 	}
 
 	componentDidMount(){
-		fetch("http://localhost:3000/topics?id="+ this.props.match.params.id)
+		console.log(process.env.REACT_APP_API_URL)
+		fetch(process.env.REACT_APP_API_URL+'/topics?id='+ this.props.match.params.id)
 			.then(res => res.json())
 			.then(data => {
 				const curTopic = data[0];

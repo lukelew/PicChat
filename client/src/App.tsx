@@ -28,7 +28,7 @@ class App extends React.Component<{}, currentUser> {
 	}
 
 	componentDidMount() {
-		fetch('http://localhost:3000/users')
+		fetch(process.env.REACT_APP_API_URL+'/users')
 		.then(res => res.json())
 		.then(data => {
 			if(data.status == 'success'){

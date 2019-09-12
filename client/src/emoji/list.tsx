@@ -30,7 +30,7 @@ class EmojiList extends React.Component<EmojiListProps, EmojiListState> {
 				topic_id: to,
 				emoji: type
 			}
-			fetch('http://localhost:3000/reacts', {
+			fetch(process.env.REACT_APP_API_URL+'/reacts', {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json' 
@@ -48,7 +48,7 @@ class EmojiList extends React.Component<EmojiListProps, EmojiListState> {
 				react_id: curReact._id,
 				emoji: type
 			}
-			fetch('http://localhost:3000/reacts', {
+			fetch(process.env.REACT_APP_API_URL+'/reacts', {
 				method: 'PUT',
 				headers: {
 					'Content-type': 'application/json'
