@@ -36,7 +36,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
 					topic.save()
 					res.send({
 						status: 'success',
-						message: 'React added!'
+						message: 'React added!',
+						data: newReact
 					})
 				})
 				.catch(err => {
