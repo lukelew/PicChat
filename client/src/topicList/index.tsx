@@ -16,7 +16,7 @@ class TopicList extends React.Component<{}, topicListState> {
 	}
 
 	componentDidMount() {
-		fetch('http://localhost:3000/topics')
+		fetch(process.env.REACT_APP_API_URL+'/topics')
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
