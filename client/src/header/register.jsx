@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button,Form, Icon, Input } from 'antd';
+import { Redirect } from 'react-router';
+import { Button,Form, Icon, Input,Drawer,Row,Col} from 'antd';
 import './register.scss';
 import 'antd/dist/antd.css';
+// import Check_Login from './checkLogin'
 
 
 class Register extends React.Component{
@@ -10,11 +12,24 @@ class Register extends React.Component{
         this.state={
             email: '',
             name: '',
-            password:'',
-            confirmDirty: false
+            password: '',
+
+            verificationNumber: '',//用户输入的验证码
+            verifyResult: Boolean,//用于记录邮箱返回验证码
+
+            confirmDirty: false,
+            visible: true,
+            cancel: false, //用于关闭页面并返回主页路径
+            isRegister: false //用于核对是否注册成功
         };
     }
 
+    onClose = () => {
+        this.setState({
+        visible: false,
+        isRegister: true,
+        });
+    };
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -25,29 +40,35 @@ class Register extends React.Component{
       };
     
       //obtain name and password 
-      handleChangeEmail(e){
+    handleChangeEmail(e){
         this.setState({
             email: e.target.value
         })
     };
     
-      handleChangePassword(e){
+    handleChangePassword(e){
           this.setState({
-              password: e.target.value
+            password: e.target.value
           })
       };
-      handleChangeName(e){
+    handleChangeName(e){
         this.setState({
             name: e.target.value
         })
     };
+    //verify email
+    handleChangeVerify= e =>{
+        this.setState({
+            verificationNumber: e.target.value
+        })
+    }
     //judge confirm password
     handleConfirmBlur = e => {
         const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
       };
     
-      compareToFirstPassword = (rule, value, callback) => {
+    compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
           callback('Wrong!Please Confirm Again!');
@@ -56,14 +77,29 @@ class Register extends React.Component{
         }
       };
     
-      validateToNextPassword = (rule, value, callback) => {
+    validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && this.state.confirmDirty) {
           form.validateFields(['confirm'], { force: true });
         }
         callback();
       };
-
+    
+    //confirm Email
+    confirmEmail=()=>{
+        fetch('http://localhost:3000/users/email').then(
+            res=>res.text()
+            ).then(
+                data=>{ 
+                    if(this.state.verificationNumber===JSON.stringify(data)){
+                        this.setState({
+                            verifyResult: true
+                        })
+                    }
+                    console.log(this.state.verifyResult)
+                }
+        )
+    }
 
     //Post_data_register
     postData = () => {
@@ -83,15 +119,30 @@ class Register extends React.Component{
         }).then(res=>res.text().then(
             data=>{
                 console.log(data);
+                //register status and email address vertify
+                if(JSON.stringify(data.status)==='success'&&this.state.verifyResult){
+                    this.setState({
+                        isRegister: true
+                    })
+                }
             }
         ))
     };
     render() {
         const { getFieldDecorator } = this.props.form;
+        if(this.state.cancel||this.state.isRegister){
+            return <Redirect to="/" />
+          }
+        else{
         return(
         <div id='register'>
-            <Form onSubmit={this.handleSubmit} className="register-form" style={{marginTop:'30px'}}>
-            <p id="text_register">Register</p>
+            <Drawer
+                title="Register"
+                width={300}
+                onClose={this.onClose}
+                visible={this.state.visible}
+            >
+            <Form onSubmit={this.handleSubmit} className="register-form" >
                 {/* enter Email */}
                 <Form.Item label="E-mail" hasFeedback>
                 {getFieldDecorator('eamil', {
@@ -100,7 +151,7 @@ class Register extends React.Component{
                 })(
                     <Input
                     prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    placeholder="Email"
+                    placeholder="E-mail"
                     onChange={this.handleChangeEmail.bind(this)}
                     />,
                 )}
@@ -144,6 +195,23 @@ class Register extends React.Component{
                     ],
                 })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="Password" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}/>) }
                 </Form.Item>
+                
+                {/* verify Email */}
+                <Form.Item label="Vertify E-mail Address" extra="Please check your vertification number in your mailbox.">
+                    <Row gutter={8}>
+                        <Col span={12}>
+                            {getFieldDecorator('captcha', {
+                            rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                            })(<Input 
+                                placeholder="Number"
+                                onChange={this.handleChangeVerify.bind(this)}
+                                />)}
+                        </Col>
+                        <Col span={12}>
+                            <Button onClick={this.confirmEmail}>Confirm</Button>
+                        </Col>
+                    </Row>
+                </Form.Item>
                 <Form.Item>
                 <Button type="primary" htmlType="submit" className="register-form-button" onClick={this.postData}>
                     Register
@@ -151,8 +219,10 @@ class Register extends React.Component{
                 {/* <a href="" id="login_register">Register now!</a> */}
                 </Form.Item>
             </Form>
-                </div>
+            </Drawer>
+            </div>
             );
+            }
         }
 };
 export default Form.create()(Register);

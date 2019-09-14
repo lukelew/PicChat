@@ -13,41 +13,57 @@ interface currentUser {
 	user: {
 		name: string,
 		email: string,
-		id: string
-	}
+		id: string,
+	},
+	status?: boolean
 }
+
 
 class App extends React.Component<{}, currentUser> {
 	state: currentUser = {
 		user: {
 			name: '',
 			email: '',
-			id: ''
-		}
+			id: '',
+		},
+		status: false
 	}
-
+	
 	componentDidMount() {
+		this.updataFetch()
+	}
+	componentWillReceiveProps(nextProps: any) {
+			this.updataFetch()
+	}
+	updataFetch(){
 		fetch('http://localhost:3000/users')
 		.then(res => res.json())
-		.then(data => {
-			if(data.status == 'success'){
-				this.setState({
-					user: {
-						name: data.user.name,
-						email: data.user.email,
-						id: data.user.id
-					}
-				})
-			}
-		})
+			.then(data => {
+				if(data.status == 'success'){
+					console.log(data)
+					this.setState({
+						user: {
+							name: data.user.name,
+							email: data.user.email,
+							id: data.user.id,
+						},
+						status: true
+					})
+				}else{
+					this.setState({
+						status: false
+					})
+				}
+			})
 	}
 
+	
 	render() {
 		return (
 			<Router>
 				{/* <UserProvider value={this.state.user}> */}
 					<div className="App" id='App'>
-						<Header></Header>
+						<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.status)}></Header>
 						<Route path="/" exact component={TopicList} />
 						<Route path="/topics_detail/:id" component={TopicDetail} />
 					</div>
