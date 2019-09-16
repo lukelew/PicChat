@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card';
-// import { UserConsumer } from '../App';
+import { Button } from 'antd';
 import './index.scss';
 
 interface topicListState {
@@ -41,7 +41,12 @@ class TopicList extends React.Component<{}, topicListState> {
 			)
 		})
 
-		return(<div id="topic_list">{topicList}</div>)
+		return(
+			<React.Fragment>
+				<div id="topic_list">{topicList}</div>
+				<Button id="load_more">Loading more...</Button>
+			</React.Fragment>
+		)
 	}
 }
 

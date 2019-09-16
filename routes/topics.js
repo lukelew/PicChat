@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
 	else{
 		// fetch one particular topic
 		 Topic
-			.find({ _id: req.query.id })
+			.findById(req.query.id)
 			.populate('reacts')
 			.populate('createBy')
 			.populate({
@@ -51,9 +51,23 @@ router.get('/', (req, res) => {
 				}
 
 			})
-			.exec((err, docs) => {
+			.lean()
+			.exec((err, doc) => {
 				if (err) throw err;
-				res.send(docs)
+				if(req.user){
+					doc.reacts.map(react => {
+						if (react.createBy.equals(req.user._id)) {
+							doc.yourReact = {
+								"_id": react._id,
+								"emoji": react.emoji,
+							}
+						}
+					})
+					res.send(doc)
+				}
+				else{
+					res.send(doc)
+				}
 			});
 	}
 	

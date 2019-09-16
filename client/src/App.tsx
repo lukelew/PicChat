@@ -6,10 +6,6 @@ import AddTopic from './addTopic';
 import './App.scss';
 import { BrowserRouter as Router, Route }from 'react-router-dom';
 
-// const UserContext = React.createContext({});
-// export const UserProvider = UserContext.Provider;
-// export const UserConsumer = UserContext.Consumer;
-
 interface currentUser {
 	user: {
 		name: string,
@@ -62,14 +58,12 @@ class App extends React.Component<{}, currentUser> {
 	render() {
 		return (
 			<Router>
-				{/* <UserProvider value={this.state.user}> */}
-					<div className="App" id='App'>
-						<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.status)}></Header>
-						<Route path="/" exact component={TopicList} />
-						<Route path="/topics_detail/:id" component={TopicDetail} />
-						<AddTopic/>
-					</div>
-				{/* </UserProvider> */}
+				<div className="App" id='App'>
+					<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.status)}></Header>
+					<Route path="/" exact component={TopicList} />
+					<Route path="/topics_detail/:id" component={TopicDetail} />
+					<AddTopic/>
+				</div>
 			</Router>
 		);
 	}

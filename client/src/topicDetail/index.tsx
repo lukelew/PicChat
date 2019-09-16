@@ -3,6 +3,11 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Avatar, Icon, Popover } from 'antd';
 import Replies from './replies';
 import './index.scss';
+import ReactPanel from '../emoji';
+
+const MyIcon = Icon.createFromIconfontCN({
+	scriptUrl: '/iconfont.js'
+});
 
 interface getIdProps {
 	id: string
@@ -17,14 +22,16 @@ interface replies {
 	picUrl: string,
 	createBy: any,
 	createAt: string,
-	replies: Array<any>
+	replies: Array<any>,
 }
 
 interface detailState {
 	picUrl: string,
 	name: string,
 	createAt: string,
-	replies: Array<replies>
+	replies: Array<replies>,
+	reacts: Array<any>,
+	yourReact: object
 }
 
 class TopicDetail extends React.Component< topicProps, detailState> {
@@ -34,7 +41,9 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			name: '',
 			picUrl: '',
 			createAt: '',
-			replies: []
+			replies: [],
+			reacts: [],
+			yourReact: {}
 		}
 	}
 
@@ -43,12 +52,14 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 		fetch(process.env.REACT_APP_API_URL+'/topics?id='+ this.props.match.params.id)
 			.then(res => res.json())
 			.then(data => {
-				const curTopic = data[0];
+				const curTopic = data;
 				this.setState({
 					name: curTopic.createBy.name,
 					picUrl: curTopic.picUrl,
 					createAt: curTopic.createAt,
-					replies: curTopic.replies
+					replies: curTopic.replies,
+					reacts: curTopic.reacts,
+					yourReact: curTopic.yourReact
 				})
 			})
 	}
@@ -72,13 +83,23 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			<React.Fragment>
 				<div id="topic_detail">
 					<div id="author_info">
-						<Avatar icon="user"/>
+						<Avatar style={{ backgroundColor: '#95de64' }} icon="user"/>
 						<strong>{this.state.name}</strong>
 						<span className="date">{this.state.createAt.substr(0,10)}</span>
 					</div>
 					<div id="main_pic">
 						<img src={this.state.picUrl}/>
+						{this.state.reacts.length > 0 &&
+							<div className="reacts_box">
+								{this.state.reacts.map(react => {
+									return (
+										<span key={react._id}><MyIcon type={'icon-' + react.emoji} /></span>
+									)
+								})}
+							</div>
+						}
 					</div>
+					{/* <ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} /> */}
 				</div>
 
 				<div id="replies_list">

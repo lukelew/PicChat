@@ -16,7 +16,10 @@ router.get('/', (req, res) => {
 // add a new react
 router.post('/', ensureAuthenticated, (req, res) => {
 	// get the current topic
-	Topic.findById(req.body.topic_id, (err, topic) => {
+	Topic
+		.findById(req.body.topic_id)
+		.populate('reacts')
+		.exec((err, topic) => {
 		if(!topic){
 			return res.send({
 				status: 'failure',
@@ -37,7 +40,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 					res.send({
 						status: 'success',
 						message: 'React added!',
-						data: newReact
+						newReact: newReact
 					})
 				})
 				.catch(err => {
@@ -61,7 +64,8 @@ router.put('/', ensureAuthenticated, (req, res) => {
 			react.save();
 			res.send({
 				status: 'success',
-				message: 'React updated!'
+				message: 'React updated!',
+				newReact: react
 			})
 		}
 	})
