@@ -6,7 +6,8 @@ class UploadImage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="modal_window">
+                
             </div>
         );
     }
