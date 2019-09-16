@@ -1,25 +1,39 @@
-import {Component} from 'react';
-import {withRouter} from 'react-router-dom'
+import React from 'react';
+import 'antd/dist/antd.css';
+import { Result, Button } from 'antd';
+import { Redirect } from 'react-router';
 
-@withRouter
-class Check_Login extends Component {
+
+class Check_Login extends React.Component {
+    constructor(props){
+        super(props);
+        this.state={
+            verify: false,
+            isRegister: false
+        };
+    }
     componentDidMount() {
-
-        // change axios to fetch
-
-        // axios.get('http://localhost:3000/users/login')
-        //     .then(res => {
-        //         if(res.status === 200) {
-        //             if(res.data.code === 0) {
-
-        //             }else {
-        //                 this.props.history.push('/login')
-        //             }
-        //         }
-        //     })
+        fetch('http://localhost:3000/user/email')
+    }
+    backHome(e){
+        return <Redirect path="/"/>
     }
     render() {
-        return null;
+        return (
+            <Result
+            status="success"
+            title="Successfully Register!"
+            subTitle="Please verify your email, we already send verification on your email"
+            extra={[
+                <Button key="console" onClick={this.backHome}>
+                    Back Home
+                </Button>,
+                <Button type="primary" key="buy">
+                    Already Comfirmed
+                </Button>,
+            ]}
+          />
+        );
     }
 }
 

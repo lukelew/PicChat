@@ -1,12 +1,13 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import { Redirect, Route } from 'react-router';
 
 // import {Route, BrowserRouter}from 'react-router-dom';
 // import {Link} from 'react-router-dom';
 
-import { Button,Form, Icon, Input,Drawer} from 'antd';
+import { Button,Form, Icon, Input,Drawer,message} from 'antd';
 import './login.scss';
 import 'antd/dist/antd.css';
+
 
 
 
@@ -76,12 +77,16 @@ class Login extends React.Component {
                         isLogin: true,
                         login_username: data.user.name
                   });
+                  message.success('Login Success');
+                  window.location.reload();
                 }
                 else{
                     console.log(data);
                     this.setState({
                         isLogin: false
                     });
+                    message.success('Login False');
+                    window.location.reload();
                 } 
             }
         )
@@ -107,7 +112,7 @@ render() {
     };
     
     if(this.state.isLogin){
-        return <Redirect to= {path}/>
+        return <Redirect to= {path}/> 
     }
     else{
     //login_button
@@ -117,7 +122,7 @@ render() {
                 <div id='login_form'>
                     <Drawer
                         title="Login"
-                        width={300}
+                        width={350}
                         onClose={this.onClose}
                         visible={this.state.visible}
                     >

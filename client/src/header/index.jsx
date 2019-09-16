@@ -34,9 +34,11 @@ class Header extends React.Component {
       this.setState({
         name: ''+userInfo+'',
         loginState: true
-    })
+    });
+    }
   }
-  }
+
+
   menu=(
     <Menu>
         {/* <Menu.Item key="0"> 
@@ -44,10 +46,11 @@ class Header extends React.Component {
         </Menu.Item>
         <Menu.Divider /> */}
         <Menu.Item key="1">
-          <Logout></Logout>
+          <Logout ></Logout>
         </Menu.Item>
     </Menu>
   );
+
 
   render(){
     if (this.state.loginState) {

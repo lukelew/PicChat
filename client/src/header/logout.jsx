@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Popconfirm } from 'antd';
+import { Popconfirm,message,Button} from 'antd';
 import { Redirect } from 'react-router';
 import './logout.scss';
 
@@ -14,6 +14,8 @@ class Logout extends React.Component{
             email:'',
         };
     }
+
+
     logout=()=>{
         let url='http://localhost:3000/users/logout';
         fetch(url,{
@@ -24,7 +26,9 @@ class Logout extends React.Component{
                     this.setState({
                         isLogout: true,
                     })
-                    console.log(this.state.isLogout)
+                    message.success('Login success');
+                    window.location.reload();
+                    console.log('logout success',this.state.isLogout)
                 }
             )
     };
@@ -37,11 +41,8 @@ class Logout extends React.Component{
         else{
             return(
                 <div >
-                    <Popconfirm title="Are you sure to logout？" okText="Yes" cancelText="No" onConfirm={this.logout} placement="bottomRight">
-                        {/* <a href="http://localhost:3000/" id="logout_button">Logout</a> */}
-                        {/* <a href="###" id="logout_button">Logout</a>  */}
-                        <p id="logout_button">Logout</p>
-                    </Popconfirm>
+                    <Button id="logout_button" onClick={this.logout} type="link" icon="logout">Logout</Button>
+
                 </div>
             );
         }
