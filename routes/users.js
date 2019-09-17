@@ -174,6 +174,26 @@ router.get('/email', (req, res) => {
 })
 	
 
+// leaderboard
+router.get('/leaderboard', (req, res) => {
+	if(req.query.type == 'mostTopics'){
+		User
+			.find({})
+			.sort({topicTimes: -1})
+			.exec((err, docs) => {
+				res.send(docs)
+			})
+	}
+	else if(req.query.type == 'mostReacts'){
+		User
+			.find({})
+			.sort({ reactTimes: -1 })
+			.exec((err, docs) => {
+				res.send(docs)
+			})
+	}
+})
+
 module.exports = router;
 
 

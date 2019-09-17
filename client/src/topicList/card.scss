@@ -1,9 +1,9 @@
 .card{
-	width: 300px;
+	width: 378px;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	margin: 20px;
-	padding: 0 10px;
+	margin: 15px;
+	padding: 0 24px;
 	color: rgba(0,0,0,0.65);
 	font-size: 14px;
 	font-variant: tabular-nums;
@@ -72,12 +72,11 @@
 	.interact_box{
 		display: flex;
 		justify-content: space-between;
-		padding: 10px 0;
+		padding: 16px 0;
 	}
 
 	.replies{
 		display: block;
-		width: 280px;
 		padding: 10px 0;
 		text-align: center;
 		line-height: 32px;

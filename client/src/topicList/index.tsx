@@ -44,7 +44,7 @@ class TopicList extends React.Component<{}, topicListState> {
 		return(
 			<React.Fragment>
 				<div id="topic_list">{topicList}</div>
-				<Button id="load_more">Loading more...</Button>
+				{/* <Button id="load_more">Loading more...</Button> */}
 			</React.Fragment>
 		)
 	}

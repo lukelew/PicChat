@@ -20,6 +20,14 @@ const UserSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
+	reactTimes: {
+		type: Number,
+		default: 0
+	},
+	topicTimes: {
+		type: Number,
+		default: 0
+	},
 	createAt: {
 		type: Date,
 		default: Date.now

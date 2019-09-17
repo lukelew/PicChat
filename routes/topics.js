@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
 const Topic = require('../models/Topic');
 const { ensureAuthenticated } = require('../config/ensureAuth');
 
@@ -83,8 +84,15 @@ router.post('/', ensureAuthenticated, (req, res) => {
 
 	topic.save()
 		.then(newTopic => {
-			console.log('New topic saved!');
-			res.send('Successed!')
+			User.findById(req.user._id), (err, user) => {
+				user.topicsTimes += 1;
+				user.save();
+			}
+			
+			res.send({
+				status: 'success',
+				message: 'New topic created!'
+			})
 		})
 		.catch(err => {
 			console.error(err)
@@ -101,7 +109,10 @@ router.put('/', ensureAuthenticated, (req, res) => {
 		else{
 			topic.pic_url = req.body.picUrl
 			topic.save();
-			res.send('Topic update successed!')
+			res.send({
+				status: 'success',
+				message: 'Topic update created!'
+			})
 		}
 	})
 })
@@ -110,11 +121,17 @@ router.put('/', ensureAuthenticated, (req, res) => {
 router.delete('/', ensureAuthenticated, (req, res) => {
 	Topic.findById(req.body.topic_id, (err, topic) => {
 		if(!topic){
-			return res.send('Can\'t find this topic')
+			return res.send({
+				status: 'failure',
+				message: 'Can\'t find this topic!'
+			})
 		}
 		else{
 			topic.remove();
-			res.send('Delete successed!')
+			res.send({
+				status: 'success',
+				message: 'Delete this topic successfully!'
+			})
 		}
 	})
 })
@@ -123,7 +140,10 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 router.post('/reply', ensureAuthenticated, (req, res) => {
 	Topic.findById(req.body.replyTo, (err, topic) => {
 		if(!topic){
-			return res.send('can\'t find the topic you want to reply')
+			return res.send({
+				status: 'failure',
+				message: 'Can\'t find the topic you want to reply'
+			})
 		}
 		else{
 			var reply = new Topic({
@@ -137,8 +157,16 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 				.then(newReply => {
 					topic.replies.push(newReply._id)
 					topic.save()
-					console.log('New reply saved!')
-					res.send('Successed!')
+
+					User.findById(req.user._id), (err, user) => {
+						user.topicsTimes += 1;
+						user.save();
+					}
+
+					res.send({
+						status: 'success',
+						message: 'Reply to this topic successfully!'
+					})
 				})
 		}
 	})

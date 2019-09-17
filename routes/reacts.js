@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
 const Topic = require('../models/Topic');
 const React = require('../models/React');
 const { ensureAuthenticated } = require('../config/ensureAuth');
@@ -35,8 +36,14 @@ router.post('/', ensureAuthenticated, (req, res) => {
 
 			react.save()
 				.then(newReact => {
+					// push the id of this react to its relative topic
 					topic.reacts.push(newReact._id)
 					topic.save()
+					// reactTimes of Current user add 1
+					User.findById(req.user._id, (err, user) => {
+						user.reactTimes += 1;
+						user.save();
+					})
 					res.send({
 						status: 'success',
 						message: 'React added!',
