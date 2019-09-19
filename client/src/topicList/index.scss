@@ -1,6 +1,28 @@
+@import '../variables.scss';
+
 #topic_list{
 	display: flex;
 	flex-wrap: wrap;
+}
+
+.topic_list_tab{
+	padding: 24px 15px 0;
+
+	strong{
+		padding: 0 5px;
+		color: #c1c1c1;
+		font-size: 18px;
+		font-weight: normal
+	}
+
+	a{
+		// color: rgba(0,0,0,0.65);
+		font-size: 18px;
+
+		&.isActive{
+			color: $primary-blue;
+		}
+	}
 }
 
 #load_more{

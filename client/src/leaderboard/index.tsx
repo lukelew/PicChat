@@ -14,11 +14,13 @@ class LeaderBoard extends React.Component<{}, boardState> {
     }
 
     showMostReacts = () => {
+        this.setState({
+            filter: 'reacts'
+        })
         fetch(process.env.REACT_APP_API_URL +'/users/leaderboard?type=mostReacts')
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    filter: 'reacts',
                     userList: data
                 })
                 console.log(data);
@@ -26,11 +28,13 @@ class LeaderBoard extends React.Component<{}, boardState> {
     }
 
     showMostTopics = () => {
+        this.setState({
+            filter: 'topics'
+        })
         fetch(process.env.REACT_APP_API_URL + '/users/leaderboard?type=mostTopics')
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    filter: 'topics',
                     userList: data
                 })
                 console.log(data);
@@ -59,7 +63,7 @@ class LeaderBoard extends React.Component<{}, boardState> {
                                 avatar={<Avatar style={{ backgroundColor: '#95de64' }} icon="user" />}
                                 title={item.name}
                                 key= {item._id}
-                                description={'React Times: ' + item.reactTimes}
+                                description={this.state.filter === 'reacts' ? ('React Times: ' + item.reactTimes) : ('Post Topics: ' + item.topicTimes)}
                             />
                         </List.Item>                     
                     )}>

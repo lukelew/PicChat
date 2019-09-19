@@ -3,7 +3,7 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 15px;
-	padding: 0 24px;
+	padding: 0;
 	color: rgba(0,0,0,0.65);
 	font-size: 14px;
 	font-variant: tabular-nums;
@@ -27,7 +27,7 @@
 	.user_info{
 		display: flex;
 		align-items: center;
-		padding: 14px 0;
+		padding: 14px;
 
 		strong{
 			font-size: 16px;
@@ -41,39 +41,49 @@
 	}
 
 	.img_box{
-		position: relative;
+		text-align: center;
+		height: 260px;
+		line-height: 260px;
+		overflow: hidden;
 	
 		img{
 			width: 100%;
-		}
-
-		.reacts_box{
-			display: flex;
-			position: absolute;
-			bottom: 5px;
-			left: 5px;
-			padding: 4px;
-			background: rgba(255,255,255,.6);
-			border-radius: 20px;
-			
-			span{
-				margin: 0 2px 0 0;
-			}
-			span:last-child {
-				margin: 0;
-			}
-			i{
-				display: block;
-				font-size: 20px;
-			}
+			min-height: 100%;
+			object-fit: contain;
 		}
 	}
 
 	.interact_box{
 		display: flex;
-		justify-content: space-between;
-		padding: 16px 0;
+		padding: 12px;
 	}
+
+	.current_reacts{
+		display: flex;
+		padding: 0 0 0 4px;
+		
+		span{
+			margin: 0 2px 0 0;
+		}
+
+		span:last-child {
+			margin: 0;
+		}
+		
+		i{
+			display: block;
+			font-size: 20px;
+		}
+	}
+
+	.buttons_box{
+		margin-left: auto;
+
+		.add_react{
+			margin-left: auto;
+			padding: 0 10px 0 0;
+		}
+	}	
 
 	.replies{
 		display: block;

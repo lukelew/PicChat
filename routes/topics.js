@@ -10,34 +10,101 @@ router.use(express.json());
 router.get('/', (req, res) => {
 	if(!req.query.id){
 		// fetch all topics
-		Topic
-			.find({level: 1})
-			.populate('reacts')
-			.populate('createBy')
-			.lean()
-			.exec((err, docs) => {
-				if (err) throw err;
-				// if there is a login user
-				if(req.user){ 
-					// create new array to insert the 'yourReact' field
-					var editedDocs = [];
-					docs.map(topic => {
-						topic.reacts.map(react => {
-							if (react.createBy.equals(req.user._id)) {
-								topic.yourReact = {
-									"_id": react._id,
-									"emoji": react.emoji,
+		if (req.query.sort == 1) {
+			// from new to old
+			Topic
+				.find({level: 1})
+				.sort({ createAt: -1 })
+				.populate('reacts')
+				.populate('createBy')
+				.lean()
+				.exec((err, docs) => {
+					if (err) throw err;
+					// if there is a login user
+					if(req.user){ 
+						// create new array to insert the 'yourReact' field
+						var editedDocs = [];
+						docs.map(topic => {
+							topic.reacts.map(react => {
+								if (react.createBy.equals(req.user._id)) {
+									topic.yourReact = {
+										"_id": react._id,
+										"emoji": react.emoji,
+									}
 								}
-							}
+							})
+							editedDocs.push(topic)
 						})
-						editedDocs.push(topic)
-					})
-					res.send(editedDocs)
-				}
-				else{
-					res.send(docs)
-				}
-			});
+						res.send(editedDocs)
+					}
+					else{
+						res.send(docs)
+					}
+				});
+		}
+		else if(req.query.sort == 2){
+			// from old to new
+			Topic
+				.find({ level: 1 })
+				.populate('reacts')
+				.populate('createBy')
+				.lean()
+				.exec((err, docs) => {
+					if (err) throw err;
+					// if there is a login user
+					if (req.user) {
+						// create new array to insert the 'yourReact' field
+						var editedDocs = [];
+						docs.map(topic => {
+							topic.reacts.map(react => {
+								if (react.createBy.equals(req.user._id)) {
+									topic.yourReact = {
+										"_id": react._id,
+										"emoji": react.emoji,
+									}
+								}
+							})
+							editedDocs.push(topic)
+						})
+						res.send(editedDocs)
+					}
+					else {
+						res.send(docs)
+					}
+				});
+		}
+		else if (req.query.sort == 3) {
+			// from old to new
+			Topic
+				.find({ level: 1 })
+				.populate('reacts')
+				.populate('createBy')
+				.sort({ replies: -1 })
+				.lean()
+				.exec((err, docs) => {
+					if (err) throw err;
+					// if there is a login user
+					if (req.user) {
+						// create new array to insert the 'yourReact' field
+						var editedDocs = [];
+						docs.map(topic => {
+							topic.reacts.map(react => {
+								if (react.createBy.equals(req.user._id)) {
+									topic.yourReact = {
+										"_id": react._id,
+										"emoji": react.emoji,
+									}
+								}
+							})
+							editedDocs.push(topic)
+						})
+						res.send(editedDocs)
+					}
+					else {
+						res.send(docs)
+					}
+				});
+		}
 	}
 	else{
 		// fetch one particular topic
@@ -72,6 +139,23 @@ router.get('/', (req, res) => {
 			});
 	}
 	
+})
+
+// fetch topics by user id
+router.get('/fromUser', (req, res) => {
+	if (!req.user._id) {
+		res.send({
+			status: 'failure',
+			message: 'You need to login in to get your topics!'
+		})
+	}
+	Topic
+		.find({ createBy: req.user._id })
+		.populate('reacts')
+		.populate('createBy')
+		.exec((err, docs) => {
+			res.send(docs)
+		})
 })
 
 // create a new topic

@@ -46,7 +46,7 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 				.then(data => {
 					// User hasn't logged in yet
 					if (data.status == 'failure'){
-						message.error('You need to login first');
+						message.error('You need to login to react');
 					}
 					// Already logged in 
 					else{
@@ -57,6 +57,7 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 							}
 						})
 						this.updateReacts(data.newReact);
+						message.success('React Successfully');
 					}
 					
 				})
@@ -88,6 +89,7 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 							}
 						})
 						this.updateReacts(data.newReact);
+						message.success('React Updated Successfully');
 					}
 					
 				})
@@ -108,12 +110,9 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 		)
 
 		return (
-			<div className="interact_box">
-				<Popover content={EmojiList} placement="bottom">
-					<Icon type="smile" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '20px' }}/>
-				</Popover>
-				<Icon type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '20px' }}/>
-			</div>
+			<Popover title="React" content={EmojiList} placement="bottom">
+				<Icon className="add_react" type="smile" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} />
+			</Popover>
 		)
 	}
 }

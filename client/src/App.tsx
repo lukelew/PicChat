@@ -4,6 +4,8 @@ import TopicList from './topicList';
 import TopicDetail from './topicDetail';
 import AddTopic from './addTopic';
 import LeaderBoard from './leaderboard';
+import UserPanel from './user';
+import UserPanelMenu from './user/menu';
 import { Affix, Layout, BackTop} from 'antd';
 import './App.scss';
 import { BrowserRouter as Router, Route }from 'react-router-dom';
@@ -64,23 +66,27 @@ class App extends React.Component<{}, currentUser> {
 	render() {
 		return (
 			<Router>
-				{/* <UserProvider value={this.state.user}> */}
-					<div className="App" id='App'>
-						<Affix>
-							<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.isLogin)}></Header>
-						</Affix>
-						{/* <Route path="/" exact component={TopicList} /> */}
+				<div className="App" id='App'>
+					<Affix>
+						<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.isLogin)}></Header>
+					</Affix>
+					<Layout>
+						<Content>
+							<Route path="/" exact component={TopicList} />
+							<Route path="/topics_detail/:id" exact component={TopicDetail} />
+						</Content>
+						<Sider className="leaderboard"><LeaderBoard /></Sider>
+					</Layout>
+					<Route>
 						<Layout>
-							<Content><Route path="/" exact component={TopicList} /></Content>
-							<Sider className="leaderboard"><LeaderBoard /></Sider>
+							<Sider width={240} style={{ background: '#fff' }}><UserPanelMenu /></Sider>
+							<Content><UserPanel /></Content>
 						</Layout>
-						<Route path="/topics_detail/:id" exact component={TopicDetail} />
-						
+					</Route>
 
-						<AddTopic/>
-						<BackTop />
-					</div>
-				{/* </UserProvider> */}
+					<AddTopic/>
+					<BackTop />
+				</div>
 			</Router>
 		);
 	}

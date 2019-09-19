@@ -55,31 +55,37 @@ class Card extends React.Component<cardProps, cardState>  {
 
 	render() {
 
-		return(
+		return (
 			<div className="card">
 				<div className="user_info">
-					<Avatar style={{ backgroundColor: '#95de64' }} icon="user"/>
+					<Avatar style={{ backgroundColor: '#95de64' }} icon="user" />
 					<strong>{this.props.name}</strong>
-					<span className="date">{this.props.createAt.substr(0,10)}</span>
+					<span className="date">{this.props.createAt.substr(0, 10)}</span>
 				</div>
 				<div className="img_box">
 					<Link to={`/topics_detail/${this.props.topicId}`}>
-						<img src={this.props.picUrl}/>
+						<img src={this.props.picUrl} />
 					</Link>
-					{this.state.reacts.length >0 &&
-						<div className="reacts_box">
-							{this.state.reacts.map( react => {
+				</div>
+				<div className="interact_box">
+					{this.state.reacts.length > 0 &&
+						<div className="current_reacts">
+							{this.state.reacts.map(react => {
 								return (
-									<span key={react._id}><MyIcon type={'icon-' + react.emoji}/></span>
+									<span key={react._id}><MyIcon type={'icon-' + react.emoji} /></span>
 								)
 							})}
 						</div>
 					}
+					<div className="buttons_box">
+						<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} />
+						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} />
+					</div>
 				</div>
-				<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts}/>
+
 				{this.props.replies.length > 0 &&
 					<div className="replies">
-						<Link to={`/topics_detail/${this.props.topicId}`}>{this.props.replies.length} replies</Link>					
+						<Link to={`/topics_detail/${this.props.topicId}`}>{this.props.replies.length} replies</Link>
 					</div>
 				}
 			</div>
