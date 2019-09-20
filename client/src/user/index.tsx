@@ -1,6 +1,11 @@
 import React from 'react';
-import Card from '../topicList/card';
+import MyPosts from './mypost';
+import UserPanelMenu from './menu';
+import { Layout } from 'antd';
 import './index.scss';
+import { Route } from 'react-router';
+
+const { Sider, Content } = Layout;
 
 interface userPanelState {
     topics: Array<any>
@@ -26,29 +31,18 @@ class UserPanel extends React.Component<{}, userPanelState> {
 
 
     render() {
-        const topicList = this.state.topics.map(topic => {
-            return (
-                <Card
-                    key={topic._id}
-                    picUrl={topic.picUrl}
-                    name={topic.createBy.name}
-                    createAt={topic.createAt}
-                    topicId={topic._id}
-                    replies={topic.replies}
-                    reacts={topic.reacts}
-                    yourReact={'empty'}
-                />
-            )
-        })
 
         return(
-            <div id="user_panel">
-                <h2 id="">User panel</h2>
-                <div id="user_topic_list">
-                    {topicList}
-                </div>
-            </div>
-            
+            <Layout>
+                <Sider width={240} style={{ background: '#fff' }}><UserPanelMenu /></Sider>
+                <Content>
+                    <div id="user_panel">
+                        <h2 id="">User panel</h2>
+                        <Route path="/" component={MyPosts}/>
+                    </div>
+                </Content>
+            </Layout>
+
 
         )
     }

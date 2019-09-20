@@ -40,19 +40,16 @@
 	color: #fff;
 }
 //logout
-#logout {
+#user_menu {
 	float: right;
 	height: 57px;
 	line-height: 57px;
-}
-#userInfo{
-	margin: auto;
-	text-align: center;
-	font-size: 18px;
-	height: 57px;
-	border: none;
-	color: #fff;
-}
-#username {
-	color: red;
+
+	#user_info{
+		span{
+			padding: 0 5px;
+			font-size: 18px;
+			color: #fff;
+		}
+	}
 }
