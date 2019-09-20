@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router';
+import { Redirect } from 'react-router';
 
 // import {Route, BrowserRouter}from 'react-router-dom';
 // import {Link} from 'react-router-dom';

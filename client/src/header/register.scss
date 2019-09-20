@@ -1,29 +1,29 @@
 .register-form {
-    max-width: 400px;
-    border: 20px,0,0,0;
-  }
+  max-width: 400px;
+  border: 20px,0,0,0;
+}
 .register-form-button {
-    width: 100%;
-  }
+  width: 100%;
+}
 #register{
-    margin: auto;
+  margin: auto;
 }
 #avatar{
-  margin-left: 5px;
+margin-left: 5px;
 }
 #avatarN span{
-  margin-left: 5px;
-  margin-top: 5px;
+margin-left: 5px;
+margin-top: 5px;
 }
 #avatarN span:hover{
-  transform: scale(1.6);
+transform: scale(1.6);
 }
 #text_register{
-    font-size: 26px;
-    display:inline-block; 
-    width:200px; 
-    text-align:center;
-  }
-  .mustChoose{
-    color: red;
-  }
+  font-size: 26px;
+  display:inline-block; 
+  width:200px; 
+  text-align:center;
+}
+.mustChoose{
+  color: red;
+}

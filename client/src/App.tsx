@@ -12,6 +12,7 @@ interface currentUser {
 		name: string,
 		email: string,
 		id: string,
+		avatar: string
 	},
 	isLogin?: boolean
 }
@@ -23,6 +24,7 @@ class App extends React.Component<{}, currentUser> {
 			name: '',
 			email: '',
 			id: '',
+			avatar:''
 		},
 		isLogin: false
 	}
@@ -36,13 +38,14 @@ class App extends React.Component<{}, currentUser> {
 		// fetch(process.env.REACT_APP_API_URL+'/users')
 		.then(res => res.json())
 			.then(data => {
-				if(data.status == 'success'){
+				if(data.status === 'success'){
 					console.log(data)
 					this.setState({
 						user: {
 							name: data.user.name,
 							email: data.user.email,
 							id: data.user.id,
+							avatar: data.user.avatar,
 						},
 						isLogin: true
 					})
@@ -60,7 +63,7 @@ class App extends React.Component<{}, currentUser> {
 			<Router>
 				<div className="App" id='App'>
 					<Affix>
-						<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.isLogin)}></Header>
+						<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.isLogin)} avatar={JSON.stringify(this.state.user.avatar)}></Header>
 					</Affix>
 					<Switch>
 						<Route path="/user" exact component={UserPanel} />

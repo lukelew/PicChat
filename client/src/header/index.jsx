@@ -13,15 +13,18 @@ class Header extends React.Component {
     this.state={
       loginState: false,
       name: '',
+      avatar: ''
     };
   }
   componentDidMount() {
     var userInfo= JSON.parse(this.props.userInfo)
     var userStatus= JSON.parse(this.props.userStatus)
+    var avatar = JSON.parse(this.props.avatar)
       if(userStatus){
         this.setState({
           name: ''+userInfo+'',
-          loginState: true
+          loginState: true,
+          avatar: ''+avatar+''
       })
     }
     console.log(userInfo,userStatus)
@@ -29,10 +32,12 @@ class Header extends React.Component {
   componentWillReceiveProps(nextProps){
     var userInfo= JSON.parse(nextProps.userInfo)
     var userStatus= JSON.parse(nextProps.userStatus)
+    var avatar = JSON.parse(this.props.avatar)
     if(userStatus){
       this.setState({
         name: ''+userInfo+'',
-        loginState: true
+        loginState: true,
+        avatar: ''+avatar+''
     });
     }
   }
@@ -52,13 +57,16 @@ class Header extends React.Component {
 
   render(){
     if (this.state.loginState) {
+      const url="../avatars/"+this.state.avatar
       return(
         <div id='header'>
           <Link id="logo" to="/">picChat</Link>
           <div id='user_menu'>
+          
             <Dropdown overlay={this.menu}>
               <div id="user_info">
-                <Avatar style={{ backgroundColor: '#95de64' }} icon="user" />
+              <Avatar size={46} src={url}/>
+                {/* <Avatar style={{ backgroundColor: '#95de64' }} icon="user" /> */}
                 <span>{this.state.name}</span>
               </div>
             </Dropdown>

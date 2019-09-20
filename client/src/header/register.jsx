@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { Button,Form, Icon, Input,Drawer,Row,Col, Dropdown,Result} from 'antd';
+import { Button,Form, Icon, Input,Drawer,Avatar,Result} from 'antd';
 import './register.scss';
 import 'antd/dist/antd.css';
 // import Check_Login from './checkLogin'
@@ -13,10 +13,14 @@ class Register extends React.Component{
             email: '',
             name: '',
             password: '',
+            avatar: '1.png',
 
             // verificationNumber: '',//use for vertify input number
             // verifyResult: Boolean, //use for record vertification's result
             // sentEmail: Boolean,//use for record email status
+
+            showAvatar: 'none',
+            closeAvatar:'',
 
             confirmDirty: false,
             visible: true,
@@ -24,7 +28,7 @@ class Register extends React.Component{
             isRegister: false //用于核对是否注册成功
         };
     }
-
+    
     onClose = () => {
         this.setState({
         visible: false,
@@ -109,7 +113,8 @@ class Register extends React.Component{
         let post_data = { 
             email: this.state.email,
             name: this.state.name,
-            password: this.state.password
+            password: this.state.password,
+            avatar: this.state.avatar
         };
 
         //post register user info
@@ -149,15 +154,32 @@ class Register extends React.Component{
         // )
         
     };
+    //control vertify page
     Vertified=()=>{
         this.setState({
             cancel: true,
         })
-        // window.location.reload();
     }
+    
+    //change avatar
+    changeAvatar=(a,e)=>{
+        this.setState({
+            avatar: a,
+            closeAvatar:'',
+            showAvatar:'none'
+        })
+        console.log(this.state.avatar)
+    }
+    showAvatar=()=>{
+        this.setState({
+            closeAvatar: 'none',
+            showAvatar:''
+        })
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
-
+        const url= "../avatars/"+this.state.avatar
         if(this.state.cancel){
             return <Redirect to="/" />
           }
@@ -175,7 +197,7 @@ class Register extends React.Component{
                                 title="Vertify Your E-mail Address"
                                 subTitle="We just send you an E-mail with vertification link. Please check your mailbox and click the link to vertiy your E-mail Address"
                                 extra={[
-                                <Button key="buy" type="primary" onClick={this.Vertified}>Already Vertified</Button>,
+                                <Button type="primary" onClick={this.Vertified}>Already Vertified</Button>,
                                 ]}
                             />
                         </Drawer>
@@ -191,12 +213,37 @@ class Register extends React.Component{
                         onClose={this.onClose}
                         visible={this.state.visible}
                     >
+                    {/* select avatar */}
+                    <h4><span className="mustChoose">*</span> Please select your avatar</h4>
+                    
+                    <div id="avatarN" style={{display: this.state.showAvatar}} className="notChosen">
+                    <Avatar id="1" size={64} src="../avatars/1.png" onClick={this.changeAvatar.bind(this,"1.png")}/>
+                    <Avatar id="2" size={64} src="../avatars/2.png" onClick={this.changeAvatar.bind(this,"2.png")}/>
+                    <Avatar id="3" size={64} src="../avatars/3.png" onClick={this.changeAvatar.bind(this,"3.png")}/>
+                    <Avatar id="4" size={64} src="../avatars/4.png" onClick={this.changeAvatar.bind(this,"4.png")}/>
+                    <Avatar id="5" size={64} src="../avatars/5.png" onClick={this.changeAvatar.bind(this,"5.png")}/>
+                    <Avatar id="6" size={64} src="../avatars/6.png" onClick={this.changeAvatar.bind(this,"6.png")}/>
+                    <Avatar id="7" size={64} src="../avatars/7.png" onClick={this.changeAvatar.bind(this,"7.png")}/>
+                    <Avatar id="8" size={64} src="../avatars/8.png" onClick={this.changeAvatar.bind(this,"8.png")}/>
+                    <Avatar id="9" size={64} src="../avatars/9.png" onClick={this.changeAvatar.bind(this,"9.png")}/>
+                    <Avatar id="10" size={64} src="../avatars/10.png" onClick={this.changeAvatar.bind(this,"10.png")}/>
+                    <Avatar id="11" size={64} src="../avatars/11.png" onClick={this.changeAvatar.bind(this,"11.png")}/>
+                    <Avatar id="12" size={64} src="../avatars/12.png" onClick={this.changeAvatar.bind(this,"12.png")}/>
+                    <Avatar id="13" size={64} src="../avatars/13.png" onClick={this.changeAvatar.bind(this,"13.png")}/>
+                    <Avatar id="14" size={64} src="../avatars/14.png" onClick={this.changeAvatar.bind(this,"14.png")}/>
+                    <Avatar id="15" size={64} src="../avatars/15.png" onClick={this.changeAvatar.bind(this,"15.png")}/>
+                    <Avatar id="16" size={64} src="../avatars/16.png" onClick={this.changeAvatar.bind(this,"16.png")}/>
+                    </div>
+                
+                    <div id="avatarY" style={{display: this.state.closeAvatar}} className="isChosen">
+                        <Avatar id="1" size={64} src={url} onClick={this.showAvatar}/>
+                    </div>
+                    
                     <Form onSubmit={this.handleSubmit} className="register-form" >
                         {/* enter Email */}
                         <Form.Item label="E-mail" hasFeedback>
                         {getFieldDecorator('eamil', {
-                            // eslint-disable-next-line no-undef
-                            rules: [{ required: true,type: 'email',message: 'Please input email‘s format' }],
+                            rules: [{ required: true,message: 'Please input email‘s format' }],
                         })(
                             <Input
                             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -262,7 +309,7 @@ class Register extends React.Component{
                             </Row>
                         </Form.Item> */}
                         <Form.Item>
-                        <Button type="primary" htmlType="submit" className="register-form-button" onClick={this.postData}>
+                        <Button size="large" type="primary" htmlType="submit" className="register-form-button" onClick={this.postData}>
                             Register
                         </Button>
                         {/* <a href="" id="login_register">Register now!</a> */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Popconfirm,message,Button} from 'antd';
+import { message,Button} from 'antd';
 import { Redirect } from 'react-router';
 import './logout.scss';
 
