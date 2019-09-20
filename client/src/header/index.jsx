@@ -1,11 +1,10 @@
 import {Route, BrowserRouter, Link}from 'react-router-dom';
 import './header.scss';
-
 import React from 'react';
 import Login from './login';
 import Logout from './logout'
 import Register from './register';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon, Avatar } from 'antd';
 
 class Header extends React.Component {
   
@@ -41,13 +40,12 @@ class Header extends React.Component {
 
   menu=(
     <Menu>
-        {/* <Menu.Item key="0"> 
-          <a href="###">ready use</a>
-        </Menu.Item>
-        <Menu.Divider /> */}
-        <Menu.Item key="1">
-          <Logout ></Logout>
-        </Menu.Item>
+      <Menu.Item key="1">
+        <Link to="/user"><Icon type="picture" />My posts</Link>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Logout ></Logout>
+      </Menu.Item>
     </Menu>
   );
 
@@ -56,11 +54,14 @@ class Header extends React.Component {
     if (this.state.loginState) {
       return(
         <div id='header'>
-          <a href="http://localhost:3000" id="logo">picChat</a>
-          <div id='logout'>
-              <Dropdown overlay={this.menu} trigger={['click']}>
-                  <a id="userInfo" href="###">{this.state.name} <Icon type="down" /></a>
-              </Dropdown>
+          <Link id="logo" to="/">picChat</Link>
+          <div id='user_menu'>
+            <Dropdown overlay={this.menu}>
+              <div id="user_info">
+                <Avatar style={{ backgroundColor: '#95de64' }} icon="user" />
+                <span>{this.state.name}</span>
+              </div>
+            </Dropdown>
            </div>
         </div>
       );
@@ -68,7 +69,7 @@ class Header extends React.Component {
     else{
     return(
         <div id="header">
-          <a href="http://localhost:3000" id="logo">picChat</a> 
+          <Link id="logo" to="/">picChat</Link>
             <div id='login'>
             <BrowserRouter>
                 <Link to ="/login" className="login">Login</Link>
