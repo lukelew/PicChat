@@ -8,9 +8,22 @@
 #register{
     margin: auto;
 }
+#avatar{
+  margin-left: 5px;
+}
+#avatarN span{
+  margin-left: 5px;
+  margin-top: 5px;
+}
+#avatarN span:hover{
+  transform: scale(1.6);
+}
 #text_register{
     font-size: 26px;
     display:inline-block; 
     width:200px; 
     text-align:center;
+  }
+  .mustChoose{
+    color: red;
   }
