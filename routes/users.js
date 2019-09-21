@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
 const nodemailer = require('nodemailer');
-const { transporter} = require('../config/email');
+const { transporter } = require('../config/email');
 const cryptoRandomString = require('crypto-random-string');
 const Token = require('../models/Token');
 

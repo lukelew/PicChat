@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User');
 
 const TokenSchema = new mongoose.Schema({
 	userId: {

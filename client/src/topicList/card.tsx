@@ -58,7 +58,7 @@ class Card extends React.Component<cardProps, cardState>  {
 		return (
 			<div className="card">
 				<div className="user_info">
-					<Avatar style={{ backgroundColor: '#95de64' }} src={'../avatars/' + this.props.avatar + '.png'} />
+					<Avatar src={'../avatars/' + this.props.avatar + '.png'} />
 					<strong>{this.props.name}</strong>
 					<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
 				</div>

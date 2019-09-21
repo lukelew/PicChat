@@ -23,7 +23,6 @@ class LeaderBoard extends React.Component<{}, boardState> {
                 this.setState({
                     userList: data
                 })
-                console.log(data);
             })
     }
 
@@ -37,7 +36,6 @@ class LeaderBoard extends React.Component<{}, boardState> {
                 this.setState({
                     userList: data
                 })
-                console.log(data);
             })
     }
 

@@ -174,7 +174,7 @@ router.get('/', (req, res) => {
 })
 
 // fetch topics by user id
-router.get('/fromUser', (req, res) => {
+router.get('/fromUser', ensureAuthenticated, (req, res) => {
 	if (!req.user._id) {
 		res.send({
 			status: 'failure',

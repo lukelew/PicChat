@@ -40,6 +40,9 @@ app.use('/topics', topics);
 const reacts = require('./routes/reacts');
 app.use('/reacts', reacts);
 
+const notifications = require('./routes/notifications');
+app.use('/notifications', notifications);
+
 const images = require('./routes/images');
 app.use('/images', images);
 
@@ -47,4 +50,10 @@ server.listen(8080);
 
 io.on('connection', function (socket) {
 	console.log('new user connected');
+	socket.on('mssg', function (msg) {
+		console.log(msg);
+	});
+	socket.on('disconnect', function () {
+		console.log('user disconnected');
+	});
 });

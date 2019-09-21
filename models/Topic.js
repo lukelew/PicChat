@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User');
-const React = require('./React');
 
 const TopicSchema = new mongoose.Schema({
 	picUrl: {

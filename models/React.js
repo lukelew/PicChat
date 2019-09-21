@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User');
-const Topic = require('./Topic');
 
 const ReactSchema = new mongoose.Schema({
 	emoji: {

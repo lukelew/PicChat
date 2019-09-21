@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Topic = require('../models/Topic');
 const React = require('../models/React');
+const Notification = require('../models/Notification');
 const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
@@ -28,7 +29,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 			})
 		}
 		else{
-			var react = new React({
+			const react = new React({
 				emoji: req.body.emoji,
 				createBy: req.user._id,
 				reactTo: topic._id
@@ -44,6 +45,15 @@ router.post('/', ensureAuthenticated, (req, res) => {
 						user.reactTimes += 1;
 						user.save();
 					})
+					// create a new notification
+					const notification = new Notification({
+						type: 'react',
+						from: req.user._id,
+						to: topic.createBy,
+						content: newReact.emoji
+					})
+					notification.save()
+
 					res.send({
 						status: 'success',
 						message: 'React added!',

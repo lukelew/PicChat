@@ -14,4 +14,18 @@
 
 #user_topic_list{
     display: flex;
+    flex-wrap: wrap;
+}
+
+#notifications{
+    background: #fff;
+    padding: 20px 0 0 24px;
+
+    .ant-list-item-meta-description{
+        display: flex;
+    }
+    .from{
+        color: #000;
+        padding: 0 5px 0 0;
+    }
 }

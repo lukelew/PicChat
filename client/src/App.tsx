@@ -32,7 +32,11 @@ class App extends React.Component<{}, currentUser> {
 
 	componentDidMount() {
 		this.updataFetch();
-		var socket = io();
+		// var socket = io();
+		// socket.on('connection', function (socket: any) {
+		// 	console.log('a user connected');
+		// });
+		// socket.emit('mssg', 'biubiubiu')
 	}
 
 	updataFetch=()=>{

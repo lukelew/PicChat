@@ -4,7 +4,7 @@ import React from 'react';
 import Login from './login';
 import Logout from './logout'
 import Register from './register';
-import { Menu, Dropdown, Avatar, Button } from 'antd';
+import { Menu, Dropdown, Avatar, Button, Badge } from 'antd';
 
 class Header extends React.Component {
 
@@ -30,17 +30,19 @@ class Header extends React.Component {
         if (this.props.isLogin) {
             const avartarUrl = '../avatars/' + this.props.avatar+'.png'
             return(
-            <div id='header'>
-                <Link id="logo" to="/">picChat</Link>
-                <div id='user_menu'>
-                    <Dropdown overlay={this.menu}>
-                        <div id="user_info">
-                            <Avatar size={46} src={avartarUrl}/>
-                            <span>{this.props.userName}</span>
-                        </div>
-                    </Dropdown>
+                <div id='header'>
+                    <Link id="logo" to="/">picChat</Link>
+                    <div id='user_menu'>
+                        <Dropdown overlay={this.menu}>
+                            <div id="user_info">
+                                <Badge count={0} offset={[0,2]} >
+                                    <Avatar size={40} src={avartarUrl}/>
+                                </Badge>
+                                <span className="name">{this.props.userName}</span>
+                            </div>
+                        </Dropdown>
+                    </div>
                 </div>
-            </div>
             );
         }
         else{
