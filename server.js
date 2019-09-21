@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
+var cors = require('cors');
 
 // Database
 const db = require('./config/db');
@@ -23,6 +24,7 @@ app.use(session({
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 // Routers
 app.use(express.static(path.join(__dirname, 'client/build')));

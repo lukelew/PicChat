@@ -27,10 +27,9 @@ router.post('/upload', upload.single("image"), (req, res) => {
         if (err) res.send(err.stack);
         else {
             var labels = data.ModerationLabels;
-            var labelsArray = Object.values(labels);
-            var info = typeof(labelsArray);
             if (labels[0])
             {
+                res.status(400);
                 res.send('Bad content');
             }
             else
@@ -48,7 +47,10 @@ router.post('/upload', upload.single("image"), (req, res) => {
                     if (err) res.send(err.stack);
                     else {
                         if (data.Labels[0].Name === "Text")
+                        {
+                            res.status(401);
                             res.send('The image contains text');
+                        }
                         else {
                             var imageName = "img" + Date.now() + ".jpg"
     
