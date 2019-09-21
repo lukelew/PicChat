@@ -1,5 +1,6 @@
 import React from 'react';
 import MyPosts from './mypost';
+import Notification from './notifications';
 import UserPanelMenu from './menu';
 import { Layout } from 'antd';
 import './index.scss';
@@ -34,11 +35,13 @@ class UserPanel extends React.Component<{}, userPanelState> {
 
         return(
             <Layout>
-                <Sider width={240} style={{ background: '#fff' }}><UserPanelMenu /></Sider>
+                <Sider width={240} style={{ background: '#fff' }}>
+                    <Route path="/user" component={UserPanelMenu}></Route>
+                </Sider>
                 <Content>
                     <div id="user_panel">
-                        <h2 id="">User panel</h2>
-                        <Route path="/" component={MyPosts}/>
+                        <Route path="/user" exact component={MyPosts}/>
+                        <Route path="/user/notifications" component={Notification} />
                     </div>
                 </Content>
             </Layout>

@@ -22,6 +22,7 @@ router.get('/', (req, res) => {
 		res.send({
 			status: 'success',
 			user: {
+				avatar: req.user.avatar,
 				name: req.user.name,
 				email: req.user.email,
 				id: req.user.id
@@ -48,6 +49,7 @@ router.post('/login', (req, res, next) => {
 				user: {
 					name: req.user.name,
 					email: req.user.email,
+					avatar: req.user.avatar,
 					id: req.user.id
 				}
 			})
@@ -82,6 +84,7 @@ router.post('/register', (req, res) => {
 						var user = new User({
 							name: req.body.name,
 							email: req.body.email,
+							avatar: req.body.avatar,
 							password: hashPassword,
 						})
 

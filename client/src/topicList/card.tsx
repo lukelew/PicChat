@@ -11,6 +11,7 @@ const MyIcon = Icon.createFromIconfontCN({
 interface cardProps {
 	picUrl: string,
 	name: string,
+	avatar: number,
 	topicId: string,
 	createAt: string,
 	replies: Array<any>,
@@ -30,11 +31,10 @@ class Card extends React.Component<cardProps, cardState>  {
 
 	updateReacts = (newReact: any)=> {
 		let exist = false;
-		let index = 0;
 		let updatedReacts = this.state.reacts;
 		for (let i = 0; i < this.state.reacts.length; i++){
 			let react = this.state.reacts[i];
-			if (react._id == newReact._id) {
+			if (react._id === newReact._id) {
 				exist = true;
 				updatedReacts[i].emoji = newReact.emoji;
 			}
@@ -58,13 +58,13 @@ class Card extends React.Component<cardProps, cardState>  {
 		return (
 			<div className="card">
 				<div className="user_info">
-					<Avatar style={{ backgroundColor: '#95de64' }} icon="user" />
+					<Avatar style={{ backgroundColor: '#95de64' }} src={'../avatars/' + this.props.avatar + '.png'} />
 					<strong>{this.props.name}</strong>
-					<span className="date">{this.props.createAt.substr(0, 10)}</span>
+					<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
 				</div>
 				<div className="img_box">
 					<Link to={`/topics_detail/${this.props.topicId}`}>
-						<img src={this.props.picUrl} />
+						<img src={this.props.picUrl} alt={this.props.picUrl}/>
 					</Link>
 				</div>
 				<div className="interact_box">

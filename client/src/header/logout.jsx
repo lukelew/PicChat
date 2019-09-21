@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { message,Button} from 'antd';
+import { message, Button} from 'antd';
 import { Redirect } from 'react-router';
 import './logout.scss';
 
@@ -17,7 +17,7 @@ class Logout extends React.Component{
 
 
     logout=()=>{
-        let url='http://localhost:3000/users/logout';
+        let url = process.env.REACT_APP_API_URL + '/users/logout';
         fetch(url,{
             method:'Get',
             }).then(res=>res.json()).then(
@@ -40,10 +40,9 @@ class Logout extends React.Component{
         }
         else{
             return(
-                <div >
+                <React.Fragment>
                     <Button id="logout_button" onClick={this.logout} type="link" icon="logout">Logout</Button>
-
-                </div>
+                </React.Fragment>
             );
         }
 

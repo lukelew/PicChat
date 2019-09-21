@@ -9,14 +9,17 @@
   margin: auto;
 }
 #avatar{
-margin-left: 5px;
+  margin-left: 5px;
 }
 #avatarN span{
-margin-left: 5px;
-margin-top: 5px;
+  width: 60px;
+  height: 60px;;
+  margin-left: 5px;
+  margin-top: 5px;
+  transition: all .2s ease;
 }
 #avatarN span:hover{
-transform: scale(1.6);
+  transform: scale(1.2);
 }
 #text_register{
   font-size: 26px;
