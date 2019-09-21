@@ -32,6 +32,7 @@ class MyPosts extends React.Component<{}, MyPostsState> {
                     key={topic._id}
                     picUrl={topic.picUrl}
                     name={topic.createBy.name}
+                    avatar={topic.createBy.avatar}
                     createAt={topic.createAt}
                     topicId={topic._id}
                     replies={topic.replies}
@@ -41,7 +42,12 @@ class MyPosts extends React.Component<{}, MyPostsState> {
             )
         })
 
-        return ( <div id="user_topic_list">{topicList}</div> )
+        return ( 
+            <React.Fragment>
+                <h2>My Posts</h2>
+                <div id="user_topic_list">{topicList}</div> 
+            </React.Fragment> 
+        )
     }
 }
 

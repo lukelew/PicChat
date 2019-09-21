@@ -1,11 +1,12 @@
 const express = require('express');
+const app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 var cors = require('cors');
-
-const app = express();
 
 // Database
 const db = require('./config/db');
@@ -44,4 +45,8 @@ app.use('/reacts', reacts);
 const images = require('./routes/images');
 app.use('/images', images);
 
-app.listen(process.env.PORT || 8080);
+server.listen(8080);
+
+io.on('connection', function (socket) {
+	console.log('new user connected');
+});

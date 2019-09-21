@@ -13,7 +13,7 @@ class Check_Login extends React.Component {
         };
     }
     componentDidMount() {
-        fetch('http://localhost:3000/user/email')
+        fetch(process.env.REACT_APP_API_URL+ '/user/email')
     }
     backHome(e){
         return <Redirect path="/"/>

@@ -1,19 +1,21 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown } from 'antd';
+import { Button, Menu, Dropdown, Tag } from 'antd';
 import './index.scss';
 
 interface topicListState {
-	filter: string,
-	topics: Array<any>
+	sort: number,
+	topics: Array<any>,
+	tags: string
 }
 
 class TopicList extends React.Component<{}, topicListState> {
 	constructor(props: any){
 		super(props);
 		this.state = {
-			filter: 'recent',
-			topics: []
+			sort: 1,
+			topics: [],
+			tags: 'From New to Old'
 		}
 	}
 
@@ -22,7 +24,9 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
-					topics: data
+					sort: 1,
+					topics: data,
+					tags: 'From New to Old'
 				})
 			})
 	}
@@ -32,7 +36,9 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
-					topics: data
+					sort: 2,
+					topics: data,
+					tags: 'From Old to New'
 				})
 			})
 	}
@@ -42,7 +48,9 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
-					topics: data
+					sort: 3,
+					topics: data,
+					tags: 'From Low to High'
 				})
 			})
 	}
@@ -52,7 +60,9 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
-					topics: data
+					sort: 4,
+					topics: data,
+					tags: 'From High to Low'
 				})
 			})
 	}
@@ -64,15 +74,15 @@ class TopicList extends React.Component<{}, topicListState> {
 	render() {
 		const recentMenu = (
 			<Menu>
-				<Menu.Item key="1">New to Old</Menu.Item>
-				<Menu.Item key="2">Old to New</Menu.Item>
+				<Menu.Item key="1" onClick={ ()=>this.showFromNewtoOld() }>New to Old</Menu.Item>
+				<Menu.Item key="2" onClick={ ()=>this.showFromOldtoNew() }>Old to New</Menu.Item>
 			</Menu>
 		)
 
 		const popluarMenu = (
 			<Menu>
-				<Menu.Item key="1">Low to High</Menu.Item>
-				<Menu.Item key="2">High to low</Menu.Item>
+				<Menu.Item key="1" onClick={() => this.showFromLowtoHigh() }>Low to High</Menu.Item>
+				<Menu.Item key="2" onClick={() => this.showFromHightoLow()}>High to low</Menu.Item>
 			</Menu>
 		)
 		const topicList = this.state.topics.map( topic => {
@@ -81,6 +91,7 @@ class TopicList extends React.Component<{}, topicListState> {
 					key={topic._id}
 					picUrl={topic.picUrl} 
 					name={topic.createBy.name} 
+					avatar={topic.createBy.avatar}
 					createAt={topic.createAt}
 					topicId={topic._id}
 					replies={topic.replies}
@@ -93,14 +104,14 @@ class TopicList extends React.Component<{}, topicListState> {
 		return(
 			<React.Fragment>
 				<div className="topic_list_tab">
+					<span className="sort">Sort By:</span>
 					<Dropdown overlay={recentMenu}>
 						<Button>Recency</Button>	
 					</Dropdown>
-					<strong>/</strong>
 					<Dropdown overlay={popluarMenu}>
 						<Button>Popularity</Button>
 					</Dropdown>
-					
+					<Tag color="gold">{this.state.tags}</Tag>
 				</div>
 				<div id="topic_list">{topicList}</div>
 				<Button id="load_more">Loading more...</Button>

@@ -45,7 +45,7 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 				.then(res => res.json())
 				.then(data => {
 					// User hasn't logged in yet
-					if (data.status == 'failure'){
+					if (data.status === 'failure'){
 						message.error('You need to login to react');
 					}
 					// Already logged in 
@@ -78,7 +78,7 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 				.then(res => res.json())
 				.then(data => {
 					// User hasn't logged in yet
-					if (data.status == 'failure') {
+					if (data.status === 'failure') {
 						console.log('not login yet');
 					}
 					else{

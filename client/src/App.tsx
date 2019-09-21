@@ -1,4 +1,5 @@
 import React from 'react';
+import io from 'socket.io-client';
 import Header from './header';
 import TopicPanel from './topic';
 import UserPanel from './user';
@@ -19,7 +20,7 @@ interface currentUser {
 
 
 class App extends React.Component<{}, currentUser> {
-	state: currentUser = {
+	state = {
 		user: {
 			name: '',
 			email: '',
@@ -30,16 +31,15 @@ class App extends React.Component<{}, currentUser> {
 	}
 
 	componentDidMount() {
-		this.updataFetch()
+		this.updataFetch();
+		var socket = io();
 	}
 
 	updataFetch=()=>{
-		fetch('http://localhost:3000/users')
-		// fetch(process.env.REACT_APP_API_URL+'/users')
+		fetch(process.env.REACT_APP_API_URL+'/users')
 		.then(res => res.json())
 			.then(data => {
 				if(data.status === 'success'){
-					console.log(data)
 					this.setState({
 						user: {
 							name: data.user.name,
@@ -63,10 +63,10 @@ class App extends React.Component<{}, currentUser> {
 			<Router>
 				<div className="App" id='App'>
 					<Affix>
-						<Header userInfo={JSON.stringify(this.state.user.name)} userStatus={JSON.stringify(this.state.isLogin)} avatar={JSON.stringify(this.state.user.avatar)}></Header>
+						<Header userName={this.state.user.name} isLogin={this.state.isLogin} avatar={this.state.user.avatar}></Header>
 					</Affix>
 					<Switch>
-						<Route path="/user" exact component={UserPanel} />
+						<Route path="/user" component={UserPanel} />
 						<Route path="/" component={TopicPanel} />
 					</Switch>
 					

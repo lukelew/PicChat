@@ -56,7 +56,7 @@ class Login extends React.Component {
 
   //Post_data_login
     postData = () => {
-        let url='http://localhost:3000/users/login';
+        let url = process.env.REACT_APP_API_URL +'/users/login';
         let post_data = { 
           email: this.state.email,
           password: this.state.password
@@ -156,7 +156,7 @@ render() {
 
                         {/* login_submit*/}
                         <Form.Item>
-                          <a className="login-form-forgot" href="http://localhost:3000/register">Forgot password?</a>
+                          <a className="login-form-forgot" href="http/register">Forgot password?</a>
                           <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.postData}>Login</Button>
 
                         </Form.Item>

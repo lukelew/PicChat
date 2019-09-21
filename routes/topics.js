@@ -74,7 +74,39 @@ router.get('/', (req, res) => {
 				});
 		}
 		else if (req.query.sort == 3) {
-			// from old to new
+			// from low to high
+			Topic
+				.find({ level: 1 })
+				.populate('reacts')
+				.populate('createBy')
+				.sort({ replies: 1 })
+				.lean()
+				.exec((err, docs) => {
+					if (err) throw err;
+					// if there is a login user
+					if (req.user) {
+						// create new array to insert the 'yourReact' field
+						var editedDocs = [];
+						docs.map(topic => {
+							topic.reacts.map(react => {
+								if (react.createBy.equals(req.user._id)) {
+									topic.yourReact = {
+										"_id": react._id,
+										"emoji": react.emoji,
+									}
+								}
+							})
+							editedDocs.push(topic)
+						})
+						res.send(editedDocs)
+					}
+					else {
+						res.send(docs)
+					}
+				});
+		}
+		else if (req.query.sort == 4) {
+			// from high to low
 			Topic
 				.find({ level: 1 })
 				.populate('reacts')
