@@ -4,7 +4,7 @@ import './index.scss';
 
 const props = {
     name: 'image',
-    action: 'http://localhost:8080/images/upload',
+    action: process.env.REACT_APP_API_URL + '/images/upload',
     onChange(info: any) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
