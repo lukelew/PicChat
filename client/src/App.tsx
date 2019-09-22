@@ -72,9 +72,8 @@ class App extends React.Component<{}, currentUser> {
 					<Switch>
 						<Route path="/user" component={UserPanel} />
 						<Route path="/" component={TopicPanel} />
-					</Switch>
-					
-					<AddTopic/>
+					</Switch>					
+					<AddTopic />
 					<BackTop />
 				</div>
 			</Router>

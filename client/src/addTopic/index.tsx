@@ -5,6 +5,7 @@ import './index.scss';
 interface IAddTopicState {
     visible: boolean;
     img_url: string;
+    fileList: any[];
 }
 
 class AddTopic extends React.PureComponent<{}, IAddTopicState> {
@@ -14,11 +15,18 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
         super(props);
         this.state = {
             visible: false,
-            img_url: ""
+            img_url: "",
+            fileList:[]
           }
         }
 
     onImageUpload(info: any) {
+      let fileList = [...info.fileList];
+      fileList = fileList.slice(-1);
+      this.setState({
+        fileList: [...fileList]
+      });
+
       if (info.file.status !== 'uploading') {
       }
       if (info.file.status === 'done') {
@@ -53,20 +61,21 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
             console.log(data);
           }
       )
-
         this.setState({
           visible: false,
+          fileList:[]
         });
+
+        //TODO: change this refresh with the component update
+        window.location.reload();
       };
   
-      handleCancel = (e: any) => {
-        console.log(e);
+      handleCancel = () => {
         this.setState({
-          visible: false,
+          fileList: [],
+          visible: false
         });
       };
-
-      uploadImage = () => {}
   
       render() {
         return (
@@ -83,8 +92,10 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
             >
                 <div className="image_upload">
                 <Upload name="image"
-                        action={process.env.REACT_APP_API_URL + '/images/upload'}
-                        onChange={(info) => {this.onImageUpload(info);}}>
+                        action={process.env.REACT_APP_API_URL + '/images/upload'}                      
+                        onChange={(info) => {this.onImageUpload(info);}}
+                        fileList={this.state.fileList}
+                        >
                     <Button>
                     <Icon type="upload" /> Click to upload image
                     </Button>
