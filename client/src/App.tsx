@@ -4,7 +4,7 @@ import Header from './header';
 import TopicPanel from './topic';
 import UserPanel from './user';
 import AddTopic from './addTopic';
-import { Affix, BackTop} from 'antd';
+import { Affix, BackTop, Icon} from 'antd';
 import './App.scss';
 import { BrowserRouter as Router, Route, Switch }from 'react-router-dom';
 
@@ -74,7 +74,7 @@ class App extends React.Component<{}, currentUser> {
 						<Route path="/" component={TopicPanel} />
 					</Switch>					
 					<AddTopic />
-					<BackTop />
+					<BackTop><div className="ant-back-top-inner"><Icon type="arrow-up" /></div></BackTop>
 				</div>
 			</Router>
 		);
