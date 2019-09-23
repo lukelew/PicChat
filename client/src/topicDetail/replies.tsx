@@ -1,10 +1,12 @@
 import React from 'react';
-import { Avatar, Icon, Popover } from 'antd';
+import { Avatar, Icon, Popover, Button } from 'antd';
 import './index.scss';
 
 interface replyPros {
 	picUrl: string,
 	name: string,
+	avatar: number,
+	createAt: string,
 	replies: Array<any>
 }
 
@@ -13,13 +15,16 @@ class Replies extends React.Component<replyPros> {
 	render(){
 		return(
 			<div className="single_reply">
-				<div className="user_info">
-					<Avatar icon="user"/>
-					<strong>{this.props.name}</strong>
-					<span className="date">2019-09-13</span>
-				</div>
-				<div className="img_box">
-					<img src={this.props.picUrl}/>
+				<div className="level2">
+					<div className="user_info">
+						<Avatar src={'../avatars/' + this.props.avatar + '.png'} />
+						<strong>{this.props.name}</strong>
+						<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+					</div>
+					<div className="img_box">
+						<img src={this.props.picUrl} />
+					</div>
+					<Button type="primary">Reply</Button>
 				</div>
 			</div>
 		)

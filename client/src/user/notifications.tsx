@@ -1,6 +1,10 @@
 import React from 'react';
-import { List, Avatar, Empty } from 'antd';
+import { List, Avatar, Empty, Icon } from 'antd';
 import './index.scss';
+
+const MyIcon = Icon.createFromIconfontCN({
+    scriptUrl: '/iconfont.js'
+});
 
 interface NotificationState {
     notifications: Array<any>
@@ -40,7 +44,7 @@ class Notification extends React.Component<{}, NotificationState> {
                                         title={'You have a new ' + item.type}
                                         description={
                                             <React.Fragment>
-                                                <strong className="from">{item.from.name}</strong><p className="text">{'has reacted to your image'}</p>
+                                                <strong className="from">{item.from.name}</strong><p className="text">{'has reacted to your picture with '}</p><MyIcon type={'icon-' + item.content} />
                                             </React.Fragment>
                                         }
                                     />

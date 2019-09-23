@@ -82,13 +82,20 @@
 }
 
 .single_reply{
-	margin: 0 0 20px 0;
+	padding: 20px 0;
+	border-bottom: 1px solid #e8e8e8;
+
+	.level2{
+		display: flex;
+		justify-content: space-between;
+	}
 
 	.user_info{
 		padding: 4px 0;
 
 		span{
 			margin: 0 4px;
+			color: #ccc;
 		}
 	}
 	

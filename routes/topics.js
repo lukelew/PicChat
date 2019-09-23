@@ -8,171 +8,179 @@ router.use(express.json());
 
 // fetch topics
 router.get('/', (req, res) => {
-	if(!req.query.id){
-		// fetch all topics
-		if (req.query.sort == 1) {
-			// from new to old
-			Topic
-				.find({level: 1})
-				.sort({ createAt: -1 })
-				.populate('reacts')
-				.populate('createBy')
-				.lean()
-				.exec((err, docs) => {
-					if (err) throw err;
-					// if there is a login user
-					if(req.user){ 
-						// create new array to insert the 'yourReact' field
-						var editedDocs = [];
-						docs.map(topic => {
-							topic.reacts.map(react => {
-								if (react.createBy.equals(req.user._id)) {
-									topic.yourReact = {
-										"_id": react._id,
-										"emoji": react.emoji,
-									}
-								}
-							})
-							editedDocs.push(topic)
-						})
-						res.send(editedDocs)
-					}
-					else{
-						res.send(docs)
-					}
-				});
-		}
-		else if(req.query.sort == 2){
-			// from old to new
-			Topic
-				.find({ level: 1 })
-				.populate('reacts')
-				.populate('createBy')
-				.lean()
-				.exec((err, docs) => {
-					if (err) throw err;
-					// if there is a login user
-					if (req.user) {
-						// create new array to insert the 'yourReact' field
-						var editedDocs = [];
-						docs.map(topic => {
-							topic.reacts.map(react => {
-								if (react.createBy.equals(req.user._id)) {
-									topic.yourReact = {
-										"_id": react._id,
-										"emoji": react.emoji,
-									}
-								}
-							})
-							editedDocs.push(topic)
-						})
-						res.send(editedDocs)
-					}
-					else {
-						res.send(docs)
-					}
-				});
-		}
-		else if (req.query.sort == 3) {
-			// from low to high
-			Topic
-				.find({ level: 1 })
-				.populate('reacts')
-				.populate('createBy')
-				.sort({ replies: 1 })
-				.lean()
-				.exec((err, docs) => {
-					if (err) throw err;
-					// if there is a login user
-					if (req.user) {
-						// create new array to insert the 'yourReact' field
-						var editedDocs = [];
-						docs.map(topic => {
-							topic.reacts.map(react => {
-								if (react.createBy.equals(req.user._id)) {
-									topic.yourReact = {
-										"_id": react._id,
-										"emoji": react.emoji,
-									}
-								}
-							})
-							editedDocs.push(topic)
-						})
-						res.send(editedDocs)
-					}
-					else {
-						res.send(docs)
-					}
-				});
-		}
-		else if (req.query.sort == 4) {
-			// from high to low
-			Topic
-				.find({ level: 1 })
-				.populate('reacts')
-				.populate('createBy')
-				.sort({ replies: -1 })
-				.lean()
-				.exec((err, docs) => {
-					if (err) throw err;
-					// if there is a login user
-					if (req.user) {
-						// create new array to insert the 'yourReact' field
-						var editedDocs = [];
-						docs.map(topic => {
-							topic.reacts.map(react => {
-								if (react.createBy.equals(req.user._id)) {
-									topic.yourReact = {
-										"_id": react._id,
-										"emoji": react.emoji,
-									}
-								}
-							})
-							editedDocs.push(topic)
-						})
-						res.send(editedDocs)
-					}
-					else {
-						res.send(docs)
-					}
-				});
-		}
-	}
-	else{
-		// fetch one particular topic
-		 Topic
-			.findById(req.query.id)
+	const size = Number(req.query.size);
+	const page = Number(req.query.page);
+	// fetch all topics
+	if (req.query.sort == 1) {
+		// from new to old
+		Topic
+			.find({level: 1})
+			.sort({ createAt: -1 })
+			.limit(size)
+			.skip(page*size)
 			.populate('reacts')
 			.populate('createBy')
-			.populate({
-				path: 'replies',
-				populate: {
-					path: 'createBy'
-				}
-
-			})
 			.lean()
-			.exec((err, doc) => {
+			.exec((err, docs) => {
 				if (err) throw err;
-				if(req.user){
-					doc.reacts.map(react => {
-						if (react.createBy.equals(req.user._id)) {
-							doc.yourReact = {
-								"_id": react._id,
-								"emoji": react.emoji,
+				// if there is a login user
+				if(req.user){ 
+					// create new array to insert the 'yourReact' field
+					var editedDocs = [];
+					docs.map(topic => {
+						topic.reacts.map(react => {
+							if (react.createBy.equals(req.user._id)) {
+								topic.yourReact = {
+									"_id": react._id,
+									"emoji": react.emoji,
+								}
 							}
-						}
+						})
+						editedDocs.push(topic)
 					})
-					res.send(doc)
+					res.send(editedDocs)
 				}
 				else{
-					res.send(doc)
+					res.send(docs)
+				}
+			});
+	}
+	else if(req.query.sort == 2){
+		// from old to new
+		Topic
+			.find({ level: 1 })
+			.limit(size)
+			.skip(page*size)
+			.populate('reacts')
+			.populate('createBy')
+			.lean()
+			.exec((err, docs) => {
+				if (err) throw err;
+				// if there is a login user
+				if (req.user) {
+					// create new array to insert the 'yourReact' field
+					var editedDocs = [];
+					docs.map(topic => {
+						topic.reacts.map(react => {
+							if (react.createBy.equals(req.user._id)) {
+								topic.yourReact = {
+									"_id": react._id,
+									"emoji": react.emoji,
+								}
+							}
+						})
+						editedDocs.push(topic)
+					})
+					res.send(editedDocs)
+				}
+				else {
+					res.send(docs)
+				}
+			});
+	}
+	else if (req.query.sort == 3) {
+		// from low to high
+		Topic
+			.find({ level: 1 })
+			.limit(size)
+			.skip(page*size)
+			.populate('reacts')
+			.populate('createBy')
+			.sort({ replies: 1 })
+			.lean()
+			.exec((err, docs) => {
+				if (err) throw err;
+				// if there is a login user
+				if (req.user) {
+					// create new array to insert the 'yourReact' field
+					var editedDocs = [];
+					docs.map(topic => {
+						topic.reacts.map(react => {
+							if (react.createBy.equals(req.user._id)) {
+								topic.yourReact = {
+									"_id": react._id,
+									"emoji": react.emoji,
+								}
+							}
+						})
+						editedDocs.push(topic)
+					})
+					res.send(editedDocs)
+				}
+				else {
+					res.send(docs)
+				}
+			});
+	}
+	else if (req.query.sort == 4) {
+		// from high to low
+		Topic
+			.find({ level: 1 })
+			.limit(size)
+			.skip(page*size)
+			.populate('reacts')
+			.populate('createBy')
+			.sort({ replies: -1 })
+			.lean()
+			.exec((err, docs) => {
+				if (err) throw err;
+				// if there is a login user
+				if (req.user) {
+					// create new array to insert the 'yourReact' field
+					var editedDocs = [];
+					docs.map(topic => {
+						topic.reacts.map(react => {
+							if (react.createBy.equals(req.user._id)) {
+								topic.yourReact = {
+									"_id": react._id,
+									"emoji": react.emoji,
+								}
+							}
+						})
+						editedDocs.push(topic)
+					})
+					res.send(editedDocs)
+				}
+				else {
+					res.send(docs)
 				}
 			});
 	}
 	
 })
 
+router.get('/single', (req, res) => {
+	// fetch one particular topic
+	Topic
+		.findById(req.query.id)
+		.populate('reacts')
+		.populate('createBy')
+		.populate({
+			path: 'replies',
+			populate: {
+				path: 'createBy'
+			}
+
+		})
+		.lean()
+		.exec((err, doc) => {
+			if (err) throw err;
+			if (req.user) {
+				doc.reacts.map(react => {
+					if (react.createBy.equals(req.user._id)) {
+						doc.yourReact = {
+							"_id": react._id,
+							"emoji": react.emoji,
+						}
+					}
+				})
+				res.send(doc)
+			}
+			else {
+				res.send(doc)
+			}
+		});
+})
 // fetch topics by user id
 router.get('/fromUser', ensureAuthenticated, (req, res) => {
 	if (!req.user._id) {
