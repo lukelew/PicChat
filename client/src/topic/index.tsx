@@ -17,7 +17,7 @@ class TopicPanel extends React.Component {
                         <Route path="/" exact component={TopicList} />
                     </Switch>
                 </Content>
-                <Sider className="leaderboard"><LeaderBoard /></Sider>
+                <Sider className="leaderboard" breakpoint="lg" collapsedWidth="0" reverseArrow={true} ><LeaderBoard /></Sider>
             </Layout>
         )
     }

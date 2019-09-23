@@ -91,22 +91,6 @@ class Register extends React.Component{
         callback();
       };
 
-    // //sentVerificationNumber & confirm Email
-    // confirmEmail=()=>{
-    //     fetch('http://localhost:3000/users/email').then(
-    //         res=>res.text()
-    //         ).then(
-    //             data=>{ 
-    //                 if(this.state.verificationNumber===JSON.stringify(data)){
-    //                     this.setState({
-    //                         verifyResult: true
-    //                     })
-    //                 }
-    //                 console.log(this.state.verifyResult)
-    //             }
-    //     )
-    // }
-
     //Post_data_register
     postData = () => {
         let url = process.env.REACT_APP_API_URL + '/users/register';
@@ -127,7 +111,7 @@ class Register extends React.Component{
         }).then(res=>res.text().then(
             data=>{
                 console.log(data);
-                var dataBack=JSON.parse(data)
+                var dataBack=JSON.parse(data);
                 console.log(dataBack,dataBack.status)
                 //register status and email address vertify
                 if(dataBack.status==="success"){
@@ -139,20 +123,6 @@ class Register extends React.Component{
                 }
             }
         ))
-        //send email vertification
-        // fetch('http://localhost:3000/users/email').then(
-        //     res=>res.text()
-        // ).then(
-        //     data=>{
-        //         if(JSON.stringify(data)==='done'){
-        //             this.setState({
-        //                 sentEmail: true
-        //             })
-        //             console.log(this.state.sentEmail)
-        //         }
-        //     }
-        // )
-        
     };
     //control vertify page
     Vertified=()=>{
@@ -233,7 +203,7 @@ class Register extends React.Component{
                         {/* enter Email */}
                         <Form.Item label="E-mail" hasFeedback>
                         {getFieldDecorator('eamil', {
-                            rules: [{ required: true,message: 'Please input email‘s format' }],
+                            rules: [{ required: true, message: 'Please input email‘s format' }],
                         })(
                             <Input
                             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag } from 'antd';
+import { Button, Menu, Dropdown, Tag ,Divider,Row,Col} from 'antd';
 import './index.scss';
 
 interface topicListState {
@@ -87,33 +87,38 @@ class TopicList extends React.Component<{}, topicListState> {
 		)
 		const topicList = this.state.topics.map( topic => {
 			return (
-				<Card
-					key={topic._id}
-					picUrl={topic.picUrl} 
-					name={topic.createBy.name} 
-					avatar={topic.createBy.avatar}
-					createAt={topic.createAt}
-					topicId={topic._id}
-					replies={topic.replies}
-					reacts={topic.reacts}
-					yourReact={topic.yourReact ? topic.yourReact : '' }
-				/>
+				<Col span={8} xs={24} md={12} lg={8}>
+					<Card
+						key={topic._id}
+						picUrl={topic.picUrl} 
+						name={topic.createBy.name} 
+						avatar={topic.createBy.avatar}
+						createAt={topic.createAt}
+						topicId={topic._id}
+						replies={topic.replies}
+						reacts={topic.reacts}
+						yourReact={topic.yourReact ? topic.yourReact : '' }
+					/>
+				</Col>
 			)
 		})
 
 		return(
 			<React.Fragment>
 				<div className="topic_list_tab">
-					<span className="sort">Sort By:</span>
 					<Dropdown overlay={recentMenu}>
-						<Button>Recency</Button>	
+						<Button >Recency</Button>	
 					</Dropdown>
+					<Divider type="vertical" className="divider1"></Divider>
 					<Dropdown overlay={popluarMenu}>
-						<Button>Popularity</Button>
+						<Button className="popularity">Popularity</Button>
 					</Dropdown>
-					<Tag color="gold">{this.state.tags}</Tag>
+					<span className="sort">Sort By:</span>
+					<Tag color="#ffffff">{this.state.tags}</Tag>
 				</div>
-				<div id="topic_list">{topicList}</div>
+				<Row type="flex" justify="center" align="middle" >
+					<div id="topic_list">{topicList}</div>
+				</Row>
 				<Button id="load_more">Loading more...</Button>
 			</React.Fragment>
 		)
