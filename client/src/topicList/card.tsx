@@ -10,7 +10,7 @@ const MyIcon = Icon.createFromIconfontCN({
 });
 
 interface cardProps {
-	picUrl: string,
+	smallPicUrl: string,
 	name: string,
 	avatar: number,
 	topicId: string,
@@ -79,7 +79,7 @@ class Card extends React.Component<cardProps, cardState>  {
 				</div>
 				<div className="img_box">
 					<Link to={`/topics_detail/${this.props.topicId}`}>
-						<img src={this.props.picUrl} alt={this.props.picUrl}/>
+						<img src={this.props.smallPicUrl} alt={this.props.smallPicUrl}/>
 					</Link>
 				</div>
 				<div className="interact_box">

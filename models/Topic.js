@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const TopicSchema = new mongoose.Schema({
-	originPicUrl: {
+	originalPicUrl: {
 		type: String,
 		required: true
 	},

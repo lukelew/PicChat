@@ -1,8 +1,7 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag, Divider, Row, Col} from 'antd';
+import { Button, Menu, Dropdown, Tag, Row, Col} from 'antd';
 import './index.scss';
-import { isArray } from 'util';
 
 interface topicListState {
 	sort: number,
@@ -143,7 +142,7 @@ class TopicList extends React.Component<{}, topicListState> {
 				// <Col span={8} xs={24} md={12} lg={8}>
 					<Card
 						key={topic._id}
-						picUrl={topic.picUrl} 
+						smallPicUrl={topic.smallPicUrl} 
 						name={topic.createBy.name} 
 						avatar={topic.createBy.avatar}
 						createAt={topic.createAt}
@@ -159,16 +158,20 @@ class TopicList extends React.Component<{}, topicListState> {
 		return(
 			<React.Fragment>
 				<div className="topic_list_tab">
-					<Dropdown overlay={recentMenu}>
-						<Button >Recency</Button>	
-					</Dropdown>
-					<Divider type="vertical" className="divider1"></Divider>
-					<Dropdown overlay={popluarMenu}>
-						<Button className="popularity">Popularity</Button>
-					</Dropdown>
-					<span className="sort">Sort By:</span>
-					<Tag color="#ffffff">{this.state.tags}</Tag>
+					<div className="sort_buttons">
+						<Dropdown overlay={recentMenu}>
+							<Button >Recency</Button>
+						</Dropdown>
+						<Dropdown overlay={popluarMenu}>
+							<Button className="popularity">Popularity</Button>
+						</Dropdown>
+					</div>
+					<div className="sort_feedback">
+						<span className="sort">Sort By:</span>
+						<Tag color="gold">{this.state.tags}</Tag>
+					</div>
 				</div>
+				
 
 				{/* <Row type="flex" justify="center" align="middle" > */}
 					<div id="topic_list">{topicList}</div>

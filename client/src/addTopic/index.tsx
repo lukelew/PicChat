@@ -31,9 +31,9 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
   
       render() {
         return (
-          <div className="add_topic">
+          <div id="add_topic">
               <Button type="primary" onClick={ this.showModal }>
-                Add new topic
+                + Add new topic
               </Button>
             <UploadImage showModal={ this.state.visible } hideModal={ this.handleCancel } boxHeader="Upload new picture to start new topic"/>
           </div>

@@ -30,7 +30,7 @@ class MyPosts extends React.Component<{}, MyPostsState> {
             return (
                 <Card
                     key={topic._id}
-                    picUrl={topic.picUrl}
+                    smallPicUrl={topic.smallPicUrl}
                     name={topic.createBy.name}
                     avatar={topic.createBy.avatar}
                     createAt={topic.createAt}
