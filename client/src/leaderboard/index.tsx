@@ -58,7 +58,7 @@ class LeaderBoard extends React.Component<{}, boardState> {
                     renderItem={(item: any) => (                
                         <List.Item>
                             <List.Item.Meta
-                                avatar={<Avatar style={{ backgroundColor: '#95de64' }} icon="user" />}
+                                avatar={<Avatar src={'../avatars/' + item.avatar + '.png'}/>}
                                 title={item.name}
                                 key= {item._id}
                                 description={this.state.filter === 'reacts' ? ('React Times: ' + item.reactTimes) : ('Post Topics: ' + item.topicTimes)}

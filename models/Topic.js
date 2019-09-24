@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const TopicSchema = new mongoose.Schema({
-	picUrl: {
+	originPicUrl: {
+		type: String,
+		required: true
+	},
+	smallPicUrl: {
 		type: String,
 		required: true
 	},
