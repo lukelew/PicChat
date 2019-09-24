@@ -2,6 +2,7 @@ import React from 'react';
 import { Link }from 'react-router-dom';
 import { Avatar, Icon } from 'antd';
 import ReactPanel from '../emoji';
+import UploadBox from '../addTopic/uploadImage';
 import './card.scss';
 
 const MyIcon = Icon.createFromIconfontCN({
@@ -16,17 +17,19 @@ interface cardProps {
 	createAt: string,
 	replies: Array<any>,
 	reacts: Array<any>,
-	yourReact: any
+	yourReact: any,
 }
 
 interface cardState {
-	reacts: Array<any>
+	reacts: Array<any>,
+	showUploadModal: boolean
 }
 
 
 class Card extends React.Component<cardProps, cardState>  {
 	state ={
-		reacts: this.props.reacts
+		reacts: this.props.reacts,
+		showUploadModal: false
 	}
 
 	updateReacts = (newReact: any)=> {
@@ -52,6 +55,18 @@ class Card extends React.Component<cardProps, cardState>  {
 		
 		
 	}
+
+	showModal = () => {
+        this.setState({
+          showUploadModal: true
+        });
+      };  
+
+      handleCancelUpload = () => {
+        this.setState({
+			showUploadModal: false
+        });
+      };
 
 	render() {
 
@@ -79,7 +94,7 @@ class Card extends React.Component<cardProps, cardState>  {
 					}
 					<div className="buttons_box">
 						<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} />
-						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} />
+						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} onClick={this.showModal}/>
 					</div>
 				</div>
 
@@ -88,6 +103,11 @@ class Card extends React.Component<cardProps, cardState>  {
 						<Link to={`/topics_detail/${this.props.topicId}`}>{this.props.replies.length} replies</Link>
 					</div>
 				}
+
+				<UploadBox showModal={ this.state.showUploadModal } 
+						   hideModal={ this.handleCancelUpload }
+						   boxHeader="Upload new picture to reply on topic"
+						   topicId={this.props.topicId}/>
 			</div>
 		)
 	}
