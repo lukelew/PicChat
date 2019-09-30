@@ -1,5 +1,35 @@
+@media screen and (max-width: 700px){
+	#topic_detail{width: 60%;}
+	#replies_list{width: 90%;}
+}
+@media (min-width:701px) and (max-width: 900px){
+	#topic_detail{width: 50%;}
+	#replies_list{width: 86%;}
+}
+@media (min-width:901px) and (max-width: 1020px){
+	#topic_detail{width: 40%;}
+	#replies_list{width: 86%;}
+}
+@media (min-width:1021px) and (max-width: 1450px){
+		#topic_detail{width: 40%;}
+		#replies_list{width: 86%;}
+}
+@media (min-width:1451px) and (max-width: 1500px){
+	#topic_detail{width: 30%;}
+	#replies_list{width: 86%;}
+}
+
+@media (min-width:1501px)and (max-width: 1800px){
+	#topic_detail{width: 30%;}
+	#replies_list{width: 86%;}
+}
+
+@media (min-width:1801px){
+	#topic_detail{width: 24%;}
+	#replies_list{width: 86%;}
+}
 #topic_detail{
-	width: 1000px;
+	// width: 1000px;
 	box-sizing: border-box;
 	margin: 20px auto;
 	padding: 20px;
@@ -60,7 +90,8 @@
 }
 
 #replies_list{
-	width: 1000px;
+	// width: 1000px;
+	// width: 80%;
 	box-sizing: border-box;
 	margin: 20px auto;
 	padding: 20px;

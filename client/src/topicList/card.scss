@@ -1,6 +1,27 @@
+@media (min-width:768px) and (max-width: 1021px){
+	.card{width: 45%;}
+}
+@media (min-width:1021px) and (max-width: 1115px){
+	.card{width: 29.6%;}
+}
+@media (min-width:1115px) and (max-width: 1450px){
+	.card{width: 30%;}
+}
+@media (min-width:1451px) and (max-width: 1500px){
+	.card{width: 30.9%;}
+}
 
+@media (min-width:1501px)and (max-width: 1690px){
+	.card{width: 31%;}
+}
+@media (min-width:1691px)and (max-width: 1800px){
+	.card{width: 31.3%;}
+}
+@media (min-width:1801px){
+	.card{width: 31.3%;}
+}
 .card{
-	width: 378px;
+	// width: 378px;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: auto;

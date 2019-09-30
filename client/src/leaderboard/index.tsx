@@ -47,7 +47,7 @@ class LeaderBoard extends React.Component<{}, boardState> {
     render() {
         return(
             <React.Fragment>
-                <h3><Icon type="ordered-list" />Leaderboard</h3>
+                <h3><Icon type="unordered-list" />Leaderboard</h3>
                 <div className="filter">
                     <button className={this.state.filter === 'reacts' ? 'isActive' : ''} onClick={this.showMostReacts}><Icon type="smile" /> Reacts</button>
                     <button className={this.state.filter === 'topics' ? 'isActive' : ''} onClick={this.showMostTopics}><Icon type="picture" /> Topics</button>
