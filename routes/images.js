@@ -2,7 +2,10 @@ const express = require('express');
 const multer  = require('multer');
 const aws  = require('../config/aws');
 const fs = require('fs');
-const compress_images = require('compress-images');
+
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
 
 const router = express.Router();
 const storage = multer.memoryStorage();
@@ -105,6 +108,9 @@ router.post('/upload', upload.single("image"), (req, res) => {
     });
 });
 
+// code for resizing images was taken from example
+// https://github.com/imagemin/imagemin
+
 function resize_image(data) {
     fs.writeFile(original_file_name, data, 'binary', function(error) {
         if (error) {
@@ -112,18 +118,17 @@ function resize_image(data) {
         } else {
             console.log('File was saved!');
 
-            compress_images(original_file_name, './tmp/', {compress_force: false, statistic: true, autoupdate: true}, false,
-                {jpg: {engine: 'mozjpeg', command: ['-quality', '60']}},
-                {png: {engine: 'pngquant', command: ['--quality=20-50']}},
-                {svg: {engine: 'svgo', command: '--multipass'}},
-                {gif: {engine: 'gifsicle', command: ['--colors', '64', '--use-col=web']}},
-                function (error) {
-                    if (error) {
-                        console.log(error);
-                    
-                    } else {
-                        console.log('File was compressed succesfully!');
-                    }});
+            (async () => {
+                const files = await imagemin([original_file_name], {
+                    destination: './tmp/',
+                    plugins: [
+                        imageminJpegtran(),
+                        imageminPngquant({
+                            quality: [0.6, 0.8]
+                        })
+                    ]
+                });
+            })();
         }
     });
 }

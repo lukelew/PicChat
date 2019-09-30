@@ -77,6 +77,8 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
                 };
               }
 
+              console.log(post_data);
+
               fetch(url,{
                 method:'POST',
                 body: JSON.stringify(post_data),
