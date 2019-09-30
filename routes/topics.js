@@ -280,7 +280,7 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 				replyLevel = 3;
 			}
 			var reply = new Topic({
-				picUrl: req.body.picUrl,
+				originalPicUrl: req.body.originalPicUrl,
 				createBy: req.user._id,
 				replyTo: req.body.replyTo,
 				level: replyLevel
