@@ -48,7 +48,7 @@ class Header extends React.Component {
         else{
             return(
                 <div id="header">
-                <Link id="logo" to="/">picChat</Link>
+                    <Link id="logo" to="/">picChat</Link>
                     <div id='login'>
                     <BrowserRouter>
                         <Link to ="/login" className="login">Login</Link>

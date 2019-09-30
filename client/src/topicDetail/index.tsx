@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Avatar, Icon, Popover } from 'antd';
+import { Avatar, Icon, Popover, Empty } from 'antd';
 import Replies from './replies';
 import './index.scss';
 import ReactPanel from '../emoji';
@@ -30,7 +30,7 @@ interface replies {
 interface detailState {
 	name: string,
 	avatar: number,
-	picUrl: string,
+	originalPicUrl: string,
 	createAt: string,
 	replies: Array<replies>,
 	reacts: Array<any>,
@@ -43,7 +43,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 		this.state = {
 			name: '',
 			avatar: 0,
-			picUrl: '',
+			originalPicUrl: '',
 			createAt: '',
 			replies: [],
 			reacts: [],
@@ -60,7 +60,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 				this.setState({
 					name: curTopic.createBy.name,
 					avatar: curTopic.createBy.avatar,
-					picUrl: curTopic.picUrl,
+					originalPicUrl: curTopic.originalPicUrl,
 					createAt: curTopic.createAt,
 					replies: curTopic.replies,
 					reacts: curTopic.reacts,
@@ -95,7 +95,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 						<span className="date">posted on {this.state.createAt.substr(0,10)}</span>
 					</div>
 					<div id="main_pic">
-						<img src={this.state.picUrl}/>
+						<img src={this.state.originalPicUrl}/>
 						{this.state.reacts.length > 0 &&
 							<div className="reacts_box">
 								{this.state.reacts.map(react => {
@@ -111,6 +111,9 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 
 				<div id="replies_list">
 					<h2>Replies</h2>
+					{repliesList.length == 0 && 
+						<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="There is no reply yet" />
+					}
 					{repliesList}
 				</div>
 			</React.Fragment>

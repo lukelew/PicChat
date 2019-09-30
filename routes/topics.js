@@ -181,6 +181,7 @@ router.get('/single', (req, res) => {
 			}
 		});
 })
+
 // fetch topics by user id
 router.get('/fromUser', ensureAuthenticated, (req, res) => {
 	if (!req.user._id) {
@@ -201,17 +202,18 @@ router.get('/fromUser', ensureAuthenticated, (req, res) => {
 // create a new topic
 router.post('/', ensureAuthenticated, (req, res) => {
 	var topic = new Topic({
-		picUrl: req.body.picUrl,
+		originalPicUrl: req.body.originalPicUrl,
+		smallPicUrl: req.body.smallPicUrl,
 		createBy: req.user._id,
 		level: 1
 	})
 
 	topic.save()
 		.then(newTopic => {
-			User.findById(req.user._id), (err, user) => {
-				user.topicsTimes += 1;
+			User.findById(req.user._id, (err, user) => {
+				user.topicTimes += 1;
 				user.save();
-			}
+			})
 			
 			res.send({
 				status: 'success',
@@ -270,11 +272,18 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 			})
 		}
 		else{
+			var replyLevel;
+			if(topic.level === 1){
+				replyLevel = 2;
+			}
+			else if(topic.level === 2){
+				replyLevel = 3;
+			}
 			var reply = new Topic({
 				picUrl: req.body.picUrl,
 				createBy: req.user._id,
 				replyTo: req.body.replyTo,
-				level: 2
+				level: replyLevel
 			})
 
 			reply.save()

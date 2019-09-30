@@ -1,11 +1,10 @@
 import React from "react";
-import {Modal, Upload, message, Button, Icon} from 'antd';
+import {Button} from 'antd';
 import './index.scss';
+import UploadImage from "./uploadImage";
 
 interface IAddTopicState {
     visible: boolean;
-    img_url: string;
-    fileList: any[];
 }
 
 class AddTopic extends React.PureComponent<{}, IAddTopicState> {
@@ -14,94 +13,32 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            visible: false,
-            img_url: "",
-            fileList:[]
+            visible: false
           }
         }
 
-    onImageUpload(info: any) {
-      let fileList = [...info.fileList];
-      fileList = fileList.slice(-1);
-      this.setState({
-        fileList: [...fileList]
-      });
-
-      if (info.file.status !== 'uploading') {
-      }
-      if (info.file.status === 'done') {
-        this.setState({
-          img_url: info.file.response
-        });
-        message.success(`File uploaded successfully!`);
-      } else if (info.file.status == 'error') {
-        message.error(`The image contains text/unappropriate content and can't be uploaded.`);
-      }
-    };
-
     showModal = () => {
         this.setState({
-          visible: true,
+          visible: true
         });
-      };
-  
-      postTopic = () => {
-        let url = process.env.REACT_APP_API_URL +'/topics';
-        let post_data = {picUrl: this.state.img_url};
-        console.log("post topic with url: " + this.state.img_url);
+      };  
 
-        fetch(url,{
-          method:'POST',
-          body: JSON.stringify(post_data),
-          headers: new Headers({
-              'Content-Type': 'application/json'
-          })
-      }).then(res=>res.json()).then(
-          data=>{
-            console.log(data);
-          }
-      )
-        this.setState({
-          visible: false,
-          fileList:[]
-        });
-
-        //TODO: change this refresh with the component update
-        window.location.reload();
-      };
-  
       handleCancel = () => {
         this.setState({
-          fileList: [],
           visible: false
         });
       };
   
       render() {
         return (
-          <div className="add_topic">
-            <Button type="primary" onClick={this.showModal}>
-              Add new topic
-            </Button>
-            <Modal
-              title="Upload new picture to start new topic"
-              visible={this.state.visible}
-              okText="Create new topic"
-              onOk={() => {this.postTopic()}}
-              onCancel={this.handleCancel}
-            >
-                <div className="image_upload">
-                <Upload name="image"
-                        action={process.env.REACT_APP_API_URL + '/images/upload'}                      
-                        onChange={(info) => {this.onImageUpload(info);}}
-                        fileList={this.state.fileList}
-                        >
-                    <Button>
-                    <Icon type="upload" /> Click to upload image
-                    </Button>
-                </Upload>
-                </div>                
-            </Modal>
+          <div id="add_topic">
+              <Button type="primary" onClick={ this.showModal }>
+                + Add new topic
+              </Button>
+            <UploadImage 
+              showModal={ this.state.visible } 
+              hideModal={ this.handleCancel } 
+              boxHeader="Upload new picture to start new topic"/>
           </div>
         );
       }

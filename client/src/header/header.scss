@@ -3,6 +3,7 @@
 #header {
 	margin: 0 auto;
 	padding: 0 40px;
+	height: 60px;
 	background: $primary-blue;
 }
 
@@ -10,16 +11,17 @@
 	color: #fff;
 	font-family: baloo;
 	font-size: 38px;
+	line-height: 60px;
 }
 #login {
 	float: right;
-	height: 57px;
-	line-height: 57px;
+	height: 60px;
+	line-height: 60px;
 }
 #login_button{
 	margin: auto;
 	font-size: 18px;
-	height: 57px;
+	height: 60px;
 	border: none;
 	color: #fff;
 }
@@ -27,7 +29,7 @@
 	margin: auto;
 	text-align: center;
 	font-size: 18px;
-	height: 57px;
+	height: 60px;
 	border: none;
 	color: #fff;
 }
@@ -35,15 +37,16 @@
 	margin-left: 10px;
 	text-align: center;
 	font-size: 18px;
-	height: 57px;
+	height: 60px;
 	border: none;
 	color: #fff;
 }
+
 //logout
 #user_menu {
 	float: right;
-	height: 57px;
-	line-height: 57px;
+	height: 60px;
+	line-height: 60px;
 
 	#user_info{
 		span.name{
@@ -51,10 +54,5 @@
 			font-size: 18px;
 			color: #fff;
 		}
-	}
-	#user_info img{
-		// width: 50px;
-		height: auto;
-		margin-top: 1.5px;
 	}
 }

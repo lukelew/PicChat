@@ -101,7 +101,7 @@ router.post('/register', (req, res) => {
 										console.log(sendToken)
 										transporter.sendMail({
 											from: 'noreply@picchat.me', 
-											to: '13298498@student.uts.edu.au', 
+											to: req.body.email, 
 											subject: 'Please use the link below to verify your account', 
 											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="http://localhost:8080/users/verify?token="' + sendToken  + '">Verify Now</a></div>' 
 										});
