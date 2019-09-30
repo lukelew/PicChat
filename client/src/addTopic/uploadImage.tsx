@@ -4,7 +4,8 @@ import './index.scss';
 
 interface IUploadImageState {
     visible: boolean;
-    img_url: string;
+    img_url_original: string;
+    img_url_small: string;
     fileList: any[];
     topicId?: String;
 }
@@ -22,7 +23,8 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
         super(props);
         this.state = {
             visible: false,
-            img_url: "",
+            img_url_original: '',
+            img_url_small: '',
             fileList:[],
             topicId: this.props.topicId
           }
@@ -39,7 +41,8 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
             }
             if (info.file.status === 'done') {
               this.setState({
-                img_url: info.file.response
+                img_url_original: info.file.response[0],
+                img_url_small: info.file.response[1]
               });
               message.success(`File uploaded successfully!`);
             } else if (info.file.status == 'error') {
@@ -60,12 +63,18 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
               if (this.state.topicId)
               {
                 url = process.env.REACT_APP_API_URL +'/topics/reply';
-                post_data = {picUrl: this.state.img_url, replyTo: this.state.topicId};
+                post_data = {
+                  originalPicUrl: this.state.img_url_original, 
+                  smallPicUrl: this.state.img_url_small,
+                  replyTo: this.state.topicId};
               }
               else
               {
                 url = process.env.REACT_APP_API_URL +'/topics';
-                post_data = {picUrl: this.state.img_url};
+                post_data = {
+                  originalPicUrl: this.state.img_url_original, 
+                  smallPicUrl: this.state.img_url_small,
+                };
               }
 
               fetch(url,{
@@ -101,7 +110,6 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
             };
 
     render() {
-        console.log("pic_id " + this.props.topicId);
         return (
             <div className="modal_window">
             <Modal
