@@ -23,7 +23,6 @@ class UserPanelMenu extends React.Component<RouteComponentProps> {
                     <Link to="/user/notifications"><Icon type="notification" /><span>Notifications</span></Link>
                 </Menu.Item>
                 <Menu.Item key="3"><Icon type="setting" /><span>Settings</span></Menu.Item>
-                <Menu.Item key="4"><Icon type="logout" /><span>Logout</span></Menu.Item>
             </Menu>
         )
     }

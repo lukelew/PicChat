@@ -28,6 +28,7 @@ interface replies {
 }
 
 interface detailState {
+	id: string,
 	name: string,
 	avatar: number,
 	originalPicUrl: string,
@@ -41,8 +42,9 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 	constructor(props: topicProps){
 		super(props);
 		this.state = {
+			id: '',
 			name: '',
-			avatar: 0,
+			avatar: 1,
 			originalPicUrl: '',
 			createAt: '',
 			replies: [],
@@ -51,13 +53,35 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 		}
 	}
 
+	updateReacts = (newReact: any) => {
+		let exist = false;
+		let updatedReacts = this.state.reacts;
+		for (let i = 0; i < this.state.reacts.length; i++) {
+			let react = this.state.reacts[i];
+			if (react._id === newReact._id) {
+				exist = true;
+				updatedReacts[i].emoji = newReact.emoji;
+			}
+		}
+		if (exist) {
+			this.setState({
+				reacts: updatedReacts
+			})
+		}
+		else {
+			this.setState(currentState => ({
+				reacts: [...currentState.reacts, newReact]
+			}))
+		}
+	}
+	
 	componentDidMount(){
-		console.log(process.env.REACT_APP_API_URL)
 		fetch(process.env.REACT_APP_API_URL+'/topics/single?id='+ this.props.match.params.id)
 			.then(res => res.json())
 			.then(data => {
 				const curTopic = data;
 				this.setState({
+					id: curTopic._id,
 					name: curTopic.createBy.name,
 					avatar: curTopic.createBy.avatar,
 					originalPicUrl: curTopic.originalPicUrl,
@@ -106,7 +130,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 							</div>
 						}
 					</div>
-					{/* <ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} /> */}
+					<ReactPanel topicId={this.state.id} yourReact={this.state.yourReact} updateReacts={() => this.updateReacts} />
 				</div>
 
 				<div id="replies_list">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { List, Avatar, Empty, Icon } from 'antd';
+import { Link } from 'react-router-dom';
 import './index.scss';
 
 const MyIcon = Icon.createFromIconfontCN({
@@ -44,7 +45,10 @@ class Notification extends React.Component<{}, NotificationState> {
                                         title={'You have a new ' + item.type}
                                         description={
                                             <React.Fragment>
-                                                <strong className="from">{item.from.name}</strong><p className="text">{'has reacted to your picture with '}</p><MyIcon type={'icon-' + item.content} />
+                                                <strong className="from">{item.from.name}</strong>
+                                                <p className="text">{'has reacted to your picture with '}</p>
+                                                <MyIcon type={'icon-' + item.content} />
+                                                <Link to={`/topics_detail/${item.from._id}`}>Link</Link>
                                             </React.Fragment>
                                         }
                                     />

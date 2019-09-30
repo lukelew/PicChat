@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag, Row, Col} from 'antd';
+import { Button, Menu, Dropdown, Tag, Row, Col, Icon} from 'antd';
 import './index.scss';
 
 interface topicListState {
@@ -8,7 +8,8 @@ interface topicListState {
 	topics: Array<any>,
 	tags: string,
 	pageSize: number,
-	page: number
+	page: number,
+	canLoad: boolean
 }
 
 class TopicList extends React.Component<{}, topicListState> {
@@ -19,7 +20,8 @@ class TopicList extends React.Component<{}, topicListState> {
 			topics: [],
 			tags: 'From New to Old',
 			pageSize: 3,
-			page: 0
+			page: 0,
+			canLoad: true
 		}
 	}
 
@@ -37,7 +39,8 @@ class TopicList extends React.Component<{}, topicListState> {
 					sort: 1,
 					topics: [...this.state.topics, ...data],
 					tags: 'From New to Old',
-					page: this.state.page + 1
+					page: this.state.page + 1,
+					canLoad: data.length < this.state.pageSize? false : true
 				})
 			})
 	}
@@ -56,7 +59,8 @@ class TopicList extends React.Component<{}, topicListState> {
 					sort: 2,
 					topics: [...this.state.topics, ...data],
 					tags: 'From Old to New',
-					page: this.state.page + 1
+					page: this.state.page + 1,
+					canLoad: data.length < this.state.pageSize? false : true
 				})
 			})
 	}
@@ -75,7 +79,8 @@ class TopicList extends React.Component<{}, topicListState> {
 					sort: 3,
 					topics: [...this.state.topics, ...data],
 					tags: 'From Low to High',
-					page: this.state.page + 1
+					page: this.state.page + 1,
+					canLoad: data.length < this.state.pageSize? false : true
 				})
 			})
 	}
@@ -94,7 +99,8 @@ class TopicList extends React.Component<{}, topicListState> {
 					sort: 4,
 					topics: [...this.state.topics, ...data],
 					tags: 'From High to Low',
-					page: this.state.page + 1
+					page: this.state.page + 1,
+					canLoad: data.length < this.state.pageSize? false : true
 				})
 			})
 	}
@@ -133,7 +139,7 @@ class TopicList extends React.Component<{}, topicListState> {
 
 		const popluarMenu = (
 			<Menu>
-				<Menu.Item key="0" onClick={() => this.showFromLowtoHigh( this.state.pageSize, 0, true) }>Low to High</Menu.Item>
+				<Menu.Item key="1" onClick={() => this.showFromLowtoHigh( this.state.pageSize, 0, true) }>Low to High</Menu.Item>
 				<Menu.Item key="2" onClick={() => this.showFromHightoLow( this.state.pageSize, 0, true)}>High to low</Menu.Item>
 			</Menu>
 		)
@@ -176,7 +182,15 @@ class TopicList extends React.Component<{}, topicListState> {
 				{/* <Row type="flex" justify="center" align="middle" > */}
 					<div id="topic_list">{topicList}</div>
 				{/* </Row> */}
-				<Button id="load_more" onClick={() => this.loadMore(this.state.sort)}>Loading more...</Button>
+				{this.state.canLoad &&
+					<Button id="load_more" onClick={() => this.loadMore(this.state.sort)}>Loading more...</Button>
+				}
+				{!this.state.canLoad &&
+					<div className="nomore">
+						<Icon style={{fontSize: '24px' }} type="frown" />
+						<p >Opps, there are no more topics</p>
+					</div>
+				}
 			</React.Fragment>
 		)
 	}

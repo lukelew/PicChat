@@ -51,9 +51,7 @@ class Card extends React.Component<cardProps, cardState>  {
 			this.setState(currentState => ({
 				reacts: [...currentState.reacts, newReact]
 			}))
-		}
-		
-		
+		}	
 	}
 
 	showModal = () => {
@@ -62,11 +60,11 @@ class Card extends React.Component<cardProps, cardState>  {
         });
       };  
 
-      handleCancelUpload = () => {
-        this.setState({
+	handleCancelUpload = () => {
+		this.setState({
 			showUploadModal: false
-        });
-      };
+		});
+	};
 
 	render() {
 
