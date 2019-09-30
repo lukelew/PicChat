@@ -130,7 +130,7 @@ render() {
                         {/*login_email */}
                         <Form.Item label="E-mail" hasFeedback>
                             {getFieldDecorator('eamil', {
-                                rules: [{ required: true, type: 'email',message: 'Please input your email!' }],
+                                rules: [{ required: true, type: 'email',message: 'Please input email‘s format!' }],
                               })(
                                 <Input
                                     prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -156,7 +156,7 @@ render() {
 
                         {/* login_submit*/}
                         <Form.Item>
-                          <a className="login-form-forgot" href="http/register">Forgot password?</a>
+                          <a className="login-form-forgot" href="/register">Forgot password?</a>
                           <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.postData}>Login</Button>
 
                         </Form.Item>

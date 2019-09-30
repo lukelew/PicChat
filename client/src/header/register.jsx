@@ -15,10 +15,6 @@ class Register extends React.Component{
             password: '',
             avatar: 1,
 
-            // verificationNumber: '',//use for vertify input number
-            // verifyResult: Boolean, //use for record vertification's result
-            // sentEmail: Boolean,//use for record email status
-
             showAvatar: 'none',
             closeAvatar:'',
 
@@ -62,12 +58,7 @@ class Register extends React.Component{
             name: e.target.value
         })
     };
-    // //verify email
-    // handleChangeVerify= e =>{
-    //     this.setState({
-    //         verificationNumber: e.target.value
-    //     })
-    // }
+
     //judge confirm password
     handleConfirmBlur = e => {
         const { value } = e.target;
@@ -203,7 +194,7 @@ class Register extends React.Component{
                         {/* enter Email */}
                         <Form.Item label="E-mail" hasFeedback>
                         {getFieldDecorator('eamil', {
-                            rules: [{ required: true, message: 'Please input email‘s format' }],
+                            rules: [{ required: true, type:'email',message: 'Please input email‘s format！' }],
                         })(
                             <Input
                             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -252,27 +243,11 @@ class Register extends React.Component{
                         })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="Password" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}/>) }
                         </Form.Item>
                         
-                        {/* verify Email */}
-                        {/* <Form.Item label="Vertify E-mail Address" extra="Please check your vertification number in your mailbox.">
-                            <Row gutter={8}>
-                                <Col span={12}>
-                                    {getFieldDecorator('captcha', {
-                                    rules: [{ required: true, message: 'Please input the captcha you got!' }],
-                                    })(<Input 
-                                        placeholder="Number"
-                                        onChange={this.handleChangeVerify.bind(this)}
-                                        />)}
-                                </Col>
-                                <Col span={12}>
-                                    <Button onClick={this.confirmEmail}>Confirm</Button>
-                                </Col>
-                            </Row>
-                        </Form.Item> */}
                         <Form.Item>
                         <Button size="large" type="primary" htmlType="submit" className="register-form-button" onClick={this.postData}>
                             Register
                         </Button>
-                        {/* <a href="" id="login_register">Register now!</a> */}
+                        <a href="/login" id="login_register">Login Now</a>
                         </Form.Item>
                     </Form>
                     </Drawer>

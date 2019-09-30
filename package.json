@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/lukelew/picChat#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "aws-sdk": "^2.524.0",
     "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
