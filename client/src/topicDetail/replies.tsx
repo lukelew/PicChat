@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, Icon, Popover, Button } from 'antd';
+import UploadImage from "../addTopic/uploadImage";
 import './index.scss';
 
 interface replyPros {
@@ -10,8 +11,31 @@ interface replyPros {
 	replies: Array<any>
 }
 
+interface replyState {
+	visible: boolean
+}
 
-class Replies extends React.Component<replyPros> {
+
+class Replies extends React.Component<replyPros, replyState> {
+	constructor(props: any) {
+        super(props);
+        this.state = {
+            visible: false
+          }
+		}
+	
+	showModal = () => {
+			this.setState({
+			  visible: true
+			});
+		  };  
+	
+	handleCancel = () => {
+			this.setState({
+			  visible: false
+			});
+		  };
+
 	render(){
 		return(
 			<div className="single_reply">
@@ -24,7 +48,15 @@ class Replies extends React.Component<replyPros> {
 					<div className="img_box">
 						<img src={this.props.originalPicUrl} />
 					</div>
-					<Button type="primary">Reply</Button>
+					<div id="add_topic">
+					<Button type="primary" onClick={ this.showModal }>
+						Reply
+					</Button>
+					<UploadImage 
+						showModal={ this.state.visible } 
+						hideModal={ this.handleCancel } 
+						boxHeader="Upload new picture to reply"/>
+					</div>
 				</div>
 			</div>
 		)
