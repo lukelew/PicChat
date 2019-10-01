@@ -32,7 +32,7 @@ class Card extends React.Component<cardProps, cardState>  {
 		showUploadModal: false
 	}
 
-	updateReacts = (newReact: any)=> {
+	updateReacts = (newReact: any) => {
 		let exist = false;
 		let updatedReacts = this.state.reacts;
 		for (let i = 0; i < this.state.reacts.length; i++){
@@ -52,6 +52,19 @@ class Card extends React.Component<cardProps, cardState>  {
 				reacts: [...currentState.reacts, newReact]
 			}))
 		}	
+	}
+
+	deleteReacts = (deleteId: string) =>{
+		var updatedReact = this.state.reacts;
+		for (let i = 0; i < updatedReact.length; i++){
+			if (updatedReact[i]._id === deleteId){
+				updatedReact.splice(i,1);
+				this.setState({
+					reacts: updatedReact
+				})
+				return
+			}
+		}
 	}
 
 	showModal = () => {
@@ -91,7 +104,7 @@ class Card extends React.Component<cardProps, cardState>  {
 						</div>
 					}
 					<div className="buttons_box">
-						<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} />
+						<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts}/>
 						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} onClick={this.showModal}/>
 					</div>
 				</div>

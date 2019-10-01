@@ -38,6 +38,31 @@ class Replies extends React.Component<replyPros, replyState> {
 		  };
 
 	render(){
+		const repliesList = this.props.replies.map( reply => {
+			return(
+				<div className="level3" key={reply._id}>
+					<div className="user_info">
+						<Avatar src={'../avatars/' + reply.createBy.avatar + '.png'} />
+						<strong>{reply.createBy.name}</strong>
+						<span className="date">posted on {reply.createAt.substr(0, 10)}</span>
+
+					</div>
+					<div className="img_box">
+						<img src={reply.originalPicUrl} />
+					</div>
+					<div className="button_box">
+						<Icon 
+							className="add_reply" 
+							type="picture" 
+							theme="twoTone" 
+							twoToneColor="#1890ff" 
+							style={{ fontSize: '24px' }} 
+							onClick={this.showModal}/>
+					</div>
+				</div>
+			)
+		}) 
+
 		return(
 			<div className="single_reply">
 				<div className="level2">
@@ -49,17 +74,22 @@ class Replies extends React.Component<replyPros, replyState> {
 					<div className="img_box">
 						<img src={this.props.originalPicUrl} />
 					</div>
-					<div>
-					<Button type="primary" onClick={ this.showModal }>
-						Reply
-					</Button>
-					<UploadImage 
-						showModal={ this.state.visible } 
-						hideModal={ this.handleCancel } 
-						boxHeader="Upload new picture to reply"
-						topicId={ this.props.topicId}/>
+					<div className="button_box">
+						<Icon
+							className="add_reply"
+							type="picture"
+							theme="twoTone"
+							twoToneColor="#1890ff"
+							style={{ fontSize: '24px' }}
+							onClick={this.showModal} />
+						<UploadImage 
+							showModal={ this.state.visible } 
+							hideModal={ this.handleCancel } 
+							boxHeader="Upload new picture to reply"
+							topicId={ this.props.topicId}/>
 					</div>
 				</div>
+				{repliesList}
 			</div>
 		)
 	}

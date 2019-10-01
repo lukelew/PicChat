@@ -41,14 +41,14 @@ class Notification extends React.Component<{}, NotificationState> {
                             renderItem={item => (
                                 <List.Item>
                                     <List.Item.Meta
-                                        avatar={<Avatar src={'../avatars/' + item.from.avatar + '.png'} />}
+                                        avatar={<Avatar src={'../avatars/' + item.fromUser.avatar + '.png'} />}
                                         title={'You have a new ' + item.type}
                                         description={
                                             <React.Fragment>
-                                                <strong className="from">{item.from.name}</strong>
+                                                <strong className="from">{item.fromUser.name}</strong>
                                                 <p className="text">{'has reacted to your picture with '}</p>
                                                 <MyIcon type={'icon-' + item.content} />
-                                                <Link to={`/topics_detail/${item.from._id}`}>Link</Link>
+                                                <Link to={`/topics_detail/${item.atTopic}`}>Link</Link>
                                             </React.Fragment>
                                         }
                                     />

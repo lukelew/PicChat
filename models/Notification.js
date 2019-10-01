@@ -5,18 +5,23 @@ const NotificationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    from: {
+    fromUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    to: {
+    toUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
     content: {
         type: String,
+        required: true
+    },
+    atTopic: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Topics',
         required: true
     },
     isRead: {

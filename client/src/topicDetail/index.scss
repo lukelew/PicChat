@@ -70,7 +70,7 @@
 			display: flex;
 			position: absolute;
 			bottom: 15px;
-			left: 15px;
+			right: 15px;
 			padding: 4px;
 			background: rgba(255,255,255,.6);
 			border-radius: 20px;
@@ -85,6 +85,14 @@
 				display: block;
 				font-size: 24px;
 			}
+		}
+	}
+
+	.buttons_box{
+		text-align: right;
+		
+		.add_reply{
+			margin: 0 0 0 10px;
 		}
 	}
 }
@@ -114,28 +122,70 @@
 }
 
 .single_reply{
-	padding: 20px 0;
+	padding: 20px 10px;
 	border-bottom: 1px solid #e8e8e8;
+
+	&.isexpand{
+		background: #e8e8e8;
+	}
 
 	.level2{
 		display: flex;
 		justify-content: space-between;
-	}
+		padding: 10px 0;
 
-	.user_info{
-		padding: 4px 0;
+		.user_info{
+			padding: 4px 0;
+			width: 33%;
 
-		span{
-			margin: 0 4px;
-			color: #ccc;
+			span{
+				margin: 0 4px;
+				color: #ccc;
+			}
+		}
+		
+		.img_box{
+			width: 33%;
+
+			img{
+				width: 100%;
+			}
+		}
+
+		.button_box{
+			width: 33%;
+			text-align: right
 		}
 	}
+
+		.level3{
+			display: flex;
+			justify-content: space-between;
+			// border-top: 1px dashed #e8e8e8;
+			padding: 10px 0 10px 30px;
+
+			.user_info{
+				padding: 4px 0;
+				width: 33%;
+
+				span{
+					margin: 0 4px;
+					color: #ccc;
+				}
+			}
+
+			.img_box{
+				width: 33%;
+
+				img{
+					width: 100%;
+				}
+			}
+
+			.button_box{
+				width: 33%;
+				text-align: right
+			}
+		}
 	
-	.img_box{
-		width: 400px;
-
-		img{
-			width: 100%;
-		}
-	}
 }

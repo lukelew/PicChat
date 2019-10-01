@@ -14,11 +14,11 @@ router.get('/toUser', ensureAuthenticated, (req, res) => {
         })
     }
     Notification
-        .find({ to: req.user._id })
-        .populate('from')
-        .exec((err, docs) => {
-            res.send(docs)
-        })
+    .find({ toUser: req.user._id })
+    .populate('fromUser')
+    .exec((err, docs) => {
+        res.send(docs)
+    })
 })
 
 module.exports = router;

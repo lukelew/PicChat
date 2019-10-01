@@ -19,7 +19,7 @@ class TopicList extends React.Component<{}, topicListState> {
 			sort: 1,
 			topics: [],
 			tags: 'From New to Old',
-			pageSize: 3,
+			pageSize: 9,
 			page: 0,
 			canLoad: true
 		}
@@ -166,10 +166,10 @@ class TopicList extends React.Component<{}, topicListState> {
 				<div className="topic_list_tab">
 					<div className="sort_buttons">
 						<Dropdown overlay={recentMenu}>
-							<Button >Recency</Button>
+							<Button ><Icon type="calendar" />Recency</Button>
 						</Dropdown>
 						<Dropdown overlay={popluarMenu}>
-							<Button className="popularity">Popularity</Button>
+							<Button className="popularity"><Icon type="fire" />Popularity</Button>
 						</Dropdown>
 					</div>
 					<div className="sort_feedback">
