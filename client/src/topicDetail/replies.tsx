@@ -3,6 +3,7 @@ import { Avatar, Icon, Popover, Button } from 'antd';
 import './index.scss';
 
 interface replyPros {
+	topicId: string,
 	originalPicUrl: string,
 	name: string,
 	avatar: number,
