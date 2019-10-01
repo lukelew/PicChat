@@ -27,13 +27,13 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 
 	updateReacts = this.props.updateReacts();
 
-	// componentDidUpdate(prevReact: ReactPanelProps){
-	// 	if (this.props.yourReact !== prevReact.yourReact) {
-	// 		this.setState({
-	// 			yourReact: this.props.yourReact
-	// 		})
-	// 	}	
-	// }
+	componentDidUpdate(prevReact: ReactPanelProps){
+		if (this.props.yourReact !== prevReact.yourReact) {
+			this.setState({
+				yourReact: this.props.yourReact
+			})
+		}	
+	}
 
 	reactToTopic = (to: string, type: string) => {
 		const curReact = this.state.yourReact;

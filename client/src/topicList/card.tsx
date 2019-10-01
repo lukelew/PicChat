@@ -17,7 +17,7 @@ interface cardProps {
 	createAt: string,
 	replies: Array<any>,
 	reacts: Array<any>,
-	yourReact: any,
+	yourReact: any
 }
 
 interface cardState {

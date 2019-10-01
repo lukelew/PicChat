@@ -35,7 +35,7 @@ interface detailState {
 	createAt: string,
 	replies: Array<replies>,
 	reacts: Array<any>,
-	yourReact: object
+	yourReact: any
 }
 
 class TopicDetail extends React.Component< topicProps, detailState> {
@@ -49,7 +49,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			createAt: '',
 			replies: [],
 			reacts: [],
-			yourReact: {}
+			yourReact: ""
 		}
 	}
 
@@ -88,7 +88,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					createAt: curTopic.createAt,
 					replies: curTopic.replies,
 					reacts: curTopic.reacts,
-					yourReact: curTopic.yourReact
+					yourReact: curTopic.yourReact ? curTopic.yourReact : ""
 				})
 			})
 	}
@@ -103,6 +103,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					avatar={reply.createBy.avatar}
 					replies={reply.replies}
 					createAt={reply.createAt}
+					topicId={reply._id}
 				>
 				</Replies>
 

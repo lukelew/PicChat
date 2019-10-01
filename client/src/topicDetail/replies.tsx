@@ -4,6 +4,7 @@ import UploadImage from "../addTopic/uploadImage";
 import './index.scss';
 
 interface replyPros {
+	topicId: string,
 	originalPicUrl: string,
 	name: string,
 	avatar: number,
