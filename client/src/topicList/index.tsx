@@ -19,7 +19,7 @@ class TopicList extends React.Component<{}, topicListState> {
 			sort: 1,
 			topics: [],
 			tags: 'From New to Old',
-			pageSize: 9,
+			pageSize: 4,
 			page: 0,
 			canLoad: true
 		}
@@ -187,8 +187,8 @@ class TopicList extends React.Component<{}, topicListState> {
 				}
 				{!this.state.canLoad &&
 					<div className="nomore">
-						<Icon style={{fontSize: '24px' }} type="frown" />
-						<p >Opps, there are no more topics</p>
+						<Icon style={{fontSize: '24px' }} type="like" />
+						<p >Please wait more images updated</p>
 					</div>
 				}
 			</React.Fragment>

@@ -8,6 +8,8 @@ const session = require('express-session');
 const passport = require('passport');
 var cors = require('cors');
 
+const port = process.env.PORT || 8080;
+
 // Database
 const db = require('./config/db');
 
@@ -48,7 +50,7 @@ app.use('/notifications', notifications);
 const images = require('./routes/images');
 app.use('/images', images);
 
-server.listen(8080);
+server.listen(port);
 
 io.on('connection', function (socket) {
 	console.log('new user connected');

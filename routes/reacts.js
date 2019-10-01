@@ -105,7 +105,6 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 			Topic.findById(react.reactTo, (err, topic) => {
 				topic.reacts.pull(currentReactId);
 				topic.save();
-				console.log(topic)
 			})
 			react.remove((err) => {
 				if(err) throw err;
