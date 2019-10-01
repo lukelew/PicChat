@@ -5,11 +5,15 @@
 /.pnp
 .pnp.js
 
+*.jpg
+
 # testing
 /coverage
 
 # production
 /build
+
+/tmp
 
 # misc
 .DS_Store
