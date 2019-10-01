@@ -65,7 +65,6 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
                 url = process.env.REACT_APP_API_URL +'/topics/reply';
                 post_data = {
                   originalPicUrl: this.state.img_url_original, 
-                  smallPicUrl: this.state.img_url_small,
                   replyTo: this.state.topicId};
               }
               else
