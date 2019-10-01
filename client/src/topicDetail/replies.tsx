@@ -3,7 +3,7 @@ import { Avatar, Icon, Popover, Button } from 'antd';
 import './index.scss';
 
 interface replyPros {
-	picUrl: string,
+	originalPicUrl: string,
 	name: string,
 	avatar: number,
 	createAt: string,
@@ -22,7 +22,7 @@ class Replies extends React.Component<replyPros> {
 						<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
 					</div>
 					<div className="img_box">
-						<img src={this.props.picUrl} />
+						<img src={this.props.originalPicUrl} />
 					</div>
 					<Button type="primary">Reply</Button>
 				</div>

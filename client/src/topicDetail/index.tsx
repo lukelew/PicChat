@@ -19,7 +19,7 @@ interface topicProps extends RouteComponentProps<getIdProps>{
 
 interface replies {
 	_id: string,
-	picUrl: string,
+	originalPicUrl: string,
 	createBy: any,
 	name: string,
 	avatar: number,
@@ -98,7 +98,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			return (
 				<Replies
 					key={reply._id}
-					picUrl={reply.picUrl}
+					originalPicUrl={reply.originalPicUrl}
 					name={reply.createBy.name}
 					avatar={reply.createBy.avatar}
 					replies={reply.replies}
