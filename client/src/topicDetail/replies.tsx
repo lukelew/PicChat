@@ -49,14 +49,15 @@ class Replies extends React.Component<replyPros, replyState> {
 					<div className="img_box">
 						<img src={this.props.originalPicUrl} />
 					</div>
-					<div id="add_topic">
+					<div>
 					<Button type="primary" onClick={ this.showModal }>
 						Reply
 					</Button>
 					<UploadImage 
 						showModal={ this.state.visible } 
 						hideModal={ this.handleCancel } 
-						boxHeader="Upload new picture to reply"/>
+						boxHeader="Upload new picture to reply"
+						topicId={ this.props.topicId}/>
 					</div>
 				</div>
 			</div>
