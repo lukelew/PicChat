@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const SENDGRID_API_KEY = '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';
+sgMail.setApiKey(SENDGRID_API_KEY);
 const cryptoRandomString = require('crypto-random-string');
 const Token = require('../models/Token');
 
@@ -104,7 +105,7 @@ router.post('/register', (req, res) => {
 											from: 'ailuqun313@gmail.com',
 											subject: 'Sending with Twilio SendGrid is Fun',
 											text: 'and easy to do anywhere, even with Node.js',
-											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="https://picchat-uts.herokuapp.com/users/verify?token="' + sendToken + '">Verify Now</a><span>' + sendToken +'</span></div>' 
+											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="https://picchat-uts.herokuapp.com/users/verify?token="' + sendToken + '">Verify Now</a></div>' 
 
 										};
 										sgMail.send(msg);
