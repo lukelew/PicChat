@@ -19,9 +19,9 @@ router.get('/', (req, res) => {
 router.post('/', ensureAuthenticated, (req, res) => {
 	// get the current topic
 	Topic
-		.findById(req.body.topic_id)
-		.populate('reacts')
-		.exec((err, topic) => {
+	.findById(req.body.topic_id)
+	.populate('reacts')
+	.exec((err, topic) => {
 		if(!topic){
 			return res.send({
 				status: 'failure',
@@ -46,13 +46,16 @@ router.post('/', ensureAuthenticated, (req, res) => {
 						user.save();
 					})
 					// create a new notification
-					const notification = new Notification({
-						type: 'react',
-						from: req.user._id,
-						to: topic.createBy,
-						content: newReact.emoji
-					})
-					notification.save()
+					if (!topic.createBy.equals(req.user._id)){
+						const notification = new Notification({
+							type: 'react',
+							fromUser: req.user._id,
+							toUser: topic.createBy,
+							content: newReact.emoji,
+							atTopic: topic._id
+						})
+						notification.save()
+					}
 
 					res.send({
 						status: 'success',
@@ -99,17 +102,17 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 			})
 		}
 		else{
+			Topic.findById(react.reactTo, (err, topic) => {
+				topic.reacts.pull(currentReactId);
+				topic.save();
+			})
 			react.remove((err) => {
 				if(err) throw err;
 				res.send({
 					status: 'success',
-					message: 'React deleted!'
+					message: 'React deleted!',
+					deleteId: currentReactId
 				});
-				Topic.findById(react.react_to, (err, topic) => {
-					topic.reacts.pull(currentReactId);
-					topic.save();
-					console.log(topic)
-				})
 			});
 		}
 	})

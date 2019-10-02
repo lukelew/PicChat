@@ -14,137 +14,137 @@ router.get('/', (req, res) => {
 	if (req.query.sort == 1) {
 		// from new to old
 		Topic
-			.find({level: 1})
-			.sort({ createAt: -1 })
-			.limit(size)
-			.skip(page*size)
-			.populate('reacts')
-			.populate('createBy')
-			.lean()
-			.exec((err, docs) => {
-				if (err) throw err;
-				// if there is a login user
-				if(req.user){ 
-					// create new array to insert the 'yourReact' field
-					var editedDocs = [];
-					docs.map(topic => {
-						topic.reacts.map(react => {
-							if (react.createBy.equals(req.user._id)) {
-								topic.yourReact = {
-									"_id": react._id,
-									"emoji": react.emoji,
-								}
+		.find({level: 1})
+		.sort({ createAt: -1 })
+		.limit(size)
+		.skip(page*size)
+		.populate('reacts')
+		.populate('createBy')
+		.lean()
+		.exec((err, docs) => {
+			if (err) throw err;
+			// if there is a login user
+			if(req.user){ 
+				// create new array to insert the 'yourReact' field
+				var editedDocs = [];
+				docs.map(topic => {
+					topic.reacts.map(react => {
+						if (react.createBy.equals(req.user._id)) {
+							topic.yourReact = {
+								"_id": react._id,
+								"emoji": react.emoji,
 							}
-						})
-						editedDocs.push(topic)
+						}
 					})
-					res.send(editedDocs)
-				}
-				else{
-					res.send(docs)
-				}
-			});
+					editedDocs.push(topic)
+				})
+				res.send(editedDocs)
+			}
+			else{
+				res.send(docs)
+			}
+		});
 	}
 	else if(req.query.sort == 2){
 		// from old to new
 		Topic
-			.find({ level: 1 })
-			.limit(size)
-			.skip(page*size)
-			.populate('reacts')
-			.populate('createBy')
-			.lean()
-			.exec((err, docs) => {
-				if (err) throw err;
-				// if there is a login user
-				if (req.user) {
-					// create new array to insert the 'yourReact' field
-					var editedDocs = [];
-					docs.map(topic => {
-						topic.reacts.map(react => {
-							if (react.createBy.equals(req.user._id)) {
-								topic.yourReact = {
-									"_id": react._id,
-									"emoji": react.emoji,
-								}
+		.find({ level: 1 })
+		.limit(size)
+		.skip(page*size)
+		.populate('reacts')
+		.populate('createBy')
+		.lean()
+		.exec((err, docs) => {
+			if (err) throw err;
+			// if there is a login user
+			if (req.user) {
+				// create new array to insert the 'yourReact' field
+				var editedDocs = [];
+				docs.map(topic => {
+					topic.reacts.map(react => {
+						if (react.createBy.equals(req.user._id)) {
+							topic.yourReact = {
+								"_id": react._id,
+								"emoji": react.emoji,
 							}
-						})
-						editedDocs.push(topic)
+						}
 					})
-					res.send(editedDocs)
-				}
-				else {
-					res.send(docs)
-				}
-			});
+					editedDocs.push(topic)
+				})
+				res.send(editedDocs)
+			}
+			else {
+				res.send(docs)
+			}
+		});
 	}
 	else if (req.query.sort == 3) {
 		// from low to high
 		Topic
-			.find({ level: 1 })
-			.limit(size)
-			.skip(page*size)
-			.populate('reacts')
-			.populate('createBy')
-			.sort({ replies: 1 })
-			.lean()
-			.exec((err, docs) => {
-				if (err) throw err;
-				// if there is a login user
-				if (req.user) {
-					// create new array to insert the 'yourReact' field
-					var editedDocs = [];
-					docs.map(topic => {
-						topic.reacts.map(react => {
-							if (react.createBy.equals(req.user._id)) {
-								topic.yourReact = {
-									"_id": react._id,
-									"emoji": react.emoji,
-								}
+		.find({ level: 1 })
+		.limit(size)
+		.skip(page*size)
+		.populate('reacts')
+		.populate('createBy')
+		.sort({ replies: 1 })
+		.lean()
+		.exec((err, docs) => {
+			if (err) throw err;
+			// if there is a login user
+			if (req.user) {
+				// create new array to insert the 'yourReact' field
+				var editedDocs = [];
+				docs.map(topic => {
+					topic.reacts.map(react => {
+						if (react.createBy.equals(req.user._id)) {
+							topic.yourReact = {
+								"_id": react._id,
+								"emoji": react.emoji,
 							}
-						})
-						editedDocs.push(topic)
+						}
 					})
-					res.send(editedDocs)
-				}
-				else {
-					res.send(docs)
-				}
-			});
+					editedDocs.push(topic)
+				})
+				res.send(editedDocs)
+			}
+			else {
+				res.send(docs)
+			}
+		});
 	}
 	else if (req.query.sort == 4) {
 		// from high to low
 		Topic
-			.find({ level: 1 })
-			.limit(size)
-			.skip(page*size)
-			.populate('reacts')
-			.populate('createBy')
-			.sort({ replies: -1 })
-			.lean()
-			.exec((err, docs) => {
-				if (err) throw err;
-				// if there is a login user
-				if (req.user) {
-					// create new array to insert the 'yourReact' field
-					var editedDocs = [];
-					docs.map(topic => {
-						topic.reacts.map(react => {
-							if (react.createBy.equals(req.user._id)) {
-								topic.yourReact = {
-									"_id": react._id,
-									"emoji": react.emoji,
-								}
+		.find({ level: 1 })
+		.limit(size)
+		.skip(page*size)
+		.populate('reacts')
+		.populate('createBy')
+		.sort({ replies: -1 })
+		.lean()
+		.exec((err, docs) => {
+			if (err) throw err;
+			// if there is a login user
+			if (req.user) {
+				// create new array to insert the 'yourReact' field
+				var editedDocs = [];
+				docs.map(topic => {
+					topic.reacts.map(react => {
+						if (react.createBy.equals(req.user._id)) {
+							topic.yourReact = {
+								"_id": react._id,
+								"emoji": react.emoji,
 							}
-						})
-						editedDocs.push(topic)
+						}
 					})
-					res.send(editedDocs)
-				}
-				else {
-					res.send(docs)
-				}
-			});
+					editedDocs.push(topic)
+				})
+				res.send(editedDocs)
+			}
+			else {
+				res.send(docs)
+			}
+		});
 	}
 	
 })
@@ -152,34 +152,37 @@ router.get('/', (req, res) => {
 router.get('/single', (req, res) => {
 	// fetch one particular topic
 	Topic
-		.findById(req.query.id)
-		.populate('reacts')
-		.populate('createBy')
-		.populate({
-			path: 'replies',
-			populate: {
-				path: 'createBy'
-			}
+	.findById(req.query.id)
+	.populate('reacts')
+	.populate('createBy')
+	.populate({
+		path: 'replies',
+		populate: [
+			'createBy', 
+			{
+				path: 'replies',
+				populate: 'createBy'
+			}]
 
-		})
-		.lean()
-		.exec((err, doc) => {
-			if (err) throw err;
-			if (req.user) {
-				doc.reacts.map(react => {
-					if (react.createBy.equals(req.user._id)) {
-						doc.yourReact = {
-							"_id": react._id,
-							"emoji": react.emoji,
-						}
+	})
+	.lean()
+	.exec((err, doc) => {
+		if (err) throw err;
+		if (req.user) {
+			doc.reacts.map(react => {
+				if (react.createBy.equals(req.user._id)) {
+					doc.yourReact = {
+						"_id": react._id,
+						"emoji": react.emoji,
 					}
-				})
-				res.send(doc)
-			}
-			else {
-				res.send(doc)
-			}
-		});
+				}
+			})
+			res.send(doc)
+		}
+		else {
+			res.send(doc)
+		}
+	});
 })
 
 // fetch topics by user id
@@ -191,12 +194,12 @@ router.get('/fromUser', ensureAuthenticated, (req, res) => {
 		})
 	}
 	Topic
-		.find({ createBy: req.user._id })
-		.populate('reacts')
-		.populate('createBy')
-		.exec((err, docs) => {
-			res.send(docs)
-		})
+	.find({ createBy: req.user._id })
+	.populate('reacts')
+	.populate('createBy')
+	.exec((err, docs) => {
+		res.send(docs)
+	})
 })
 
 // create a new topic
@@ -276,11 +279,11 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 			if(topic.level === 1){
 				replyLevel = 2;
 			}
-			else if(topic.level === 2){
+			else if (topic.level === 2 || topic.level === 3){
 				replyLevel = 3;
 			}
 			var reply = new Topic({
-				picUrl: req.body.picUrl,
+				originalPicUrl: req.body.originalPicUrl,
 				createBy: req.user._id,
 				replyTo: req.body.replyTo,
 				level: replyLevel

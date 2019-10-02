@@ -19,7 +19,7 @@ interface topicProps extends RouteComponentProps<getIdProps>{
 
 interface replies {
 	_id: string,
-	picUrl: string,
+	originalPicUrl: string,
 	createBy: any,
 	name: string,
 	avatar: number,
@@ -35,7 +35,7 @@ interface detailState {
 	createAt: string,
 	replies: Array<replies>,
 	reacts: Array<any>,
-	yourReact: object
+	yourReact: any
 }
 
 class TopicDetail extends React.Component< topicProps, detailState> {
@@ -49,7 +49,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			createAt: '',
 			replies: [],
 			reacts: [],
-			yourReact: {}
+			yourReact: ""
 		}
 	}
 
@@ -75,6 +75,19 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 		}
 	}
 	
+	deleteReacts = (deleteId: string) => {
+		var updatedReact = this.state.reacts;
+		for (let i = 0; i < updatedReact.length; i++) {
+			if (updatedReact[i]._id === deleteId) {
+				updatedReact.splice(i, 1);
+				this.setState({
+					reacts: updatedReact
+				})
+				return
+			}
+		}
+	}
+
 	componentDidMount(){
 		fetch(process.env.REACT_APP_API_URL+'/topics/single?id='+ this.props.match.params.id)
 			.then(res => res.json())
@@ -88,7 +101,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					createAt: curTopic.createAt,
 					replies: curTopic.replies,
 					reacts: curTopic.reacts,
-					yourReact: curTopic.yourReact
+					yourReact: curTopic.yourReact ? curTopic.yourReact : ""
 				})
 			})
 	}
@@ -98,11 +111,12 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			return (
 				<Replies
 					key={reply._id}
-					picUrl={reply.picUrl}
+					originalPicUrl={reply.originalPicUrl}
 					name={reply.createBy.name}
 					avatar={reply.createBy.avatar}
 					replies={reply.replies}
 					createAt={reply.createAt}
+					topicId={reply._id}
 				>
 				</Replies>
 
@@ -130,7 +144,10 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 							</div>
 						}
 					</div>
-					<ReactPanel topicId={this.state.id} yourReact={this.state.yourReact} updateReacts={() => this.updateReacts} />
+					<div className="buttons_box">
+						<ReactPanel topicId={this.state.id} yourReact={this.state.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts} />
+						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} />
+					</div>
 				</div>
 
 				<div id="replies_list">

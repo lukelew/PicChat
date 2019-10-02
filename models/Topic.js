@@ -6,8 +6,7 @@ const TopicSchema = new mongoose.Schema({
 		required: true
 	},
 	smallPicUrl: {
-		type: String,
-		required: true
+		type: String
 	},
 	level: {
 		type: Number,
