@@ -1,35 +1,6 @@
-@media screen and (max-width: 700px){
-	#topic_detail{width: 60%;}
-	#replies_list{width: 90%;}
-}
-@media (min-width:701px) and (max-width: 900px){
-	#topic_detail{width: 50%;}
-	#replies_list{width: 86%;}
-}
-@media (min-width:901px) and (max-width: 1020px){
-	#topic_detail{width: 40%;}
-	#replies_list{width: 86%;}
-}
-@media (min-width:1021px) and (max-width: 1450px){
-		#topic_detail{width: 40%;}
-		#replies_list{width: 86%;}
-}
-@media (min-width:1451px) and (max-width: 1500px){
-	#topic_detail{width: 30%;}
-	#replies_list{width: 86%;}
-}
 
-@media (min-width:1501px)and (max-width: 1800px){
-	#topic_detail{width: 30%;}
-	#replies_list{width: 86%;}
-}
-
-@media (min-width:1801px){
-	#topic_detail{width: 24%;}
-	#replies_list{width: 86%;}
-}
 #topic_detail{
-	// width: 1000px;
+	width:86%;
 	box-sizing: border-box;
 	margin: 20px auto;
 	padding: 20px;
@@ -60,17 +31,25 @@
 	#main_pic{
 		position: relative;
 		width: 100%;
-		margin: 0 0 10px 0;
+		height: auto;
+
+		#image{
+			width: 100%;
+			padding-bottom: 79%;
+			margin: 10px auto;
 
 		img{
+			margin: auto;
+			position: absolute;
 			width: 100%;
+			height: 100%;
 		}
-
+		}
 		.reacts_box{
 			display: flex;
 			position: absolute;
 			bottom: 15px;
-			left: 15px;
+			right: 15px;
 			padding: 4px;
 			background: rgba(255,255,255,.6);
 			border-radius: 20px;
@@ -87,11 +66,19 @@
 			}
 		}
 	}
+
+	.buttons_box{
+		text-align: right;
+		
+		.add_reply{
+			margin: 0 0 0 10px;
+		}
+	}
 }
 
 #replies_list{
 	// width: 1000px;
-	// width: 80%;
+	width: 86%;
 	box-sizing: border-box;
 	margin: 20px auto;
 	padding: 20px;
@@ -114,28 +101,70 @@
 }
 
 .single_reply{
-	padding: 20px 0;
+	padding: 20px 10px;
 	border-bottom: 1px solid #e8e8e8;
+
+	&.isexpand{
+		background: #e8e8e8;
+	}
 
 	.level2{
 		display: flex;
 		justify-content: space-between;
-	}
+		padding: 10px 0;
 
-	.user_info{
-		padding: 4px 0;
+		.user_info{
+			padding: 4px 0;
+			width: 33%;
 
-		span{
-			margin: 0 4px;
-			color: #ccc;
+			span{
+				margin: 0 4px;
+				color: #ccc;
+			}
+		}
+		
+		.img_box{
+			width: 33%;
+
+			img{
+				width: 100%;
+			}
+		}
+
+		.button_box{
+			width: 33%;
+			text-align: right
 		}
 	}
+
+		.level3{
+			display: flex;
+			justify-content: space-between;
+			// border-top: 1px dashed #e8e8e8;
+			padding: 10px 0 10px 30px;
+
+			.user_info{
+				padding: 4px 0;
+				width: 33%;
+
+				span{
+					margin: 0 4px;
+					color: #ccc;
+				}
+			}
+
+			.img_box{
+				width: 33%;
+
+				img{
+					width: 100%;
+				}
+			}
+
+			.button_box{
+				width: 33%;
+				text-align: right
+			}
+		}
 	
-	.img_box{
-		width: 400px;
-
-		img{
-			width: 100%;
-		}
-	}
 }
