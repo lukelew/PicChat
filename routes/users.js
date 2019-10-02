@@ -4,8 +4,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
-// const nodemailer = require('nodemailer');
-// const { transporter } = require('../config/email');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const cryptoRandomString = require('crypto-random-string');
@@ -101,18 +99,12 @@ router.post('/register', (req, res) => {
 									.then(newToken => {
 										var sendToken = newToken.token;
 										console.log(sendToken)
-										// transporter.sendMail({
-										// 	from: 'noreply@picchat.me', 
-										// 	to: req.body.email, 
-										// 	subject: 'Please use the link below to verify your account', 
-										// 	html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="http://localhost:8080/users/verify?token="' + sendToken  + '">Verify Now</a></div>' 
-										// });
 										const msg = {
 											to: '13298498@student.uts.edu.au',
 											from: 'ailuqun313@gmail.com',
 											subject: 'Sending with Twilio SendGrid is Fun',
 											text: 'and easy to do anywhere, even with Node.js',
-											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="http://localhost:8080/users/verify?token="' + sendToken + '">Verify Now</a><span>' + sendToken +'</span></div>' 
+											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="https://picchat-uts.herokuapp.com/users/verify?token="' + sendToken + '">Verify Now</a><span>' + sendToken +'</span></div>' 
 
 										};
 										sgMail.send(msg);
@@ -122,7 +114,6 @@ router.post('/register', (req, res) => {
 										})
 									})
 								
-								// res.redirect('/users/login')
 							})
 							.catch(err => {
 								console.error(err)
@@ -177,12 +168,6 @@ router.get('/logout', (req, res) => {
 
 // send email
 router.get('/email', (req, res) => {
-	// transporter.sendMail({
-	// 	from: 'noreply@picchat.me', // sender address
-	// 	to: 'ailuqun313@hotmail.com', // list of receivers
-	// 	subject: 'Please use the link below to verify your account', // Subject line
-	// 	html: '<b>Your number is ' + cryptoRandomString({length: 64})  + '</b>' // html body
-	// });
 	const msg = {
 		to: '13298498@student.uts.edu.au',
 		from: 'ailuqun313@gmail.com',

@@ -1,9 +1,10 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag, Row, Col, Icon} from 'antd';
+import { Button, Menu, Dropdown, Tag, Spin, Icon} from 'antd';
 import './index.scss';
 
 interface topicListState {
+	isLoading: boolean,
 	sort: number,
 	topics: Array<any>,
 	tags: string,
@@ -16,6 +17,7 @@ class TopicList extends React.Component<{}, topicListState> {
 	constructor(props: any){
 		super(props);
 		this.state = {
+			isLoading: true,
 			sort: 1,
 			topics: [],
 			tags: 'From New to Old',
@@ -26,6 +28,9 @@ class TopicList extends React.Component<{}, topicListState> {
 	}
 
 	showFromNewtoOld = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if(reset){
 			this.setState({
 				topics: [],
@@ -36,6 +41,7 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
+					isLoading: false,
 					sort: 1,
 					topics: [...this.state.topics, ...data],
 					tags: 'From New to Old',
@@ -46,6 +52,9 @@ class TopicList extends React.Component<{}, topicListState> {
 	}
 
 	showFromOldtoNew = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if (reset) {
 			this.setState({
 				topics: [],
@@ -56,6 +65,7 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
+					isLoading: false,
 					sort: 2,
 					topics: [...this.state.topics, ...data],
 					tags: 'From Old to New',
@@ -66,6 +76,9 @@ class TopicList extends React.Component<{}, topicListState> {
 	}
 
 	showFromLowtoHigh = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if (reset) {
 			this.setState({
 				topics: [],
@@ -76,6 +89,7 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
+					isLoading: false,
 					sort: 3,
 					topics: [...this.state.topics, ...data],
 					tags: 'From Low to High',
@@ -86,6 +100,9 @@ class TopicList extends React.Component<{}, topicListState> {
 	}
 
 	showFromHightoLow = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if (reset) {
 			this.setState({
 				topics: [],
@@ -96,6 +113,7 @@ class TopicList extends React.Component<{}, topicListState> {
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
+					isLoading: false,
 					sort: 4,
 					topics: [...this.state.topics, ...data],
 					tags: 'From High to Low',
@@ -143,9 +161,9 @@ class TopicList extends React.Component<{}, topicListState> {
 				<Menu.Item key="2" onClick={() => this.showFromHightoLow( this.state.pageSize, 0, true)}>High to low</Menu.Item>
 			</Menu>
 		)
+
 		const topicList = this.state.topics.map( topic => {
 			return (
-				// <Col span={8} xs={24} md={12} lg={8}>
 					<Card
 						key={topic._id}
 						smallPicUrl={topic.smallPicUrl} 
@@ -157,11 +175,10 @@ class TopicList extends React.Component<{}, topicListState> {
 						reacts={topic.reacts}
 						yourReact={topic.yourReact ? topic.yourReact : '' }
 					/>
-				// </Col>
 			)
 		})
 
-		return(
+		return (
 			<React.Fragment>
 				<div className="topic_list_tab">
 					<div className="sort_buttons">
@@ -177,22 +194,25 @@ class TopicList extends React.Component<{}, topicListState> {
 						<Tag color="gold">{this.state.tags}</Tag>
 					</div>
 				</div>
+				{this.state.isLoading && 
+					(<div className="loading">
+						<Spin size="large" tip="Loading..." />
+					</div>)
 				
-
-				{/* <Row type="flex" justify="center" align="middle" > */}
-					<div id="topic_list">{topicList}</div>
-				{/* </Row> */}
+				}
+				<div id="topic_list">{topicList}</div>
 				{this.state.canLoad &&
 					<Button id="load_more" onClick={() => this.loadMore(this.state.sort)}>Loading more...</Button>
 				}
 				{!this.state.canLoad &&
 					<div className="nomore">
-						<Icon style={{fontSize: '24px' }} type="like" />
+						<Icon style={{ fontSize: '24px' }} type="like" />
 						<p >Please wait more images updated</p>
 					</div>
 				}
 			</React.Fragment>
 		)
+		
 	}
 }
 
