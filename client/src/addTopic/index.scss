@@ -3,9 +3,35 @@
 }
 
 #add_topic{
+    padding: 10px 0 0 0;
+}
 
-  position: fixed;
-  top:74px;
-  right: 14%;
-  z-index: 10;
+#add_button{
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  text-align: center;
+  line-height: 40px;
+  transition: all .2s ease;
+  overflow: hidden;
+
+  i{
+    color: #1890ff;
+    padding: 0 5px;
+  }
+
+  &:hover{
+    width: 200px;
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.19);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.19);
+    
+    &::after{
+      color: #1890ff;
+      content: 'Add new topic';
+      transition: all .2s ease;
+    }
+  }
+
+  
 }

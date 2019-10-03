@@ -145,7 +145,6 @@ class TopicList extends React.Component<{}, topicListState> {
 		)
 		const topicList = this.state.topics.map( topic => {
 			return (
-				// <Col span={8} xs={24} md={12} lg={8}>
 					<Card
 						key={topic._id}
 						smallPicUrl={topic.smallPicUrl} 
@@ -157,7 +156,6 @@ class TopicList extends React.Component<{}, topicListState> {
 						reacts={topic.reacts}
 						yourReact={topic.yourReact ? topic.yourReact : '' }
 					/>
-				// </Col>
 			)
 		})
 
@@ -179,16 +177,14 @@ class TopicList extends React.Component<{}, topicListState> {
 				</div>
 				
 
-				{/* <Row type="flex" justify="center" align="middle" > */}
-					<div id="topic_list">{topicList}</div>
-				{/* </Row> */}
+				<div id="topic_list">{topicList}</div>
 				{this.state.canLoad &&
 					<Button id="load_more" onClick={() => this.loadMore(this.state.sort)}>Loading more...</Button>
 				}
 				{!this.state.canLoad &&
 					<div className="nomore">
-						<Icon style={{fontSize: '24px' }} type="like" />
-						<p >Please wait more images updated</p>
+						<Icon style={{fontSize: '34px' }} type="build" />
+						<p>More pictures are coming</p>
 					</div>
 				}
 			</React.Fragment>

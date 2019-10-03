@@ -4,6 +4,7 @@ import React from 'react';
 import Login from './login';
 import Logout from './logout'
 import Register from './register';
+import AddTopic from '../addTopic';
 import { Menu, Dropdown, Avatar, Button, Badge } from 'antd';
 
 class Header extends React.Component {
@@ -32,6 +33,7 @@ class Header extends React.Component {
             return(
                 <div id='header'>
                     <Link id="logo" to="/">picChat</Link>
+                    <AddTopic />
                     <div id='user_menu'>
                         <Dropdown overlay={this.menu}>
                             <div id="user_info">
@@ -49,6 +51,7 @@ class Header extends React.Component {
             return(
                 <div id="header">
                     <Link id="logo" to="/">picChat</Link>
+                    <AddTopic />
                     <div id='login'>
                     <BrowserRouter>
                         <Link to ="/login" className="login">Login</Link>

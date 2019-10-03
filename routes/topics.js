@@ -149,8 +149,8 @@ router.get('/', (req, res) => {
 	
 })
 
+// fetch one particular topic
 router.get('/single', (req, res) => {
-	// fetch one particular topic
 	Topic
 	.findById(req.query.id)
 	.populate('reacts')
@@ -159,6 +159,7 @@ router.get('/single', (req, res) => {
 		path: 'replies',
 		populate: [
 			'createBy', 
+			'reacts',
 			{
 				path: 'replies',
 				populate: 'createBy'
@@ -176,6 +177,16 @@ router.get('/single', (req, res) => {
 						"emoji": react.emoji,
 					}
 				}
+			})
+			doc.replies.map(reply => {
+				reply.reacts.map(react => {
+					if (react.createBy.equals(req.user._id)) {
+						reply.yourReact = {
+							"_id": react._id,
+							"emoji": react.emoji,
+						}
+					}
+				})
 			})
 			res.send(doc)
 		}
@@ -236,7 +247,7 @@ router.put('/', ensureAuthenticated, (req, res) => {
 			return res.send('Can\'t find this topic')
 		}
 		else{
-			topic.pic_url = req.body.picUrl
+			topic.originalPicUrl = req.body.originalPicUrl
 			topic.save();
 			res.send({
 				status: 'success',
