@@ -1,9 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-
-// import {Route, BrowserRouter}from 'react-router-dom';
-// import {Link} from 'react-router-dom';
-
 import { Button,Form, Icon, Input,Drawer,message} from 'antd';
 import './login.scss';
 import 'antd/dist/antd.css';
@@ -66,7 +62,7 @@ class Login extends React.Component {
             method:'POST',
             body: JSON.stringify(post_data),
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'text/plain'
             })
         }).then(res=>res.json()).then(
             data=>{
@@ -78,7 +74,7 @@ class Login extends React.Component {
                         login_username: data.user.name
                   });
                   message.success('Login Successfully');
-                //   window.location.reload();
+                  window.location.reload();
                 }
                 else{
                     console.log(data);
@@ -86,18 +82,11 @@ class Login extends React.Component {
                         isLogin: false
                     });
                     message.error('Can\'t login');
-                    // window.location.reload();
+                    window.location.reload();
                 } 
             }
         )
     };
-
-  //life circle
-//   componentWillMount(){
-//     this.postData();
-//     }
-
-
 
 render() {
     const { getFieldDecorator } = this.props.form;
