@@ -77,16 +77,16 @@ class Login extends React.Component {
                         isLogin: true,
                         login_username: data.user.name
                   });
-                  message.success('Login Success');
-                  window.location.reload();
+                  message.success('Login Successfully');
+                //   window.location.reload();
                 }
                 else{
                     console.log(data);
                     this.setState({
                         isLogin: false
                     });
-                    message.success('Login False');
-                    window.location.reload();
+                    message.error('Can\'t login');
+                    // window.location.reload();
                 } 
             }
         )
