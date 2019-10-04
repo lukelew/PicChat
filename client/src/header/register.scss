@@ -1,24 +1,68 @@
-.register-form {
-  max-width: 400px;
-  border: 20px,0,0,0;
+@media screen and (max-width: 575px){
+  #avatarY{margin-left: 180px;}
+  .register-form-button{width: 70%; margin: 0 60px}
+  #avatarN span{
+    width: 80px;
+    height: 80px;;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition: all .2s ease;
+  }
+  .login_text {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+  }
+  .register-form {
+    max-width: 400px;
+    border: 20px,0,0,0;
+    margin-left: 10px;
+  }
+  .divider{
+    width: 180px;
+    margin-top: 30px;
+  }
 }
-.register-form-button {
-  width: 100%;
+@media (min-width: 576px) {
+  #avatarY{
+    margin: -15px 0 0 100px;
+  }
+  .register-form-button{
+    width: 100%; margin: 0 100px
+  }
+  #avatarN span{
+    width: 60px;
+    height: 60px;;
+    margin-right: 6px;
+    margin-top: 6px;
+    transition: all .2s ease;
+  }
+  .login_text {
+    display:block; 
+    width:460px; 
+    text-align:center;
+    margin-top: 30px;
+  }
+  .register-form {
+    max-width: 400px;
+    border: 20px,0,0,0;
+    margin-left: -10px;
+  }
+  .divider{
+    width: 430px;
+    margin-top: 30px;
+  }
 }
+
+
 #register{
   margin: auto;
 }
-#avatar{
-  margin-left: 5px;
-}
-#avatarN span{
-  width: 60px;
-  height: 60px;;
-  margin-right: 10px;
-  margin-top: 9px;
-  transition: all .2s ease;
-}
+
 #avatarN span:hover{
+  transform: scale(1.2);
+}
+#avatarY span:hover{
   transform: scale(1.2);
 }
 #text_register{
@@ -30,3 +74,4 @@
 .mustChoose{
   color: red;
 }
+
