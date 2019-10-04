@@ -14,7 +14,6 @@ class Login extends React.Component {
         isLogin: false,
         login_username: '',
         visible: true,
-
         email:'',
         password:'',
     };
@@ -61,10 +60,11 @@ class Login extends React.Component {
         fetch(url,{
             method:'POST',
             body: JSON.stringify(post_data),
-            headers: new Headers({
+            headers: {
                 'Content-Type': 'application/json'
-            })
-        }).then(res=>res.json()).then(
+            }
+        })
+        .then(res=>res.json()).then(
             data=>{
             //后面改成验证邮箱和密码是否匹配。密码部分未写
                 if(data.user.email===this.state.email){
@@ -93,8 +93,6 @@ render() {
 
     //pass user's data
     var datapass={name: this.state.login_username,email: this.state.email,id:'',status: true}
-    // datapass= JSON.stringify(datapass);
-
     var path={
         pathname: '/',
         query: datapass
@@ -104,8 +102,6 @@ render() {
         return <Redirect to= {path}/> 
     }
     else{
-    //login_button
-    // if(this.isLogin){
         return (
             <div id='login'>
                 <div id='login_form'>

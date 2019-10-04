@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 import Header from './header';
 import TopicPanel from './topic';
 import UserPanel from './user';
-import AddTopic from './addTopic';
 import Footer from './footer';
 import { Affix, BackTop, Icon} from 'antd';
 import './App.scss';
@@ -74,7 +73,6 @@ class App extends React.Component<{}, currentUser> {
 						<Route path="/user" component={UserPanel} />
 						<Route path="/" component={TopicPanel} />
 					</Switch>					
-					<AddTopic />
 					<BackTop><div className="ant-back-top-inner"><Icon type="arrow-up" /></div></BackTop>
 					<Footer/>
 				</div>

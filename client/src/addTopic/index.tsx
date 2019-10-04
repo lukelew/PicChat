@@ -1,5 +1,5 @@
 import React from "react";
-import {Button} from 'antd';
+import { Icon } from 'antd';
 import './index.scss';
 import UploadImage from "./uploadImage";
 
@@ -32,9 +32,9 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
       render() {
         return (
           <div id="add_topic">
-              <Button type="primary" onClick={ this.showModal }>
-                + Add new topic
-              </Button>
+              <div id="add_button" onClick={ this.showModal }>
+                <Icon type="plus"/>
+              </div>
             <UploadImage 
               showModal={ this.state.visible } 
               hideModal={ this.handleCancel } 

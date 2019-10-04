@@ -25,6 +25,8 @@ interface replies {
 	avatar: number,
 	createAt: string,
 	replies: Array<any>,
+	reacts: Array<any>,
+	yourReact: any
 }
 
 interface detailState {
@@ -117,6 +119,8 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					replies={reply.replies}
 					createAt={reply.createAt}
 					topicId={reply._id}
+					reacts={reply.reacts}
+					yourReact={reply.yourReact ? reply.yourReact : ''}
 				>
 				</Replies>
 

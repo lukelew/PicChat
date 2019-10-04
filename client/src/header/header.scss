@@ -5,6 +5,8 @@
 	padding: 0 40px;
 	height: 60px;
 	background: $primary-blue;
+	display: flex;
+	justify-content: space-between;
 }
 
 #logo {
@@ -14,19 +16,16 @@
 	line-height: 60px;
 }
 #login {
-	float: right;
 	height: 60px;
 	line-height: 60px;
 }
 #login_button{
-	margin: auto;
 	font-size: 18px;
 	height: 60px;
 	border: none;
 	color: #fff;
 }
 .login{
-	margin: auto;
 	text-align: center;
 	font-size: 18px;
 	height: 60px;

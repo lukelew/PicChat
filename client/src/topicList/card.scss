@@ -1,14 +1,17 @@
+@media screen and (max-width: 767px){
+	.card{width: 90%;}
+}
 @media (min-width:768px) and (max-width: 1021px){
-	.card{width: 45%;}
+	.card{width: 46%;}
 }
 @media (min-width:1021px) and (max-width: 1115px){
-	.card{width: 29.6%;}
+	.card{width: 46%;}
 }
 @media (min-width:1115px) and (max-width: 1450px){
-	.card{width: 30%;}
+	.card{width: 46%;}
 }
 @media (min-width:1451px) and (max-width: 1500px){
-	.card{width: 30.9%;}
+	.card{width: 46%;}
 }
 
 @media (min-width:1501px)and (max-width: 1690px){
@@ -50,7 +53,7 @@
 
 	.user_info{
 		display: flex;
-		flex-wrap: wrap;
+		// flex-wrap: wrap;
 		align-items: center;
 		padding: 14px;
 
@@ -61,8 +64,8 @@
 
 		span.date{
 			color: #ccc;
-			margin-left: 1%;
-			margin-right: 14%;
+			margin-left: auto;
+			flex-wrap: wrap;
 		}
 	}
 

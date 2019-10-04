@@ -206,8 +206,8 @@ class TopicList extends React.Component<{}, topicListState> {
 				}
 				{!this.state.canLoad &&
 					<div className="nomore">
-						<Icon style={{ fontSize: '24px' }} type="like" />
-						<p >Please wait more images updated</p>
+						<Icon style={{fontSize: '34px' }} type="build" />
+						<p>More pictures are coming</p>
 					</div>
 				}
 			</React.Fragment>
