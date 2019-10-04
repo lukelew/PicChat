@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag, Row, Col, Icon} from 'antd';
+import { Button, Menu, Dropdown, Tag, Icon} from 'antd';
 import './index.scss';
 
 interface topicListState {
