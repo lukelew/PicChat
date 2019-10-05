@@ -24,13 +24,13 @@ class Register extends React.Component{
             cancel: false, //back to home page
             isRegister: false, //register success
             returnHome: false, //after register success, return home
+            // blur: false,
         };
     }
     
     onClose = () => {
         this.setState({
         visible: false,
-        // isRegister: true,
         cancel: true
         });
     };
@@ -85,11 +85,13 @@ class Register extends React.Component{
     };
 
     compareToUserName = (rule, value, callback) =>{
+
         let url = process.env.REACT_APP_API_URL + '/users/verifyUsername';
         let post_data = { 
             // email: this.state.email,
             name: value,
         };
+
         fetch(url,{
             method:'POST',
             body: JSON.stringify(post_data),
@@ -100,7 +102,6 @@ class Register extends React.Component{
                 res.text().then(
                     data=>{
                         var dataBack=JSON.parse(data);
-                        console.log(dataBack);
                         //register username judge
                             if(dataBack.status==="failure"){
                                 callback('This username already existed.');
@@ -111,6 +112,7 @@ class Register extends React.Component{
                     } 
                 )     
             )
+
     }
 
     //judge confirm password
@@ -169,9 +171,6 @@ class Register extends React.Component{
                                 isRegister: true,
                             })
                             console.log(this.state.isRegister,'in')
-                            // window.location.reload();
-                            // message.success('Well done^.^! Register success! You can login now!', 3);
-                            // this.login();
                         }
                     }
                 ))              
@@ -214,7 +213,7 @@ class Register extends React.Component{
     //control vertify page
     Vertified=()=>{
         this.setState({
-            cancel: true,
+            visible: false,
             returnHome: true,
         })
         this.login();
@@ -261,7 +260,9 @@ class Register extends React.Component{
             pathname: '/',
             query: datapass,
         };
-        if(this.state.isRegister){
+        if(this.state.returnHome){
+            return ( <Redirect to= {path}/> )    
+        }else if(this.state.isRegister){
             return(
                     <div id='successRegister'>
                         <Drawer
@@ -281,9 +282,6 @@ class Register extends React.Component{
                         </Drawer>
                     </div>
             )  
-        }
-        else if(this.state.returnHome){
-            return ( <Redirect to= {path}/> )    
         }
         else {
             return(
@@ -332,10 +330,12 @@ class Register extends React.Component{
                                 // { min: 3, message: 'The minimum letter is 3!'},
                                 { whitespace: true, message:'Cannot accept whitespace at first letter. '},
                                 { validator: this.compareToUserName}],
+                            // ],
                         })(
                             <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder="User Name"
+                            // onBlur={this.blurChange}
                             onChange={this.handleChangeName.bind(this)}
                             />,
                         )}
@@ -381,6 +381,7 @@ class Register extends React.Component{
                     </div>
                     );
             }
+
     }
 };
 export default Form.create()(Register);
