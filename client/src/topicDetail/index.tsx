@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Avatar, Icon, Popover, Empty } from 'antd';
+import { Avatar, Icon, Empty } from 'antd';
 import Replies from './replies';
 import './index.scss';
 import ReactPanel from '../emoji';

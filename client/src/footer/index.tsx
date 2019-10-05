@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from 'antd';
 import './index.scss';
 
 class Footer extends React.Component {
@@ -8,10 +9,9 @@ class Footer extends React.Component {
                 <div className="footer-logo">
                     <img src="/images/logo-footer.png" />
                 </div>
-                <ul>
-                    <li><a>How to use</a></li>
-                    <li><a>About us</a></li>
-                </ul>
+                <div className="copyright">
+                    <p>Made with <Icon type="heart" theme="filled" style={{color: '#eb2f96'}}/> at UTS</p>
+                </div>
             </footer>
         ) 
     }

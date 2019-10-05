@@ -1,5 +1,4 @@
 import React from 'react';
-import io from 'socket.io-client';
 import Header from './header';
 import TopicPanel from './topic';
 import UserPanel from './user';
@@ -31,15 +30,10 @@ class App extends React.Component<{}, currentUser> {
 	}
 
 	componentDidMount() {
-		this.updataFetch();
-		// var socket = io();
-		// socket.on('connection', function (socket: any) {
-		// 	console.log('a user connected');
-		// });
-		// socket.emit('mssg', 'biubiubiu')
+		this.getLoginUser(); 
 	}
 
-	updataFetch=()=>{
+	getLoginUser= () =>{
 		fetch(process.env.REACT_APP_API_URL+'/users')
 		.then(res => res.json())
 			.then(data => {
@@ -53,7 +47,8 @@ class App extends React.Component<{}, currentUser> {
 						},
 						isLogin: true
 					})
-				}else{
+				}
+				else{
 					this.setState({
 						isLogin: false
 					})
@@ -70,8 +65,8 @@ class App extends React.Component<{}, currentUser> {
 						<Header userName={this.state.user.name} isLogin={this.state.isLogin} avatar={this.state.user.avatar}></Header>
 					</Affix>
 					<Switch>
-						<Route path="/user" component={UserPanel} />
-						<Route path="/" component={TopicPanel} />
+						<Route path="/user" render={() => <UserPanel user={this.state.user} />} />
+						<Route path="/" render={() => <TopicPanel user={this.state.user} />} />
 					</Switch>					
 					<BackTop><div className="ant-back-top-inner"><Icon type="arrow-up" /></div></BackTop>
 					<Footer/>

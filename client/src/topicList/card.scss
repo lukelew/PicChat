@@ -24,7 +24,6 @@
 	.card{width: 31.3%;}
 }
 .card{
-	// width: 378px;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: auto;
@@ -51,21 +50,47 @@
 		box-shadow: 0 2px 8px rgba(0,0,0,0.09);
 	}
 
-	.user_info{
+	.header_panel{
 		display: flex;
-		// flex-wrap: wrap;
 		align-items: center;
 		padding: 14px;
 
-		strong{
-			font-size: 16px;
-			padding: 0 0 0 6px;
-		}
+		.user_info{
+			display: flex;
 
-		span.date{
-			color: #ccc;
+			strong{
+				display: block;
+				font-size: 16px;
+				padding: 0 0 0 6px;
+			}
+
+			span.date{
+				display: block;
+				color: #ccc;
+				padding: 0 0 0 6px;
+			}
+		}
+		
+
+		.settings{
 			margin-left: auto;
-			flex-wrap: wrap;
+			width: 30px;
+			height: 30px;
+			border-radius: 3px;
+			text-align: center;
+			line-height: 36px;
+			
+
+			i{
+				font-size: 28px;
+				font-weight: bold;
+				transition: all .2s ease;
+
+				&:hover{
+					color:  #1890ff;
+				}
+			}
+
 		}
 	}
 

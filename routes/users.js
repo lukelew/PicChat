@@ -202,6 +202,7 @@ router.get('/leaderboard', (req, res) => {
 		User
 			.find({})
 			.sort({topicTimes: -1})
+			.limit(5)
 			.exec((err, docs) => {
 				res.send(docs)
 			})
@@ -210,6 +211,7 @@ router.get('/leaderboard', (req, res) => {
 		User
 			.find({})
 			.sort({ reactTimes: -1 })
+			.limit(5)
 			.exec((err, docs) => {
 				res.send(docs)
 			})

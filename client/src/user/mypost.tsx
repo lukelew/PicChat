@@ -1,12 +1,17 @@
 import React from 'react';
 import Card from '../topicList/card';
+import { Empty } from 'antd';
 import './index.scss';
+
+interface MyPostsProps {
+    user: any
+}
 
 interface MyPostsState {
     topics: Array<any>
 }
 
-class MyPosts extends React.Component<{}, MyPostsState> {
+class MyPosts extends React.Component<MyPostsProps, MyPostsState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -29,6 +34,7 @@ class MyPosts extends React.Component<{}, MyPostsState> {
         const topicList = this.state.topics.map(topic => {
             return (
                 <Card
+                    user={this.props.user}
                     key={topic._id}
                     smallPicUrl={topic.smallPicUrl}
                     name={topic.createBy.name}
@@ -45,7 +51,13 @@ class MyPosts extends React.Component<{}, MyPostsState> {
         return ( 
             <React.Fragment>
                 <h2>My Posts</h2>
-                <div id="user_topic_list">{topicList}</div> 
+                <div id="user_topic_list">
+                    {topicList.length == 0 &&
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="You haven't posted any topics" />
+                    }
+                    {topicList}
+                    {topicList}
+                </div> 
             </React.Fragment> 
         )
     }

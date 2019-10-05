@@ -8,11 +8,15 @@ import { Route } from 'react-router';
 
 const { Sider, Content } = Layout;
 
+interface userPanelProps {
+    user: any
+}
+
 interface userPanelState {
     topics: Array<any>
 }
 
-class UserPanel extends React.Component<{}, userPanelState> {
+class UserPanel extends React.Component<userPanelProps, userPanelState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -40,7 +44,7 @@ class UserPanel extends React.Component<{}, userPanelState> {
                 </Sider>
                 <Content>
                     <div id="user_panel">
-                        <Route path="/user" exact component={MyPosts}/>
+                        <Route path="/user" exact render={() => <MyPosts user={this.props.user} />} />
                         <Route path="/user/notifications" component={Notification} />
                     </div>
                 </Content>
