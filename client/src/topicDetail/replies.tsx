@@ -1,6 +1,7 @@
 import React from 'react';
-import { Avatar, Icon, Popover, Button } from 'antd';
+import { Avatar, Icon} from 'antd';
 import ReactPanel from '../emoji';
+import Subreplies from './sub-replies';
 import UploadImage from "../addTopic/uploadImage";
 import './index.scss';
 
@@ -81,30 +82,20 @@ class Replies extends React.Component<replyPros, replyState> {
 			});
 		  };
 
-	render(){
+	render() {
 		const repliesList = this.props.replies.map( reply => {
 			return(
-				<div className="level3" key={reply._id}>
-					<div className="user_info">
-						<Avatar src={'../avatars/' + reply.createBy.avatar + '.png'} />
-						<strong>{reply.createBy.name}</strong>
-						<span className="date">posted on {reply.createAt.substr(0, 10)}</span>
-
-					</div>
-					<div className="img_box">
-						<img src={reply.originalPicUrl} />
-					</div>
-					<div className="button_box">
-						<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts} />
-						<Icon 
-							className="add_reply" 
-							type="picture" 
-							theme="twoTone" 
-							twoToneColor="#1890ff" 
-							style={{ fontSize: '24px' }} 
-							onClick={this.showModal}/>
-					</div>
-				</div>
+				<Subreplies 
+					key={reply._id}
+					originalPicUrl={reply.originalPicUrl}
+					name={reply.createBy.name}
+					avatar={reply.createBy.avatar}
+					replies={reply.replies}
+					createAt={reply.createAt}
+					topicId={reply._id}
+					reacts={reply.reacts}
+					yourReact={reply.yourReact ? reply.yourReact : ''}
+				/>
 			)
 		}) 
 

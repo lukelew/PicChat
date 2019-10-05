@@ -1,8 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { Button,Form, Icon, Input,Drawer,Avatar,Result} from 'antd';
+import { Button,Form, Icon,Input,Drawer,Avatar,Result, Divider} from 'antd';
 import './register.scss';
 import 'antd/dist/antd.css';
+import { string } from 'prop-types';
 // import Check_Login from './checkLogin'
 
 
@@ -20,8 +21,10 @@ class Register extends React.Component{
 
             confirmDirty: false,
             visible: true,
-            cancel: false, //用于关闭页面并返回主页路径
-            isRegister: false //用于核对是否注册成功
+            cancel: false, //back to home page
+            isRegister: false, //register success
+
+            result: '',//database search result
         };
     }
     
@@ -32,6 +35,8 @@ class Register extends React.Component{
         cancel: true
         });
     };
+
+    
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -40,26 +45,85 @@ class Register extends React.Component{
           }
         });
       };
-    
-      //obtain name and password 
+
+    //judge name whether exists
     handleChangeEmail(e){
         this.setState({
             email: e.target.value
         })
     };
-    
-    handleChangePassword(e){
-        this.setState({
-            password: e.target.value
-        })
-    };
+    compareToUserEmail = (rule, value, callback) =>{
+        let url = process.env.REACT_APP_API_URL + '/users/register';
+        let post_data = { 
+            email: value,
+        };
+        fetch(url,{
+            method:'POST',
+            body: JSON.stringify(post_data),
+            headers: new Headers({
+            'Content-Type': 'application/json'
+            })
+        }).then(res=>res.text().then(
+            data=>{
+                var dataBack=JSON.parse(data);
+                //register status and email address vertify
+                if(dataBack.status==="failure"){
+                    callback('This email already existed.');
+                }else{
+                    this.setState({
+                        result: 'success'
+                    })
+                }
+            }
+        ))
+    }
+
+
+    //judge name whether exists
     handleChangeName(e){
         this.setState({
             name: e.target.value
         })
     };
 
+    compareToUserName = (rule, value, callback) =>{
+        let url = process.env.REACT_APP_API_URL + '/users/register';
+        let post_data = { 
+            // email: this.state.email,
+            name: value,
+        };
+        fetch(url,{
+            method:'POST',
+            body: JSON.stringify(post_data),
+            headers: new Headers({
+            'Content-Type': 'application/json'
+            })
+        }).then(res=>
+                res.text().then(
+                    data=>{
+                        var dataBack=JSON.parse(data);
+                        console.log(dataBack);
+                        //register status and email address vertify
+                        if(dataBack.status==="failure"){
+                            callback('This username already existed.');
+
+                        }else{
+                            this.setState({
+                                result: 'success'
+                            })
+                        }
+                    }
+                )     
+            )
+    }
+
     //judge confirm password
+    
+    handleChangePassword(e){
+        this.setState({
+            password: e.target.value
+        })
+    };
     handleConfirmBlur = e => {
         const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -68,9 +132,9 @@ class Register extends React.Component{
     compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
-          callback('Wrong!Please Confirm Again!');
+          callback('Not the same passowrd!');
         } else {
-          callback();
+          callback('correct!');
         }
     };
     
@@ -101,9 +165,7 @@ class Register extends React.Component{
             })
         }).then(res=>res.text().then(
             data=>{
-                console.log(data);
                 var dataBack=JSON.parse(data);
-                console.log(dataBack,dataBack.status)
                 //register status and email address vertify
                 if(dataBack.status==="success"){
                     this.setState({
@@ -147,6 +209,18 @@ class Register extends React.Component{
             avatarList.push(<Avatar key={i} size="64" src={'../avatars/'+ i +'.png'} onClick={() => this.changeAvatar(i)} />)
         }
 
+
+        const formItemLayout = {
+            labelCol: {
+              xs: { span: 24 },
+              sm: { span: 8 },
+            },
+            wrapperCol: {
+              xs: { span: 24 },
+              sm: { span: 16 },
+            },
+          };
+
         if(this.state.cancel){
             return <Redirect to="/" />
           }
@@ -155,7 +229,7 @@ class Register extends React.Component{
                     <div id='successRegister'>
                         <Drawer
                             title="Register"
-                            width={350}
+                            width={360}
                             onClose={this.onClose}
                             visible={this.state.visible}
                         >
@@ -176,25 +250,31 @@ class Register extends React.Component{
                 <div id='register'>
                     <Drawer
                         title="Register"
-                        width={350}
+                        width={460}
                         onClose={this.onClose}
                         visible={this.state.visible}
                     >
-                    <h4><span className="mustChoose">*</span> Please select your avatar</h4>
                     
-                    <div id="avatarN" style={{display: this.state.showAvatar}} className="notChosen">
-                        {avatarList}
-                    </div>
-                
-                    <div id="avatarY" style={{display: this.state.closeAvatar}} className="isChosen">
-                        <Avatar id="1" size={64} src={avatarUrl} onClick={this.showAvatar}/>
-                    </div>
-                    
-                    <Form onSubmit={this.handleSubmit} className="register-form" >
+                    <Form onSubmit={this.handleSubmit} className="register-form" {...formItemLayout}>
+                        <Form.Item label="Avatar:" hasFeedback>
+                        
+                        <div id="avatarN" style={{display: this.state.showAvatar}} className="notChosen">
+                            {avatarList}
+                        </div>
+                        <div id="avatarY" style={{display: this.state.closeAvatar}} className="isChosen">
+                            <Avatar id="1" size={64} src={avatarUrl} onClick={this.showAvatar}/>
+                        </div>
+
+                        </Form.Item>
+
                         {/* enter Email */}
-                        <Form.Item label="E-mail" hasFeedback>
+                        <Form.Item label="E-mail" hasFeedback validateStatus= {this.state.result}>
                         {getFieldDecorator('eamil', {
-                            rules: [{ required: true, type:'email',message: 'Please input email‘s format！' }],
+                            rules: [
+                                { required: true,message: 'Please input your email！'},
+                                { type:'email',message: 'Please input email‘s format！'},
+                                { whitespace: true, message:'Cannot accept whitespace at first letter.'},
+                                {validator: this.compareToUserEmail}],
                         })(
                             <Input
                             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -205,9 +285,13 @@ class Register extends React.Component{
                         </Form.Item>
 
                         {/* enter Name */}
-                        <Form.Item label="User Name" hasFeedback>
+                        <Form.Item label="User Name" hasFeedback validateStatus= {this.state.result}>
                         {getFieldDecorator('Name', {
-                            rules: [{ required: true, min:'3',message: 'The minimum letter is 3!' }],
+                            rules: [
+                                { required: true, message: 'Please input your name!'},
+                                // { min: 3, message: 'The minimum letter is 3!'},
+                                { whitespace: true, message:'Cannot accept whitespace at first letter. '},
+                                { validator: this.compareToUserName}],
                         })(
                             <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -220,8 +304,10 @@ class Register extends React.Component{
                         {/* enter Password */}
                         <Form.Item label="Password" hasFeedback>
                         {getFieldDecorator('password', {
-                            rules: [{ required: true, min:'4',message: 'Please input your Password!' },
-                            {validator: this.validateToNextPassword,},],
+                            rules: [
+                                { required: true, message:'You need to setting password'}, 
+                                {min: 4, message: 'Minimum 4 letter' },
+                            {validator: this.validateToNextPassword}],
                         })(
                             <Input.Password
                             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -233,12 +319,12 @@ class Register extends React.Component{
                         </Form.Item>
 
                         {/* confirm Password */}
-                        <Form.Item label="Confirm Password" hasFeedback>
+                        <Form.Item label="Confirm" hasFeedback>
                         {getFieldDecorator('confirm', {
-                            rules: [{required: true, min:'4',message: 'Please confirm your password!',},
+                            rules: [{required: true},{min:4,message:'Minimum 4 Letters！'},
                             {
                                 validator: this.compareToFirstPassword,
-                            },
+                            }
                             ],
                         })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="Password" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}/>) }
                         </Form.Item>
@@ -247,7 +333,8 @@ class Register extends React.Component{
                         <Button size="large" type="primary" htmlType="submit" className="register-form-button" onClick={this.postData}>
                             Register
                         </Button>
-                        <a href="/login" id="login_register">Login Now</a>
+                        <Divider className="divider"></Divider>
+                        <a href="/login" id="login_register" className="login_text">Login Now</a>
                         </Form.Item>
                     </Form>
                     </Drawer>

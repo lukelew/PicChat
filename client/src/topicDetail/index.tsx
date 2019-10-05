@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Avatar, Icon, Popover, Empty } from 'antd';
+import { Avatar, Icon, Empty } from 'antd';
 import Replies from './replies';
 import './index.scss';
 import ReactPanel from '../emoji';
@@ -121,8 +121,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					topicId={reply._id}
 					reacts={reply.reacts}
 					yourReact={reply.yourReact ? reply.yourReact : ''}
-				>
-				</Replies>
+				/>
 
 			)
 		})

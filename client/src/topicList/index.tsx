@@ -1,7 +1,11 @@
-import React from 'react';
-import Card from './card';
-import { Button, Menu, Dropdown, Tag, Spin, Icon} from 'antd';
+
+import { Button, Menu, Dropdown, Tag, Icon} from 'antd';
 import './index.scss';
+
+
+interface topicListProps {
+	user: object
+}
 
 interface topicListState {
 	isLoading: boolean,
@@ -13,7 +17,7 @@ interface topicListState {
 	canLoad: boolean
 }
 
-class TopicList extends React.Component<{}, topicListState> {
+class TopicList extends React.Component<topicListProps, topicListState> {
 	constructor(props: any){
 		super(props);
 		this.state = {
@@ -38,17 +42,16 @@ class TopicList extends React.Component<{}, topicListState> {
 			})
 		}
 		fetch(process.env.REACT_APP_API_URL + '/topics?sort=1&size='+size+'&page='+page)
-			.then(res => res.json())
-			.then(data => {
-				this.setState({
-					isLoading: false,
-					sort: 1,
-					topics: [...this.state.topics, ...data],
-					tags: 'From New to Old',
-					page: this.state.page + 1,
-					canLoad: data.length < this.state.pageSize? false : true
-				})
+		.then(res => res.json())
+		.then(data => {
+			this.setState({
+				sort: 1,
+				topics: [...this.state.topics, ...data],
+				tags: 'From New to Old',
+				page: this.state.page + 1,
+				canLoad: data.length < this.state.pageSize? false : true
 			})
+		})
 	}
 
 	showFromOldtoNew = (size: number, page: number, reset: boolean) => {
@@ -62,17 +65,16 @@ class TopicList extends React.Component<{}, topicListState> {
 			})
 		}
 		fetch(process.env.REACT_APP_API_URL + '/topics?sort=2&size='+size+'&page='+page)
-			.then(res => res.json())
-			.then(data => {
-				this.setState({
-					isLoading: false,
-					sort: 2,
-					topics: [...this.state.topics, ...data],
-					tags: 'From Old to New',
-					page: this.state.page + 1,
-					canLoad: data.length < this.state.pageSize? false : true
-				})
+		.then(res => res.json())
+		.then(data => {
+			this.setState({
+				sort: 2,
+				topics: [...this.state.topics, ...data],
+				tags: 'From Old to New',
+				page: this.state.page + 1,
+				canLoad: data.length < this.state.pageSize? false : true
 			})
+		})
 	}
 
 	showFromLowtoHigh = (size: number, page: number, reset: boolean) => {
@@ -86,17 +88,16 @@ class TopicList extends React.Component<{}, topicListState> {
 			})
 		}
 		fetch(process.env.REACT_APP_API_URL + '/topics?sort=3&size='+size+'&page='+page)
-			.then(res => res.json())
-			.then(data => {
-				this.setState({
-					isLoading: false,
-					sort: 3,
-					topics: [...this.state.topics, ...data],
-					tags: 'From Low to High',
-					page: this.state.page + 1,
-					canLoad: data.length < this.state.pageSize? false : true
-				})
+		.then(res => res.json())
+		.then(data => {
+			this.setState({
+				sort: 3,
+				topics: [...this.state.topics, ...data],
+				tags: 'From Low to High',
+				page: this.state.page + 1,
+				canLoad: data.length < this.state.pageSize? false : true
 			})
+		})
 	}
 
 	showFromHightoLow = (size: number, page: number, reset: boolean) => {
@@ -110,17 +111,16 @@ class TopicList extends React.Component<{}, topicListState> {
 			})
 		}
 		fetch(process.env.REACT_APP_API_URL + '/topics?sort=4&size='+size+'&page='+page)
-			.then(res => res.json())
-			.then(data => {
-				this.setState({
-					isLoading: false,
-					sort: 4,
-					topics: [...this.state.topics, ...data],
-					tags: 'From High to Low',
-					page: this.state.page + 1,
-					canLoad: data.length < this.state.pageSize? false : true
-				})
+		.then(res => res.json())
+		.then(data => {
+			this.setState({
+				sort: 4,
+				topics: [...this.state.topics, ...data],
+				tags: 'From High to Low',
+				page: this.state.page + 1,
+				canLoad: data.length < this.state.pageSize? false : true
 			})
+		})
 	}
 	
 	loadMore = (sort: number) => {
@@ -148,6 +148,7 @@ class TopicList extends React.Component<{}, topicListState> {
 	}
 
 	render() {
+		const currentUser = this.props.user;
 		const recentMenu = (
 			<Menu>
 				<Menu.Item key="1" onClick={ ()=>this.showFromNewtoOld( this.state.pageSize, 0, true) }>New to Old</Menu.Item>
@@ -165,6 +166,7 @@ class TopicList extends React.Component<{}, topicListState> {
 		const topicList = this.state.topics.map( topic => {
 			return (
 					<Card
+						user={currentUser}
 						key={topic._id}
 						smallPicUrl={topic.smallPicUrl} 
 						name={topic.createBy.name} 

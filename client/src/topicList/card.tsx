@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link }from 'react-router-dom';
-import { Avatar, Icon } from 'antd';
+import { Avatar, Icon, Menu, Dropdown, message } from 'antd';
 import ReactPanel from '../emoji';
 import UploadBox from '../addTopic/uploadImage';
 import './card.scss';
@@ -10,6 +10,7 @@ const MyIcon = Icon.createFromIconfontCN({
 });
 
 interface cardProps {
+	user?: any,
 	smallPicUrl: string,
 	name: string,
 	avatar: number,
@@ -79,14 +80,63 @@ class Card extends React.Component<cardProps, cardState>  {
 		});
 	};
 
+	handleDeleteTopic = () => {
+		const currentTopic = {
+			topic_id: this.props.topicId
+		}
+		if(this.props.replies.length == 0) {
+			fetch(process.env.REACT_APP_API_URL + '/topics/', {
+				method: 'DELETE',
+				headers: {
+					'Content-type': 'application/json'
+				},
+				body: JSON.stringify(currentTopic)
+			})
+			.then(res => res.json())
+			.then(data => {
+				if (data.status === 'success'){
+					message.success('Delete Successfully!')
+					var jump = setTimeout(function () { window.location.reload()}, 2000);
+				}
+				
+			})
+		}
+		else{
+			message.error('You can\'t delete this topic')
+		}
+
+	}
+
 	render() {
+
+		const settingMenu = (
+			<Menu>
+				<Menu.Item>
+					<Icon type="redo" />Update
+				</Menu.Item>
+				<Menu.Item onClick={() => this.handleDeleteTopic()}>
+					<Icon type="delete" />Delete
+				</Menu.Item>
+			</Menu>
+		)
 
 		return (
 			<div className="card">
-				<div className="user_info">
-					<Avatar src={'../avatars/' + this.props.avatar + '.png'} />
-					<strong>{this.props.name}</strong>
-					<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+				<div className="header_panel">
+					<div className="user_info">
+						<Avatar src={'../avatars/' + this.props.avatar + '.png'} size={40}/>
+						<div className="name_date">
+							<strong>{this.props.name}</strong>
+							<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+						</div>
+					</div>
+					{this.props.user.name === this.props.name && 
+						<div className="settings">
+							<Dropdown overlay={settingMenu} placement="bottomCenter">
+								<Icon type="more" />
+							</Dropdown>
+						</div>
+					}
 				</div>
 				<div className="img_box">
 					<Link to={`/topics_detail/${this.props.topicId}`}>

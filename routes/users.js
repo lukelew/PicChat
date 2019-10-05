@@ -4,9 +4,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
-const sgMail = require('@sendgrid/mail');
-const SENDGRID_API_KEY = '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';
-sgMail.setApiKey(SENDGRID_API_KEY);
 const cryptoRandomString = require('crypto-random-string');
 const Token = require('../models/Token');
 
@@ -58,13 +55,49 @@ router.post('/login', (req, res, next) => {
 	})(req, res, next);
 });
 
+// verify username
+router.post('/verifyUsername', (req, res) => {
+	User.findOne({ name: req.body.name }, (err, user) => {
+		// check the uniqueness of user name
+		if (user) {
+			res.send({
+				status: 'failure',
+				message: 'Username exists.'
+			})
+		}
+		else {
+			res.send({
+				status: 'success',
+				message: 'Username available.'
+			})
+		}
+	})
+})
+
+// verify email
+router.post('/verifyEmail', (req, res) => {
+	User.findOne({ email: req.body.email }, (err, email) => {
+		// check the uniqueness of email
+		if (email) {
+			res.send({
+				status: 'failure',
+				message: 'Email exists.'
+			})
+		}
+		else {
+			res.send({
+				status: 'success',
+				message: 'Email available.'
+			})
+		}
+	})
+})
 
 // register
 router.post('/register', (req, res) => {
 	User.findOne({ name: req.body.name }, (err, user) => {
 		// check the uniqueness of user name
 		if (user) {
-			console.error('Username exists.')
 			res.send({
 				status: 'failure',
 				message: 'Username exists.'
@@ -80,7 +113,7 @@ router.post('/register', (req, res) => {
 						message: 'This email has already been signed up'
 					})
 				}
-				else {
+				else{
 					bcrypt.hash(req.body.password, saltRounds, (err, hashPassword) => {
 						var user = new User({
 							name: req.body.name,
@@ -90,40 +123,16 @@ router.post('/register', (req, res) => {
 						})
 
 						user.save()
-							.then(newUser => {
-								var token = new Token({
-									userId: newUser.id,
-									token: cryptoRandomString({length: 64})
-								})
-
-								token.save()
-									.then(newToken => {
-										var sendToken = newToken.token;
-										console.log(sendToken)
-										const msg = {
-											to: '13298498@student.uts.edu.au',
-											from: 'ailuqun313@gmail.com',
-											subject: 'Sending with Twilio SendGrid is Fun',
-											text: 'and easy to do anywhere, even with Node.js',
-											html: '<div><h1>Thanks for registering in PicChat.</h1><p>Please click this link to verify your account.<p><a href="https://picchat-uts.herokuapp.com/users/verify?token="' + sendToken + '">Verify Now</a></div>' 
-
-										};
-										sgMail.send(msg);
-										res.send({
-											status: 'success',
-											message: 'Register successfully'
-										})
-									})
-								
-							})
-							.catch(err => {
-								console.error(err)
-							})
+						res.send({
+							status: 'success',
+							message: 'Registering successfully.'
+						})
 					})
 				}
 			})
 		}
 	})
+
 })
 
 // verify a user
@@ -187,6 +196,7 @@ router.get('/leaderboard', (req, res) => {
 		User
 			.find({})
 			.sort({topicTimes: -1})
+			.limit(5)
 			.exec((err, docs) => {
 				res.send(docs)
 			})
@@ -195,6 +205,7 @@ router.get('/leaderboard', (req, res) => {
 		User
 			.find({})
 			.sort({ reactTimes: -1 })
+			.limit(5)
 			.exec((err, docs) => {
 				res.send(docs)
 			})
