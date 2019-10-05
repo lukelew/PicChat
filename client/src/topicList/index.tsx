@@ -1,5 +1,6 @@
-
-import { Button, Menu, Dropdown, Tag, Icon} from 'antd';
+import React from 'react';
+import Card from './card';
+import { Button, Menu, Dropdown, Tag, Spin, Icon } from 'antd';
 import './index.scss';
 
 
