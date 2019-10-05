@@ -42,7 +42,7 @@ class Login extends React.Component {
       })
   };
   compareToUserEmail = (rule, value, callback) =>{
-    let url = process.env.REACT_APP_API_URL + '/users/register';
+    let url = process.env.REACT_APP_API_URL + '/users/verifyEmail';
     let post_data = { 
         email: value,
     };
@@ -55,14 +55,13 @@ class Login extends React.Component {
     }).then(res=>res.text().then(
         data=>{
             var dataBack=JSON.parse(data);
-            //register status and email address vertify
-            if(dataBack.status ==="failure"){
-                this.setState({
-                    result: 'success'
-                })
-            }else{
-                callback('This email do not exist.');
-            }
+                //register email judge
+                if(dataBack.status==="failure"){
+                    callback();
+                }
+                else {
+                    callback('This E-mail do not exist.');
+                }
         }
     ))
 }
@@ -78,45 +77,48 @@ class Login extends React.Component {
         let url = process.env.REACT_APP_API_URL +'/users/login';
         let post_data = { 
           email: this.state.email,
-          password: this.state.password
+          password: this.state.password,
         };
-
-        fetch(url,{
-            method:'POST',
-            body: JSON.stringify(post_data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res=>res.json()).then(
-            data=>{
-            //后面改成验证邮箱和密码是否匹配。密码部分未写
-                if(data.user.email===this.state.email){
-                  console.log(data);
-                  this.setState({
-                        isLogin: true,
-                        login_username: data.user.name
-                  });
-                  message.success('Login Success');
-                  window.location.reload();
+        this.props.form.validateFields(err => {
+            if (!err) {
+            fetch(url,{
+                method:'POST',
+                body: JSON.stringify(post_data),
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-                else{
-                    console.log(data);
-                    this.setState({
-                        isLogin: false
-                    });
-                    message.success('Login False');
-                    window.location.reload();
-                } 
-            }
-        )
+            })
+            .then(
+                    res=>res.json()
+                )
+            .then(
+                    data=>{
+                        if(data.status==='failure'){
+                            message.error(data.message+'!Please try again!')
+                        }
+                        else if(data.user.email===this.state.email){
+                            this.setState({
+                                isLogin: true,
+                                login_username: data.user.name
+                            });
+                            window.location.reload();
+                            // message.success('Login Success',3);
+                        }else{
+                            this.setState({
+                                isLogin: false
+                            });
+                            message.success('Login False');
+                            window.location.reload();
+                        } 
+                    }
+                )
+           }
+        }); 
     };
 
 
 render() {
     const { getFieldDecorator } = this.props.form;
-
-
 
     //pass user's data
     var datapass={name: this.state.login_username,email: this.state.email,id:'',status: true}
@@ -140,7 +142,7 @@ render() {
                     >
                     <Form onSubmit={this.handleSubmit} className="login-form" >
                         {/*login_email */}
-                        <Form.Item  hasFeedback validateStatus= {this.state.result}>
+                        <Form.Item  hasFeedback>
                             {getFieldDecorator('eamil', {
                                 rules: [
                                     {required: true, message: 'Please input your email.'},
@@ -160,7 +162,7 @@ render() {
                             {getFieldDecorator('password', {
                                 rules: [{ required: true, message: 'Please input your Password!' }],
                             })(
-                                <Input
+                                <Input.Password
                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                     type="password"
                                     placeholder="Password"
