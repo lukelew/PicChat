@@ -1,5 +1,10 @@
 @import '../variables.scss';
 
+.loading{
+	padding: 40px 0 0 0;
+	text-align: center;
+}
+
 #topic_list{
 	display: flex;
 	flex-wrap: wrap;

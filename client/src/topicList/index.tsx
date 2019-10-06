@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag, Icon} from 'antd';
+import { Button, Menu, Dropdown, Tag, Icon, Spin } from 'antd';
 import './index.scss';
 
 
@@ -9,6 +9,7 @@ interface topicListProps {
 }
 
 interface topicListState {
+	isLoading: boolean,
 	sort: number,
 	topics: Array<any>,
 	tags: string,
@@ -21,6 +22,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 	constructor(props: any){
 		super(props);
 		this.state = {
+			isLoading: true,
 			sort: 1,
 			topics: [],
 			tags: 'From New to Old',
@@ -31,6 +33,9 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 	}
 
 	showFromNewtoOld = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if(reset){
 			this.setState({
 				topics: [],
@@ -41,6 +46,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 1,
 				topics: [...this.state.topics, ...data],
 				tags: 'From New to Old',
@@ -51,6 +57,9 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 	}
 
 	showFromOldtoNew = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if (reset) {
 			this.setState({
 				topics: [],
@@ -61,6 +70,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 2,
 				topics: [...this.state.topics, ...data],
 				tags: 'From Old to New',
@@ -71,6 +81,9 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 	}
 
 	showFromLowtoHigh = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if (reset) {
 			this.setState({
 				topics: [],
@@ -81,6 +94,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 3,
 				topics: [...this.state.topics, ...data],
 				tags: 'From Low to High',
@@ -91,6 +105,9 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 	}
 
 	showFromHightoLow = (size: number, page: number, reset: boolean) => {
+		this.setState({
+			isLoading: true
+		})
 		if (reset) {
 			this.setState({
 				topics: [],
@@ -101,6 +118,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 4,
 				topics: [...this.state.topics, ...data],
 				tags: 'From High to Low',
@@ -182,8 +200,12 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 						<Tag color="gold">{this.state.tags}</Tag>
 					</div>
 				</div>
-				
+				{this.state.isLoading &&
+					(<div className="loading">
+						<Spin size="large" tip="Loading..." />
+					</div>)
 
+				}
 				<div id="topic_list">{topicList}</div>
 				{this.state.canLoad &&
 					<Button id="load_more" onClick={() => this.loadMore(this.state.sort)}>Loading more...</Button>

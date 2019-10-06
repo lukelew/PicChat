@@ -14,7 +14,8 @@ interface IUploadImageProps {
     showModal: boolean,
     hideModal: Function,
     boxHeader: String,
-    topicId?: String
+    topicId?: String,
+    update?: boolean
 }
 
 class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> {
@@ -57,15 +58,26 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
             };
         
             postTopic = () => {
-              let url;
+              let url = '';
               let post_data;
 
               if (this.state.topicId)
               {
-                url = process.env.REACT_APP_API_URL +'/topics/reply';
-                post_data = {
-                  originalPicUrl: this.state.img_url_original, 
-                  replyTo: this.state.topicId};
+                if (this.props.update == true)
+                {
+                  url = process.env.REACT_APP_API_URL +'/topics';
+                  post_data = {
+                    originalPicUrl: this.state.img_url_original,
+                    smallPicUrl: this.state.img_url_small, 
+                    topic_id: this.state.topicId};
+                }
+                else
+                {
+                  url = process.env.REACT_APP_API_URL +'/topics/reply';
+                  post_data = {
+                    originalPicUrl: this.state.img_url_original, 
+                    replyTo: this.state.topicId};
+                }
               }
               else
               {
@@ -78,17 +90,31 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
 
               console.log(post_data);
 
-              fetch(url,{
-                method:'POST',
-                body: JSON.stringify(post_data),
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                  })
-                }).then(res=>res.json()).then(
-                    data=>{
-                  console.log(data);
-                }
-              )
+              if (this.props.update == true) {
+                fetch(url, {
+                  method:'PUT',
+                  body: JSON.stringify(post_data),
+                  headers: new Headers({
+                      'Content-Type': 'application/json'
+                    })
+                  }).then(res=>res.json()).then(
+                      data=>{
+                    console.log(data);
+                  }
+                )
+              } else {
+                fetch(url, {
+                  method:'POST',
+                  body: JSON.stringify(post_data),
+                  headers: new Headers({
+                      'Content-Type': 'application/json'
+                    })
+                  }).then(res=>res.json()).then(
+                      data=>{
+                    console.log(data);
+                  }
+                )
+              }
 
               this.setState({
                 visible: false,
