@@ -4,6 +4,7 @@ import { Avatar, Icon, Empty } from 'antd';
 import Replies from './replies';
 import './index.scss';
 import ReactPanel from '../emoji';
+import UploadBox from '../addTopic/uploadImage';
 
 const MyIcon = Icon.createFromIconfontCN({
 	scriptUrl: '/iconfont.js'
@@ -37,7 +38,8 @@ interface detailState {
 	createAt: string,
 	replies: Array<replies>,
 	reacts: Array<any>,
-	yourReact: any
+	yourReact: any,
+	showUploadModal: boolean
 }
 
 class TopicDetail extends React.Component< topicProps, detailState> {
@@ -51,9 +53,22 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			createAt: '',
 			replies: [],
 			reacts: [],
-			yourReact: ""
+			yourReact: "",
+			showUploadModal: false
 		}
 	}
+
+	showModal = () => {
+        this.setState({
+          showUploadModal: true
+        });
+	  }; 
+
+	  handleCancelUpload = () => {
+		this.setState({
+			showUploadModal: false
+		});
+	};
 
 	updateReacts = (newReact: any) => {
 		let exist = false;
@@ -149,7 +164,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					</div>
 					<div className="buttons_box">
 						<ReactPanel topicId={this.state.id} yourReact={this.state.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts} />
-						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} />
+						<Icon className="add_reply" type="picture" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} onClick={this.showModal}/>
 					</div>
 				</div>
 
@@ -160,6 +175,11 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					}
 					{repliesList}
 				</div>
+
+				<UploadBox showModal={ this.state.showUploadModal } 
+						   hideModal={ this.handleCancelUpload }
+						   boxHeader="Upload new picture to reply on topic"
+						   topicId={this.state.id}/>
 			</React.Fragment>
 		)
 	}

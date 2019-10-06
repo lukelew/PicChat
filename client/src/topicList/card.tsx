@@ -23,14 +23,16 @@ interface cardProps {
 
 interface cardState {
 	reacts: Array<any>,
-	showUploadModal: boolean
+	showUploadModal: boolean,
+	showUploadModalReply: boolean
 }
 
 
 class Card extends React.Component<cardProps, cardState>  {
 	state ={
 		reacts: this.props.reacts,
-		showUploadModal: false
+		showUploadModal: false,
+		showUploadModalReply: false
 	}
 
 	updateReacts = (newReact: any) => {
@@ -72,7 +74,19 @@ class Card extends React.Component<cardProps, cardState>  {
         this.setState({
           showUploadModal: true
         });
-      };  
+	  };  
+	  
+	 showModalReply = () => {
+        this.setState({
+          showUploadModalReply: true
+        });
+	  }; 
+	  
+	handleCancelUploadReply = () => {
+		this.setState({
+			showUploadModalReply: false
+		});
+	};
 
 	handleCancelUpload = () => {
 		this.setState({
@@ -111,8 +125,8 @@ class Card extends React.Component<cardProps, cardState>  {
 
 		const settingMenu = (
 			<Menu>
-				<Menu.Item>
-					<Icon type="redo" />Update
+				<Menu.Item onClick={() => this.showModalReply()}>
+					<Icon type="redo"/>Update
 				</Menu.Item>
 				<Menu.Item onClick={() => this.handleDeleteTopic()}>
 					<Icon type="delete" />Delete
@@ -169,6 +183,12 @@ class Card extends React.Component<cardProps, cardState>  {
 						   hideModal={ this.handleCancelUpload }
 						   boxHeader="Upload new picture to reply on topic"
 						   topicId={this.props.topicId}/>
+
+				<UploadBox showModal={ this.state.showUploadModalReply } 
+						   hideModal={ this.handleCancelUploadReply }
+						   boxHeader="Update picture"
+						   topicId={this.props.topicId}
+						   update={true}/>
 			</div>
 		)
 	}
