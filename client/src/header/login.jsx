@@ -15,6 +15,8 @@ class Login extends React.Component {
         password:'',
 
         result:'', //database search result
+        callbackResultEmail: '',
+        callbackTextEmail:'',
     };
   }
 
@@ -41,29 +43,48 @@ class Login extends React.Component {
           email: e.target.value
       })
   };
-  compareToUserEmail = (rule, value, callback) =>{
+  compareToUserEmail = () =>{
     let url = process.env.REACT_APP_API_URL + '/users/verifyEmail';
     let post_data = { 
-        email: value,
-    };
-    fetch(url,{
-        method:'POST',
-        body: JSON.stringify(post_data),
-        headers: new Headers({
-        'Content-Type': 'application/json'
+        email: this.state.email,
+    }
+    var emailV = /^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/
+    if(this.state.email===''){
+        this.setState({
+            callbackResultEmail: "error",
+            callbackTextEmail: "Please input your E-mail address"
         })
-    }).then(res=>res.text().then(
-        data=>{
-            var dataBack=JSON.parse(data);
-                //register email judge
-                if(dataBack.status==="failure"){
-                    callback();
+    }
+    else if(emailV.test(this.state.email)) {
+        fetch(url,{
+            method:'POST',
+            body: JSON.stringify(post_data),
+            headers: new Headers({
+            'Content-Type': 'application/json'
+            })
+        }).then(res=>res.text().then(
+            data=>{
+                var dataBack=JSON.parse(data);
+                if(dataBack.status!=="failure"){
+                    this.setState({
+                        callbackResultEmail: "error",
+                        callbackTextEmail: "This E-mail already existed." 
+                    })
                 }
                 else {
-                    callback('This E-mail do not exist.');
+                    this.setState({
+                        callbackResultEmail: "success",
+                        callbackTextEmail: "Welcome Back!"
+                    })
                 }
-        }
-    ))
+            }
+        ))   
+    }else{
+        this.setState({
+            callbackResultEmail: "error",
+            callbackTextEmail: "Please input correct E-mail format!",
+        }) 
+    }
 }
 
   handleChangePassword(e){
@@ -74,6 +95,12 @@ class Login extends React.Component {
 
   //Post_data_login
     postData = () => {
+        if(this.state.email===''){
+            this.setState({
+                callbackResultEmail: 'error',
+                callbackTextEmail: "Please input your E-mail address"
+            })
+        }
         let url = process.env.REACT_APP_API_URL +'/users/login';
         let post_data = { 
           email: this.state.email,
@@ -142,16 +169,16 @@ render() {
                     >
                     <Form onSubmit={this.handleSubmit} className="login-form" >
                         {/*login_email */}
-                        <Form.Item  hasFeedback>
+                        <Form.Item  hasFeedback validateStatus={this.state.callbackResultEmail} help={this.state.callbackTextEmail}>
                             {getFieldDecorator('eamil', {
                                 rules: [
-                                    {required: true, message: 'Please input your email.'},
-                                    {type: 'email', message: 'Please input email‘s format!' },
-                                    {validator: this.compareToUserEmail}],
+                                    {required: true, message: 'Please input your E-mail.'},
+                                ],
                               })(
                                 <Input
                                     prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="Email"
+                                    placeholder="E-mail"
+                                    onBlur={this.compareToUserEmail}
                                     onChange={this.handleChangeEmail.bind(this)}
                                 />,
                             )}
