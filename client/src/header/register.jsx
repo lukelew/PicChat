@@ -61,7 +61,7 @@ class Register extends React.Component{
         let post_data = { 
             email: this.state.email,
         }
-        var emailV = /^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/
+        var emailV = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/
         if(this.state.email===''){
             this.setState({
                 callbackResultEmail: "error",
@@ -323,7 +323,7 @@ class Register extends React.Component{
                         <Drawer
                             title="Register"
                             width={460}
-                            // onClose={this.onClose}
+                            closable={false}
                             visible={this.state.visible}
                         >
                             <Result
