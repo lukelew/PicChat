@@ -24,14 +24,18 @@ class Register extends React.Component{
             cancel: false, //back to home page
             isRegister: false, //register success
             returnHome: false, //after register success, return home
-            // blur: false,
+            // callbackEmail: false,
+            callbackResultEmail: '',
+            callbackTextEmail:'',
+            callbackResultName:'',
+            callbackTextName:'',
         };
     }
     
     onClose = () => {
         this.setState({
         visible: false,
-        cancel: true
+        returnHome: true
         });
     };
 
@@ -51,30 +55,52 @@ class Register extends React.Component{
             email: e.target.value
         })
     };
-    compareToUserEmail = (rule, value, callback) =>{
+    compareToUserEmail = () =>{
+        // check email address form
         let url = process.env.REACT_APP_API_URL + '/users/verifyEmail';
         let post_data = { 
-            email: value,
+            email: this.state.email,
         }
-        fetch(url,{
-            method:'POST',
-            body: JSON.stringify(post_data),
-            headers: new Headers({
-            'Content-Type': 'application/json'
+        var emailV = /^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/
+        if(this.state.email===''){
+            this.setState({
+                callbackResultEmail: "error",
+                callbackTextEmail: "Please input your E-mail address"
             })
-        }).then(res=>res.text().then(
-            data=>{
-                var dataBack=JSON.parse(data);
-                //register email judge
-                if(dataBack.status==="failure"){
-                    callback('This E-mail already existed.');
+        }
+        else if(emailV.test(this.state.email)) {
+            fetch(url,{
+                method:'POST',
+                body: JSON.stringify(post_data),
+                headers: new Headers({
+                'Content-Type': 'application/json'
+                })
+            }).then(res=>res.text().then(
+                data=>{
+                    var dataBack=JSON.parse(data);
+                    if(dataBack.status==="failure"){
+                        this.setState({
+                            callbackResultEmail: "error",
+                            callbackTextEmail: "This E-mail already existed." 
+                        })
+                    }
+                    else {
+                        this.setState({
+                            callbackResultEmail: "success",
+                            callbackTextEmail: "Available!"
+                        })
+                    }
                 }
-                else {
-                    callback();
-                }
-            }
-        ))
+            ))   
+        }else{
+            this.setState({
+                callbackResultEmail: "error",
+                callbackTextEmail: "Please input correct email format!",
+            }) 
+        }
+
     }
+
 
 
     //judge name whether exists
@@ -84,14 +110,20 @@ class Register extends React.Component{
         })
     };
 
-    compareToUserName = (rule, value, callback) =>{
+    compareToUserName = () =>{
 
         let url = process.env.REACT_APP_API_URL + '/users/verifyUsername';
         let post_data = { 
-            // email: this.state.email,
-            name: value,
+            name: this.state.name,
         };
-
+        var nameV = /^[ ]+$/
+        if(this.state.name===''){
+            this.setState({
+                callbackResultName: "error",
+                callbackTextName: "Please input your user name"
+            })
+        }
+        else if(!nameV.test(this.state.name)){
         fetch(url,{
             method:'POST',
             body: JSON.stringify(post_data),
@@ -104,15 +136,26 @@ class Register extends React.Component{
                         var dataBack=JSON.parse(data);
                         //register username judge
                             if(dataBack.status==="failure"){
-                                callback('This username already existed.');
+                                this.setState({
+                                    callbackResultName: "error",
+                                    callbackTextName: "This user name already existed." 
+                                })
                             }
                             else {
-                                callback();
+                                this.setState({
+                                    callbackResultName: "success",
+                                    callbackTextName: "Available!"
+                                })
                             }
                     } 
                 )     
             )
-
+        }else{
+            this.setState({
+                callbackResultName: "error",
+                callbackTextName: "The first letter can't accept whitespace.",
+            }) 
+        }
     }
 
     //judge confirm password
@@ -146,6 +189,18 @@ class Register extends React.Component{
     
     //Post_data_register
     postData = () => {
+        if(this.state.email===''){
+            this.setState({
+                callbackResultEmail: 'error',
+                callbackTextEmail: "Please input your E-mail address"
+            })
+        }
+        if(this.state.name===''){
+            this.setState({
+                callbackResultName: "error",
+                callbackTextName: "Please input your user name"
+            })
+        }
         let url = process.env.REACT_APP_API_URL + '/users/register';
         let post_data = { 
             email: this.state.email,
@@ -165,7 +220,7 @@ class Register extends React.Component{
                 }).then(res=>res.text().then(
                     data=>{
                         var dataBack=JSON.parse(data);
-                        //register status and email address vertify
+
                         if(dataBack.status==="success"){
                             this.setState({
                                 isRegister: true,
@@ -268,7 +323,7 @@ class Register extends React.Component{
                         <Drawer
                             title="Register"
                             width={460}
-                            onClose={this.onClose}
+                            // onClose={this.onClose}
                             visible={this.state.visible}
                         >
                             <Result
@@ -276,7 +331,7 @@ class Register extends React.Component{
                                 title="Well done^.^! Register success!"
                                 subTitle="Welcome to UTS picChat community! You can post your interesting picture and react others now!"
                                 extra={[
-                                <Button type="primary" onClick={this.Vertified} size="large">Continue</Button>,
+                                <Button type="primary" onClick={this.Vertified} size="large">Continue and Login</Button>,
                                 ]}
                             />
                         </Drawer>
@@ -306,36 +361,37 @@ class Register extends React.Component{
                         </Form.Item>
 
                         {/* enter Email */}
-                        <Form.Item label="E-mail" hasFeedback>
+                        <Form.Item label="E-mail" hasFeedback validateStatus={this.state.callbackResultEmail} help={this.state.callbackTextEmail}>
                         {getFieldDecorator('eamil', {
                             rules: [
-                                { required: true,message: 'Please input your email！'},
-                                { type:'email',message: 'Please input email‘s format！'},
-                                { whitespace: true, message:'Cannot accept whitespace at first letter.'},
-                                {validator: this.compareToUserEmail}],
+                                { required: true,message: 'Please input your E-mail！'},
+                                // {validator: this.vertifiedEmail}],
+                            ],
                         })(
                             <Input
+                            type="email"
                             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder="E-mail"
+                            onBlur={this.compareToUserEmail}
                             onChange={this.handleChangeEmail.bind(this)}
                             />,
                         )}
                         </Form.Item>
 
                         {/* enter Name */}
-                        <Form.Item label="User Name" hasFeedback >
+                        <Form.Item label="User Name" hasFeedback validateStatus={this.state.callbackResultName} help={this.state.callbackTextName}>
                         {getFieldDecorator('Name', {
                             rules: [
                                 { required: true, message: 'Please input your name!'},
                                 // { min: 3, message: 'The minimum letter is 3!'},
-                                { whitespace: true, message:'Cannot accept whitespace at first letter. '},
-                                { validator: this.compareToUserName}],
-                            // ],
+                                // { whitespace: true, message:'Cannot accept whitespace at first letter. '},
+                                // { validator: this.compareToUserName}],
+                            ],
                         })(
                             <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder="User Name"
-                            // onBlur={this.blurChange}
+                            onBlur={this.compareToUserName}
                             onChange={this.handleChangeName.bind(this)}
                             />,
                         )}
