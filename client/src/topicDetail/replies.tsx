@@ -102,10 +102,14 @@ class Replies extends React.Component<replyPros, replyState> {
 		return(
 			<div className="single_reply">
 				<div className="level2">
-					<div className="user_info">
-						<Avatar src={'../avatars/' + this.props.avatar + '.png'} />
-						<strong>{this.props.name}</strong>
-						<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+					<div className="header_panel">
+						<div className="user_info">
+							<Avatar src={'../avatars/' + this.props.avatar + '.png'} />
+							<div className="name_date">
+								<strong>{this.props.name}</strong>
+								<span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+							</div>
+						</div>
 					</div>
 					<div className="img_box">
 						<img src={this.props.originalPicUrl} />

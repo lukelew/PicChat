@@ -101,7 +101,7 @@ router.post('/upload', upload.single("image"), (req, res) => {
                                    }
                                });
 
-                               fs.unlinkSync('./tmp/' + original_file_name);
+                               //fs.unlinkSync('./tmp/' + original_file_name);
                         }
                     }
                 })
