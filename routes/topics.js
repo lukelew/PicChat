@@ -222,7 +222,7 @@ router.get('/fromUser', ensureAuthenticated, (req, res) => {
 		})
 	}
 	Topic
-	.find({ createBy: req.user._id })
+	.find({ createBy: req.user._id, level: 1 })
 	.populate('reacts')
 	.populate('createBy')
 	.exec((err, docs) => {

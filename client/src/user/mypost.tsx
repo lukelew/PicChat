@@ -56,7 +56,6 @@ class MyPosts extends React.Component<MyPostsProps, MyPostsState> {
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="You haven't posted any topics" />
                     }
                     {topicList}
-                    {topicList}
                 </div> 
             </React.Fragment> 
         )
