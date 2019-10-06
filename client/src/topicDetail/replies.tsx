@@ -95,6 +95,7 @@ class Replies extends React.Component<replyPros, replyState> {
 					topicId={reply._id}
 					reacts={reply.reacts}
 					yourReact={reply.yourReact ? reply.yourReact : ''}
+					replyTo={reply.replyTo.createBy.name}
 				/>
 			)
 		}) 

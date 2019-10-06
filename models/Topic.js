@@ -24,7 +24,11 @@ const TopicSchema = new mongoose.Schema({
 	replies: [this],
 	replyTo: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'Topic'
+	},
+	belongTo: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Topic'
 	},
 	createAt: {
 		type: Date,

@@ -106,48 +106,49 @@
 		justify-content: space-between;
 		padding: 10px 0;
 
-		.header_panel{
-		display: flex;
-		padding: 14px;
-
-		.user_info{
-			display: flex;
-
-			strong{
-				display: block;
-				font-size: 16px;
-				padding: 0 0 0 6px;
-			}
-
-			span.date{
-				display: block;
-				color: #ccc;
-				padding: 0 0 0 6px;
-			}
-		}
 		
+		.header_panel{
+			display: flex;
+			width: 25%;
 
-		.settings{
-			margin-left: auto;
-			width: 30px;
-			height: 30px;
-			border-radius: 3px;
-			text-align: center;
-			line-height: 36px;
-			
+			.user_info{
+				display: flex;
 
-			i{
-				font-size: 28px;
-				font-weight: bold;
-				transition: all .2s ease;
+				strong{
+					display: block;
+					font-size: 16px;
+					padding: 0 0 0 6px;
+				}
 
-				&:hover{
-					color:  #1890ff;
+				span.date{
+					display: block;
+					color: #ccc;
+					padding: 0 0 0 6px;
 				}
 			}
+			
 
+			.settings{
+				margin-left: auto;
+				width: 30px;
+				height: 30px;
+				border-radius: 3px;
+				text-align: center;
+				line-height: 36px;
+				
+
+				i{
+					font-size: 28px;
+					font-weight: bold;
+					transition: all .2s ease;
+
+					&:hover{
+						color:  #1890ff;
+					}
+				}
+
+			}
 		}
-	}
 
 		.img_box{
 			position: relative;
@@ -189,92 +190,124 @@
 		}
 	}
 
-		.level3{
+	.level3{
+		display: flex;
+		justify-content: space-between;
+		padding: 10px 0;
+		min-height: 220px;
+
+		.basic_info{
+			width: 25%;
+			padding: 14px 14px 14px 38px;
+		}
+
+		.header_panel{
 			display: flex;
-			justify-content: space-between;
-			padding: 10px 0;
+			
 
-			.header_panel{
+			.user_info{
 				display: flex;
-				padding: 14px;
 
-				.user_info{
-					display: flex;
-
-					strong{
-						display: block;
-						font-size: 16px;
-						padding: 0 0 0 6px;
-					}
-
-					span.date{
-						display: block;
-						color: #ccc;
-						padding: 0 0 0 6px;
-					}
+				strong{
+					display: block;
+					font-size: 16px;
+					padding: 0 0 0 6px;
 				}
+
+				span.date{
+					display: block;
+					color: #ccc;
+					padding: 0 0 0 6px;
+				}
+			}
+			
+
+			.settings{
+				margin-left: auto;
+				width: 30px;
+				height: 30px;
+				border-radius: 3px;
+				text-align: center;
+				line-height: 36px;
 				
 
-				.settings{
-					margin-left: auto;
-					width: 30px;
-					height: 30px;
-					border-radius: 3px;
-					text-align: center;
-					line-height: 36px;
-					
-
-					i{
-						font-size: 28px;
-						font-weight: bold;
-						transition: all .2s ease;
-
-						&:hover{
-							color:  #1890ff;
-						}
-					}
-
-				}
-			}
-
-			.img_box{
-				position: relative;
-				width: 30%;
-
-				img{
-					width: 100%;
-				}
-
-				.reacts_box{
-					display: flex;
-					position: absolute;
-					bottom: 15px;
-					right: 15px;
-					padding: 4px;
-					background: rgba(255,255,255,.6);
-					border-radius: 20px;
-
-					span{
-						margin: 0 2px 0 0;
-					}
-					span:last-child {
-						margin: 0;
-					}
-					i{
-						display: block;
-						font-size: 24px;
-					}
-				}
-			}
-
-			.button_box{
-				width: 20%;
-				text-align: right;
-
 				i{
-					margin: 0 0 0 10px;
+					font-size: 28px;
+					font-weight: bold;
+					transition: all .2s ease;
+
+					&:hover{
+						color:  #1890ff;
+					}
+				}
+
+			}
+		}
+
+		.replyto{
+			position: relative;
+			padding: 10px 0 0 0;
+
+			span{
+				display: block;
+				height: 55px;
+				margin: 0 0 0 55px;
+				border-left: 1px #e8e8e8 solid;
+			}
+
+			strong{
+				position: absolute;
+				left: 37px;
+				top: 25px;
+				z-index: 2;
+				padding: 2px 0;
+				background: #fff;
+			}
+
+			em{
+				display: block;
+				padding: 4px 0 0 37px;
+				font-style: normal;
+			}
+		}
+		.img_box{
+			position: relative;
+			width: 30%;
+
+			img{
+				width: 100%;
+			}
+
+			.reacts_box{
+				display: flex;
+				position: absolute;
+				bottom: 15px;
+				right: 15px;
+				padding: 4px;
+				background: rgba(255,255,255,.6);
+				border-radius: 20px;
+
+				span{
+					margin: 0 2px 0 0;
+				}
+				span:last-child {
+					margin: 0;
+				}
+				i{
+					display: block;
+					font-size: 24px;
 				}
 			}
 		}
+
+		.button_box{
+			width: 20%;
+			text-align: right;
+
+			i{
+				margin: 0 0 0 10px;
+			}
+		}
+	}
 
 }
