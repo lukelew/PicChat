@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { Button,Form, Icon,Input,Drawer,Avatar,Result, Divider} from 'antd';
+import { Button,Form, Icon,Input,Drawer,Avatar,Result, Divider,message} from 'antd';
 import './register.scss';
 import 'antd/dist/antd.css';
-import { string } from 'prop-types';
+
 // import Check_Login from './checkLogin'
 
 
@@ -23,15 +23,14 @@ class Register extends React.Component{
             visible: true,
             cancel: false, //back to home page
             isRegister: false, //register success
-
-            result: '',//database search result
+            returnHome: false, //after register success, return home
+            // blur: false,
         };
     }
     
     onClose = () => {
         this.setState({
         visible: false,
-        // isRegister: true,
         cancel: true
         });
     };
@@ -53,10 +52,10 @@ class Register extends React.Component{
         })
     };
     compareToUserEmail = (rule, value, callback) =>{
-        let url = process.env.REACT_APP_API_URL + '/users/register';
+        let url = process.env.REACT_APP_API_URL + '/users/verifyEmail';
         let post_data = { 
             email: value,
-        };
+        }
         fetch(url,{
             method:'POST',
             body: JSON.stringify(post_data),
@@ -66,13 +65,12 @@ class Register extends React.Component{
         }).then(res=>res.text().then(
             data=>{
                 var dataBack=JSON.parse(data);
-                //register status and email address vertify
+                //register email judge
                 if(dataBack.status==="failure"){
-                    callback('This email already existed.');
-                }else{
-                    this.setState({
-                        result: 'success'
-                    })
+                    callback('This E-mail already existed.');
+                }
+                else {
+                    callback();
                 }
             }
         ))
@@ -87,11 +85,13 @@ class Register extends React.Component{
     };
 
     compareToUserName = (rule, value, callback) =>{
-        let url = process.env.REACT_APP_API_URL + '/users/register';
+
+        let url = process.env.REACT_APP_API_URL + '/users/verifyUsername';
         let post_data = { 
             // email: this.state.email,
             name: value,
         };
+
         fetch(url,{
             method:'POST',
             body: JSON.stringify(post_data),
@@ -102,19 +102,17 @@ class Register extends React.Component{
                 res.text().then(
                     data=>{
                         var dataBack=JSON.parse(data);
-                        console.log(dataBack);
-                        //register status and email address vertify
-                        if(dataBack.status==="failure"){
-                            callback('This username already existed.');
-
-                        }else{
-                            this.setState({
-                                result: 'success'
-                            })
-                        }
-                    }
+                        //register username judge
+                            if(dataBack.status==="failure"){
+                                callback('This username already existed.');
+                            }
+                            else {
+                                callback();
+                            }
+                    } 
                 )     
             )
+
     }
 
     //judge confirm password
@@ -134,7 +132,7 @@ class Register extends React.Component{
         if (value && value !== form.getFieldValue('password')) {
           callback('Not the same passowrd!');
         } else {
-          callback('correct!');
+          callback();
         }
     };
     
@@ -145,7 +143,7 @@ class Register extends React.Component{
         }
         callback();
       };
-
+    
     //Post_data_register
     postData = () => {
         let url = process.env.REACT_APP_API_URL + '/users/register';
@@ -155,33 +153,70 @@ class Register extends React.Component{
             password: this.state.password,
             avatar: this.state.avatar
         };
-
-        //post register user info
-        fetch(url,{
-            method:'POST',
-            body: JSON.stringify(post_data),
-            headers: new Headers({
-            'Content-Type': 'application/json'
-            })
-        }).then(res=>res.text().then(
-            data=>{
-                var dataBack=JSON.parse(data);
-                //register status and email address vertify
-                if(dataBack.status==="success"){
-                    this.setState({
-                        isRegister: true,
+        this.props.form.validateFields(err => {
+            if (!err) {
+                //post register user info
+                fetch(url,{
+                    method:'POST',
+                    body: JSON.stringify(post_data),
+                    headers: new Headers({
+                    'Content-Type': 'application/json'
                     })
-                    console.log(this.state.isRegister,'in')
-                    // window.location.reload();
-                }
+                }).then(res=>res.text().then(
+                    data=>{
+                        var dataBack=JSON.parse(data);
+                        //register status and email address vertify
+                        if(dataBack.status==="success"){
+                            this.setState({
+                                isRegister: true,
+                            })
+                            console.log(this.state.isRegister,'in')
+                        }
+                    }
+                ))              
             }
-        ))
+        }); 
     };
+    //login if register success
+    login = () => {
+        let url = process.env.REACT_APP_API_URL +'/users/login';
+        let post_data = { 
+          email: this.state.email,
+          password: this.state.password,
+        };
+        this.props.form.validateFields(err => {
+            if (!err) {
+            fetch(url,{
+                method:'POST',
+                body: JSON.stringify(post_data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(
+                    res=>res.json()
+                )
+            .then(
+                    data=>{
+                        if(data.status==='failure'){
+                            message.error(data.message+'!Please try again!')
+                        }else{
+                            window.location.reload();
+                        } 
+                    }
+                )
+           }
+        }); 
+    };
+
+
     //control vertify page
     Vertified=()=>{
         this.setState({
-            cancel: true,
+            visible: false,
+            returnHome: true,
         })
+        this.login();
     }
     
     //change avatar
@@ -220,31 +255,34 @@ class Register extends React.Component{
               sm: { span: 16 },
             },
           };
-
-        if(this.state.cancel){
-            return <Redirect to="/" />
-          }
-        else if (this.state.isRegister){
-                return (
+        var datapass={name: this.state.name,email: this.state.email,id:'',status: true}
+        var path={
+            pathname: '/',
+            query: datapass,
+        };
+        if(this.state.returnHome){
+            return ( <Redirect to= {path}/> )    
+        }else if(this.state.isRegister){
+            return(
                     <div id='successRegister'>
                         <Drawer
                             title="Register"
-                            width={360}
+                            width={460}
                             onClose={this.onClose}
                             visible={this.state.visible}
                         >
                             <Result
                                 status="success"
-                                title="Vertify Your E-mail Address"
-                                subTitle="We just send you an E-mail with vertification link. Please check your mailbox and click the link to vertiy your E-mail Address"
+                                title="Well done^.^! Register success!"
+                                subTitle="Welcome to UTS picChat community! You can post your interesting picture and react others now!"
                                 extra={[
-                                <Button type="primary" onClick={this.Vertified}>Already Vertified</Button>,
+                                <Button type="primary" onClick={this.Vertified} size="large">Continue</Button>,
                                 ]}
                             />
                         </Drawer>
                     </div>
-                )
-            }
+            )  
+        }
         else {
             return(
                 <div id='register'>
@@ -268,7 +306,7 @@ class Register extends React.Component{
                         </Form.Item>
 
                         {/* enter Email */}
-                        <Form.Item label="E-mail" hasFeedback validateStatus= {this.state.result}>
+                        <Form.Item label="E-mail" hasFeedback>
                         {getFieldDecorator('eamil', {
                             rules: [
                                 { required: true,message: 'Please input your email！'},
@@ -285,17 +323,19 @@ class Register extends React.Component{
                         </Form.Item>
 
                         {/* enter Name */}
-                        <Form.Item label="User Name" hasFeedback validateStatus= {this.state.result}>
+                        <Form.Item label="User Name" hasFeedback >
                         {getFieldDecorator('Name', {
                             rules: [
                                 { required: true, message: 'Please input your name!'},
                                 // { min: 3, message: 'The minimum letter is 3!'},
                                 { whitespace: true, message:'Cannot accept whitespace at first letter. '},
                                 { validator: this.compareToUserName}],
+                            // ],
                         })(
                             <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder="User Name"
+                            // onBlur={this.blurChange}
                             onChange={this.handleChangeName.bind(this)}
                             />,
                         )}
@@ -306,7 +346,7 @@ class Register extends React.Component{
                         {getFieldDecorator('password', {
                             rules: [
                                 { required: true, message:'You need to setting password'}, 
-                                {min: 4, message: 'Minimum 4 letter' },
+                                {min: 6, message: 'Minimum 6 letter' },
                             {validator: this.validateToNextPassword}],
                         })(
                             <Input.Password
@@ -321,7 +361,7 @@ class Register extends React.Component{
                         {/* confirm Password */}
                         <Form.Item label="Confirm" hasFeedback>
                         {getFieldDecorator('confirm', {
-                            rules: [{required: true},{min:4,message:'Minimum 4 Letters！'},
+                            rules: [{required: true},{min:6,message:'Minimum 6 Letters！'},
                             {
                                 validator: this.compareToFirstPassword,
                             }
@@ -341,6 +381,7 @@ class Register extends React.Component{
                     </div>
                     );
             }
+
     }
 };
 export default Form.create()(Register);
