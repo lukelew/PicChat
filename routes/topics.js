@@ -162,7 +162,14 @@ router.get('/single', (req, res) => {
 			'reacts',
 			{
 				path: 'replies',
-				populate: ['createBy','reacts']
+				populate: [
+					'createBy',
+					'reacts', 
+					{
+						path: 'replyTo',
+						populate: 'createBy'
+					}
+				]
 			}]
 
 	})
@@ -301,27 +308,27 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 // reply to a topic
 router.post('/reply', ensureAuthenticated, (req, res) => {
 	Topic.findById(req.body.replyTo, (err, topic) => {
-		if(!topic){
-			return res.send({
-				status: 'failure',
-				message: 'Can\'t find the topic you want to reply'
-			})
-		}
-		else{
-			var replyLevel;
-			if(topic.level === 1){
-				replyLevel = 2;
+		if (topic.level !== 3) {
+			var replyLevel,
+				belongTo;
+			if (topic.level === 1) {
+				var reply = new Topic({
+					originalPicUrl: req.body.originalPicUrl,
+					createBy: req.user._id,
+					replyTo: req.body.replyTo,
+					level: 2
+				})
 			}
-			else if (topic.level === 2 || topic.level === 3){
-				replyLevel = 3;
-			}
-			var reply = new Topic({
-				originalPicUrl: req.body.originalPicUrl,
-				createBy: req.user._id,
-				replyTo: req.body.replyTo,
-				level: replyLevel
-			})
+			else if (topic.level === 2) {
+				var reply = new Topic({
+					originalPicUrl: req.body.originalPicUrl,
+					createBy: req.user._id,
+					replyTo: req.body.replyTo,
+					level: 3,
+					belongTo: req.body.replyTo
 
+				})
+			}
 			reply.save()
 				.then(newReply => {
 					topic.replies.push(newReply._id)
@@ -338,7 +345,38 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 					})
 				})
 		}
+		// if it's level 3
+		else {
+			Topic.findById(req.body.replyTo, (err, lv3Topic) => {
+				Topic.findById(lv3Topic.belongTo, (err, lv2Topic) => {
+					var reply = new Topic({
+						originalPicUrl: req.body.originalPicUrl,
+						createBy: req.user._id,
+						replyTo: req.body.replyTo,
+						level: 3,
+						belongTo: lv3Topic.belongTo
+					})
+
+					reply.save()
+						.then(newReply => {
+							lv2Topic.replies.push(newReply._id)
+							lv2Topic.save()
+
+							User.findById(req.user._id), (err, user) => {
+								user.topicsTimes += 1;
+								user.save();
+							}
+
+							res.send({
+								status: 'success',
+								message: 'Reply to this topic successfully!'
+							})
+						})
+				})
+			})
+		}
 	})
+	
 	
 })
 

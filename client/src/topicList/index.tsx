@@ -167,6 +167,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 				<Menu.Item key="2" onClick={() => this.showFromHightoLow( this.state.pageSize, 0, true)}>High to low</Menu.Item>
 			</Menu>
 		)
+
 		const topicList = this.state.topics.map( topic => {
 			return (
 					<Card
@@ -184,7 +185,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 			)
 		})
 
-		return(
+		return (
 			<React.Fragment>
 				<div className="topic_list_tab">
 					<div className="sort_buttons">
@@ -218,6 +219,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 				}
 			</React.Fragment>
 		)
+		
 	}
 }
 

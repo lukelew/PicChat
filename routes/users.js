@@ -178,12 +178,6 @@ router.get('/logout', (req, res) => {
 
 // send email
 router.get('/email', (req, res) => {
-	// transporter.sendMail({
-	// 	from: 'noreply@picchat.me', // sender address
-	// 	to: 'ailuqun313@hotmail.com', // list of receivers
-	// 	subject: 'Please use the link below to verify your account', // Subject line
-	// 	html: '<b>Your number is ' + cryptoRandomString({length: 64})  + '</b>' // html body
-	// });
 	const msg = {
 		to: '13298498@student.uts.edu.au',
 		from: 'ailuqun313@gmail.com',

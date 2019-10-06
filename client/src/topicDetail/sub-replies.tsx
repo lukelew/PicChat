@@ -15,6 +15,7 @@ interface replyPros {
     avatar: number,
     createAt: string,
     replies: Array<any>,
+    replyTo: string,
     yourReact: any,
     reacts: Array<any>
 }
@@ -83,15 +84,23 @@ class Subreplies extends React.Component<replyPros, replyState> {
     render() {
         return(
             <div className="level3" key={this.props.topicId}>
-                <div className="header_panel">
-                    <div className="user_info">
-                        <Avatar src={'../avatars/' + this.props.avatar + '.png'} />
-                        <div className="name_date">
-                            <strong>{this.props.name}</strong>
-                            <span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+                <div className="basic_info">
+                    <div className="header_panel">
+                        <div className="user_info">
+                            <Avatar src={'../avatars/' + this.props.avatar + '.png'} />
+                            <div className="name_date">
+                                <strong>{this.props.name}</strong>
+                                <span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+                            </div>
                         </div>
                     </div>
+                    <div className="replyto">
+                        <span></span>
+                        <em>{this.props.replyTo}</em>
+                        <strong>Reply to</strong>
+                    </div>
                 </div>
+                
                 <div className="img_box">
                     <img src={this.props.originalPicUrl} />
                     {this.state.reacts.length > 0 &&
@@ -113,12 +122,13 @@ class Subreplies extends React.Component<replyPros, replyState> {
                         twoToneColor="#1890ff"
                         style={{ fontSize: '24px' }}
                         onClick={this.showModal} />
+                    <UploadBox showModal={this.state.visible}
+                        hideModal={this.handleCancel}
+                        boxHeader="Upload new picture to reply on topic"
+                        topicId={this.props.topicId} />
                 </div>
 
-                <UploadBox showModal={ this.state.visible } 
-						   hideModal={ this.handleCancel }
-						   boxHeader="Upload new picture to reply on topic"
-						   topicId={this.props.topicId}/>
+                
             </div>
         )
     }
