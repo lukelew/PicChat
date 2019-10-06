@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card';
-import { Button, Menu, Dropdown, Tag, Spin, Icon } from 'antd';
+import { Button, Menu, Dropdown, Tag, Icon, Spin } from 'antd';
 import './index.scss';
 
 
@@ -46,6 +46,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 1,
 				topics: [...this.state.topics, ...data],
 				tags: 'From New to Old',
@@ -69,6 +70,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 2,
 				topics: [...this.state.topics, ...data],
 				tags: 'From Old to New',
@@ -92,6 +94,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 3,
 				topics: [...this.state.topics, ...data],
 				tags: 'From Low to High',
@@ -115,6 +118,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 		.then(res => res.json())
 		.then(data => {
 			this.setState({
+				isLoading: false,
 				sort: 4,
 				topics: [...this.state.topics, ...data],
 				tags: 'From High to Low',
@@ -197,11 +201,11 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 						<Tag color="gold">{this.state.tags}</Tag>
 					</div>
 				</div>
-				{this.state.isLoading && 
+				{this.state.isLoading &&
 					(<div className="loading">
 						<Spin size="large" tip="Loading..." />
 					</div>)
-				
+
 				}
 				<div id="topic_list">{topicList}</div>
 				{this.state.canLoad &&

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Icon} from 'antd';
 import ReactPanel from '../emoji';
-import UploadImage from "../addTopic/uploadImage";
+import UploadBox from "../addTopic/uploadImage";
 import './index.scss';
 
 const MyIcon = Icon.createFromIconfontCN({
@@ -83,14 +83,26 @@ class Subreplies extends React.Component<replyPros, replyState> {
     render() {
         return(
             <div className="level3" key={this.props.topicId}>
-                <div className="user_info">
-                    <Avatar src={'../avatars/' + this.props.avatar + '.png'} />
-                    <strong>{this.props.name}</strong>
-                    <span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
-
+                <div className="header_panel">
+                    <div className="user_info">
+                        <Avatar src={'../avatars/' + this.props.avatar + '.png'} />
+                        <div className="name_date">
+                            <strong>{this.props.name}</strong>
+                            <span className="date">posted on {this.props.createAt.substr(0, 10)}</span>
+                        </div>
+                    </div>
                 </div>
                 <div className="img_box">
                     <img src={this.props.originalPicUrl} />
+                    {this.state.reacts.length > 0 &&
+                        <div className="reacts_box">
+                            {this.state.reacts.map(react => {
+                                return (
+                                    <span key={react._id}><MyIcon type={'icon-' + react.emoji} /></span>
+                                )
+                            })}
+                        </div>
+                    }
                 </div>
                 <div className="button_box">
                     <ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts} />
@@ -102,6 +114,11 @@ class Subreplies extends React.Component<replyPros, replyState> {
                         style={{ fontSize: '24px' }}
                         onClick={this.showModal} />
                 </div>
+
+                <UploadBox showModal={ this.state.visible } 
+						   hideModal={ this.handleCancel }
+						   boxHeader="Upload new picture to reply on topic"
+						   topicId={this.props.topicId}/>
             </div>
         )
     }
