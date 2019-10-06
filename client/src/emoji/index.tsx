@@ -13,6 +13,7 @@ interface ReactPanelProps {
 	deleteReacts: any
 }
 interface ReactPanelState {
+	isLoading: boolean,
 	yourReact: any,
 	types: Array<string>
 }
@@ -21,6 +22,7 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 	constructor(props: any) {
 		super(props);
 		this.state = {
+			isLoading: false,
 			yourReact: this.props.yourReact,
 			types: ['a', 'baiyan', 'aixin', 'daxiao', 'fadai', 'ganga', 'hanyan', 'liulei', 'xiaochulei', 'shengqi', 'feiwen', 'huaixiao', 'santiaoxian', 'yiwen', 'siliao']
 		}
@@ -38,6 +40,9 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 	}
 
 	reactToTopic = (to: string, emoji: string) => {
+		this.setState({
+			isLoading: true
+		})
 		const curReact = this.state.yourReact;
 		// add new react
 		if (!curReact) {
@@ -64,7 +69,8 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 						yourReact: {
 							_id: data.newReact._id,
 							emoji: emoji
-						}
+						},
+						isLoading: false
 					})
 					this.updateReacts(data.newReact);
 					message.success('React Successfully');
@@ -74,6 +80,9 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 		}
 		// delete the react
 		else if (curReact.emoji === emoji ) {
+			this.setState({
+				isLoading: true
+			})
 			const data = {
 				react_id: curReact._id
 			}
@@ -87,7 +96,8 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
-					yourReact: ""
+					yourReact: "",
+					isLoading: false
 				})
 				this.deleteReacts(data.deleteId);
 				message.success('React Deleted Successfully');
@@ -95,6 +105,9 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 		}
 		// update current react
 		else {
+			this.setState({
+				isLoading: true
+			})
 			const data = {
 				react_id: curReact._id,
 				emoji: emoji
@@ -117,7 +130,8 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 						yourReact: {
 							_id: data.newReact._id,
 							emoji: emoji
-						}
+						},
+						isLoading: false
 					})
 					this.updateReacts(data.newReact);
 					message.success('React Updated Successfully');
@@ -140,8 +154,17 @@ class ReactPanel extends React.Component<ReactPanelProps, ReactPanelState>{
 			</div>
 		)
 
+		const popoverHead = (
+			<React.Fragment>
+				<strong className="pop_head">React</strong>
+				{this.state.isLoading && 
+					<Icon type="loading" style={{ color: '#1890ff'}}/>
+				}
+			</React.Fragment>
+		)
+
 		return (
-			<Popover title="React" content={EmojiList} placement="bottom">
+			<Popover title={popoverHead} content={EmojiList} placement="bottom">
 				<Icon className="add_react" type="smile" theme="twoTone" twoToneColor="#1890ff" style={{ fontSize: '24px' }} />
 			</Popover>
 		)

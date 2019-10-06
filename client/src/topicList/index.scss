@@ -1,8 +1,12 @@
 @import '../variables.scss';
 
-.loading{
+.loading_box{
 	padding: 40px 0 0 0;
 	text-align: center;
+
+	p{
+		color: $primary-blue;
+	}
 }
 
 #topic_list{

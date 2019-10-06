@@ -43,7 +43,7 @@ class MyPosts extends React.Component<MyPostsProps, MyPostsState> {
                     topicId={topic._id}
                     replies={topic.replies}
                     reacts={topic.reacts}
-                    yourReact={'empty'}
+                    yourReact={topic.yourReact ? topic.yourReact : ''}
                 />
             )
         })

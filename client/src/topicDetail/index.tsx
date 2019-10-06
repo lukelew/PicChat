@@ -31,6 +31,7 @@ interface replies {
 }
 
 interface detailState {
+	isLoading: boolean,
 	id: string,
 	name: string,
 	avatar: number,
@@ -46,6 +47,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 	constructor(props: topicProps){
 		super(props);
 		this.state = {
+			isLoading: true,
 			id: '',
 			name: '',
 			avatar: 1,
@@ -111,6 +113,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			.then(data => {
 				const curTopic = data;
 				this.setState({
+					isLoading: false,
 					id: curTopic._id,
 					name: curTopic.createBy.name,
 					avatar: curTopic.createBy.avatar,
@@ -151,7 +154,15 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 						<span className="date">posted on {this.state.createAt.substr(0,10)}</span>
 					</div>
 					<div id="main_pic">
-						<img src={this.state.originalPicUrl}/>
+						{this.state.isLoading &&
+							<div className="loading_box">
+								<Icon type="loading" style={{ color: '#1890ff', fontSize: '40px' }} />
+							</div>
+						}
+						{!this.state.isLoading &&
+							<img src={this.state.originalPicUrl} />
+						}
+						
 						{this.state.reacts.length > 0 &&
 							<div className="reacts_box">
 								{this.state.reacts.map(react => {

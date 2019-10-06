@@ -225,8 +225,21 @@ router.get('/fromUser', ensureAuthenticated, (req, res) => {
 	.find({ createBy: req.user._id, level: 1 })
 	.populate('reacts')
 	.populate('createBy')
+	.lean()
 	.exec((err, docs) => {
-		res.send(docs)
+		var editedDocs = [];
+		docs.map(topic => {
+			topic.reacts.map(react => {
+				if (react.createBy.equals(req.user._id)) {
+					topic.yourReact = {
+						"_id": react._id,
+						"emoji": react.emoji,
+					}
+				}
+			})
+			editedDocs.push(topic)
+		})
+		res.send(editedDocs)
 	})
 })
 
