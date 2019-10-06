@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Icon} from 'antd';
 import ReactPanel from '../emoji';
-import UploadImage from "../addTopic/uploadImage";
+import UploadBox from "../addTopic/uploadImage";
 import './index.scss';
 
 const MyIcon = Icon.createFromIconfontCN({
@@ -114,6 +114,11 @@ class Subreplies extends React.Component<replyPros, replyState> {
                         style={{ fontSize: '24px' }}
                         onClick={this.showModal} />
                 </div>
+
+                <UploadBox showModal={ this.state.visible } 
+						   hideModal={ this.handleCancel }
+						   boxHeader="Upload new picture to reply on topic"
+						   topicId={this.props.topicId}/>
             </div>
         )
     }
