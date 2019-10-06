@@ -247,12 +247,24 @@ router.put('/', ensureAuthenticated, (req, res) => {
 			return res.send('Can\'t find this topic')
 		}
 		else{
-			topic.originalPicUrl = req.body.originalPicUrl
-			topic.save();
-			res.send({
-				status: 'success',
-				message: 'Topic update created!'
-			})
+			if(topic.level === 1) {
+				topic.originalPicUrl = req.body.originalPicUrl
+				topic.smallPicUrl = req.body.smallPicUrl
+				topic.save();
+				res.send({
+					status: 'success',
+					message: 'Topic update created!'
+				})
+			}
+			else {
+				topic.originalPicUrl = req.body.originalPicUrl
+				topic.save();
+				res.send({
+					status: 'success',
+					message: 'Reply update created!'
+				})
+			}
+			
 		}
 	})
 })
