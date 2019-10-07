@@ -2,6 +2,7 @@ import React from 'react';
 import { List, Avatar, Empty, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.scss';
+import { thisExpression } from '@babel/types';
 
 const MyIcon = Icon.createFromIconfontCN({
     scriptUrl: '/iconfont.js'
@@ -19,7 +20,7 @@ class Notification extends React.Component<{}, NotificationState> {
         }
     }
 
-    componentDidMount() {
+    getAllNoti = () => {
         fetch(process.env.REACT_APP_API_URL + '/notifications/toUser')
             .then(res => res.json())
             .then(data => {
@@ -27,6 +28,27 @@ class Notification extends React.Component<{}, NotificationState> {
                     notifications: data
                 })
             })
+    }
+
+    componentDidMount() {
+        this.getAllNoti()
+    }
+
+    markAsRead = (notification_id: string) => {
+        const data: any = {
+            notification_id: notification_id
+        }
+        fetch(process.env.REACT_APP_API_URL + '/notifications/markread', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            this.getAllNoti()
+        })
     }
 
     render() {
@@ -39,7 +61,7 @@ class Notification extends React.Component<{}, NotificationState> {
                             itemLayout="horizontal"
                             dataSource={this.state.notifications}
                             renderItem={item => (
-                                <List.Item>
+                                <List.Item className={item.isRead == false ? 'unread' : ''}>
                                     <List.Item.Meta
                                         avatar={<Avatar src={'../avatars/' + item.fromUser.avatar + '.png'} />}
                                         title={'You have a new ' + item.type}
@@ -49,6 +71,9 @@ class Notification extends React.Component<{}, NotificationState> {
                                                 <p className="text">{'has reacted to your picture with '}</p>
                                                 <MyIcon type={'icon-' + item.content} />
                                                 <Link to={`/topics_detail/${item.atTopic}`}>Link</Link>
+                                                {item.isRead == false && 
+                                                    <em onClick={() => this.markAsRead(item._id)}><Icon type="highlight" />Mark as read</em>
+                                                }
                                             </React.Fragment>
                                         }
                                     />

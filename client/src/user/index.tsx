@@ -28,7 +28,7 @@ class UserPanel extends React.Component<userPanelProps, userPanelState> {
 
 
     render() {
-        if(this.props.user.name){
+        if(this.props.user.name !== ''){
             return (
                 <Layout>
                     <Sider width={240} style={{ background: '#fff' }}>
@@ -38,7 +38,7 @@ class UserPanel extends React.Component<userPanelProps, userPanelState> {
                         <div id="user_panel">
                             <Route path="/user" exact render={() => <MyPosts user={this.props.user} />} />
                             <Route path="/user/notifications" component={Notification} />
-                            <Route path="/user/setting" component={Setting} />
+                            <Route path="/user/setting" render={() => <Setting user={this.props.user} />}/>
                         </div>
                     </Content>
                 </Layout>
