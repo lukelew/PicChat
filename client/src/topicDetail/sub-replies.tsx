@@ -85,6 +85,12 @@ class Subreplies extends React.Component<replyPros, replyState> {
     };
 
     showModalReply = () => {
+        if (this.state.reacts.length > 0)
+		{
+			message.error('You can\'t change this picture because it has reacts');
+			return false;
+		}
+
         this.setState({
             showUploadModalReply: true
         });
