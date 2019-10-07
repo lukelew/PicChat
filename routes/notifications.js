@@ -15,6 +15,7 @@ router.get('/toUser', ensureAuthenticated, (req, res) => {
     }
     Notification
     .find({ toUser: req.user._id })
+    .sort({ createAt: -1 })
     .populate('fromUser')
     .exec((err, docs) => {
         res.send(docs)

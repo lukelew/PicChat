@@ -45,6 +45,21 @@ router.post('/', ensureAuthenticated, (req, res) => {
 						user.reactTimes += 1;
 						user.save();
 					})
+
+					if(topic.level===1){
+						belongTo = topic._id
+					}
+					else if(topic.level === 2){
+						belongTo = topic.replyTo
+					}
+					else if(topic.level === 3){
+						Topic
+						.findById(topic.belongTo)
+						.exec((err, lv2Topic) => {
+							belongTo = lv2Topic.replyTo
+						})
+						
+					}
 					// create a new notification
 					if (!topic.createBy.equals(req.user._id)){
 						const notification = new Notification({
@@ -52,6 +67,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 							fromUser: req.user._id,
 							toUser: topic.createBy,
 							content: newReact.emoji,
+							belongTo: belongTo,
 							atTopic: topic._id
 						})
 						notification.save()
@@ -106,6 +122,15 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 				topic.reacts.pull(currentReactId);
 				topic.save();
 			})
+			User.findById(req.user._id, (err, user) => {
+				user.reactTimes -= 1;
+				user.save();
+			})
+			Notification
+			.find({ atTopic: react.reactTo})
+			.remove()
+			.exec()
+
 			react.remove((err) => {
 				if(err) throw err;
 				res.send({
