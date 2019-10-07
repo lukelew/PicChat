@@ -49,15 +49,24 @@ router.post('/upload', upload.single("image"), (req, res) => {
                     Image: {
                         Bytes: bitmap
                     },
-                    MaxLabels: 1,
-                    MinConfidence: 80.0
+                    MaxLabels: 30,
+                    MinConfidence: 50.0
                 }
             
                 rekognition.detectLabels(params, function(err, data)
                 {
                     if (err) res.send(err.stack);
                     else {
-                        if (data.Labels[0].Name === "Text")
+                        var pictureContainsText = false;
+
+                        data.Labels.forEach(function(element) {
+                            if (element.Name == 'Text')
+                            {                                
+                                pictureContainsText = true;
+                            }
+                        } )
+
+                        if (pictureContainsText)
                         {
                             res.status(401);
                             res.send('The image contains text');

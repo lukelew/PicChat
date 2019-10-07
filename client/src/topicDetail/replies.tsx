@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Icon, Dropdown, Menu} from 'antd';
+import { Avatar, Icon, Dropdown, Menu, message} from 'antd';
 import ReactPanel from '../emoji';
 import Subreplies from './sub-replies';
 import UploadImage from "../addTopic/uploadImage";
@@ -23,7 +23,8 @@ interface replyPros {
 
 interface replyState {
 	reacts: Array<any>,
-	visible: boolean
+	visible: boolean,
+	showUploadModalReply: boolean
 }
 
 
@@ -32,7 +33,8 @@ class Replies extends React.Component<replyPros, replyState> {
         super(props);
         this.state = {
 			reacts: this.props.reacts,
-        	visible: false
+			visible: false,
+			showUploadModalReply: false
         }
 	}
 	
@@ -77,11 +79,50 @@ class Replies extends React.Component<replyPros, replyState> {
 			});
 		  };  
 	
+	showModalReply = () => {
+			this.setState({
+				showUploadModalReply: true
+			});
+		}; 
+
+	handleCancelUploadReply = () => {
+			this.setState({
+				showUploadModalReply: false
+			});
+		};
+	
 	handleCancel = () => {
 			this.setState({
 			  visible: false
 			});
 		  };
+
+	handleDeleteTopic = () => {
+			const currentTopic = {
+				topic_id: this.props.topicId
+			}
+			if(this.props.replies.length == 0) {
+				fetch(process.env.REACT_APP_API_URL + '/topics/', {
+					method: 'DELETE',
+					headers: {
+						'Content-type': 'application/json'
+					},
+					body: JSON.stringify(currentTopic)
+				})
+				.then(res => res.json())
+				.then(data => {
+					if (data.status === 'success'){
+						message.success('Delete Successfully!')
+						var jump = setTimeout(function () { window.location.reload() }, 2000);
+					}
+					
+				})
+			}
+			else{
+				message.error('You can\'t delete this topic')
+			}
+	
+		}
 
 	render() {
 		const repliesList = this.props.replies.map( reply => {
@@ -104,11 +145,11 @@ class Replies extends React.Component<replyPros, replyState> {
 
 		const settingMenu = (
 			<Menu>
-				<Menu.Item>
-					<Icon type="redo" />Update
+				<Menu.Item onClick={() => this.showModalReply()}>
+					<Icon type="redo"/> Update
 				</Menu.Item>
-				<Menu.Item>
-					<Icon type="delete" />Delete
+				<Menu.Item onClick={() => this.handleDeleteTopic()}>
+					<Icon type="delete"/> Delete
 				</Menu.Item>
 			</Menu>
 		)
@@ -158,6 +199,12 @@ class Replies extends React.Component<replyPros, replyState> {
 							hideModal={ this.handleCancel } 
 							boxHeader="Upload new picture to reply"
 							topicId={ this.props.topicId}/>
+						<UploadImage 
+						   showModal={ this.state.showUploadModalReply } 
+						   hideModal={ this.handleCancelUploadReply }
+						   boxHeader="Update picture"
+						   topicId={ this.props.topicId }
+						   update={ true }/>
 					</div>
 				</div>
 				{repliesList}

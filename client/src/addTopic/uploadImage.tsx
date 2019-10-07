@@ -8,6 +8,7 @@ interface IUploadImageState {
     img_url_small: string;
     fileList: any[];
     topicId?: String;
+    uploadButtonDisabled: boolean;
 }
 
 interface IUploadImageProps {
@@ -27,7 +28,8 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
             img_url_original: '',
             img_url_small: '',
             fileList:[],
-            topicId: this.props.topicId
+            topicId: this.props.topicId,
+            uploadButtonDisabled: true
           }
         }
 
@@ -46,6 +48,7 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
                 img_url_small: info.file.response[1]
               });
               message.success(`File uploaded successfully!`);
+              this.enableUploadButton();
             } else if (info.file.status == 'error') {
               message.error(`The image contains text/unappropriate content and can't be uploaded.`);
             }
@@ -56,8 +59,18 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
                 visible: true,
               });
             };
+
+          disableUploadButton = () => {
+            var elemet = document.getElementsByClassName('ant-btn ant-btn-primary')[0];
+            elemet.setAttribute('disabled', 'true');              
+          };
+
+          enableUploadButton = () => {
+            var elemet = document.getElementsByClassName('ant-btn ant-btn-primary')[0];
+            elemet.removeAttribute('disabled');
+          };
         
-            postTopic = () => {
+          postTopic = () => {
               let url = '';
               let post_data;
 
@@ -165,8 +178,10 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
     componentDidUpdate(prevProps: IUploadImageProps) {
         if (prevProps.showModal != this.props.showModal)
         {
-            this.setState({
+             this.setState({
                 visible: this.props.showModal
+            }, () => {
+              setTimeout(() => this.disableUploadButton(), 100);
             });
         }    
         
