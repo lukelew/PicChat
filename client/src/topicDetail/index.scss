@@ -16,27 +16,64 @@
 	transition: all .3s;
 	border: 1px solid #e8e8e8;
 
-	.loading_box{
-		padding: 20px 0;
-		text-align: center;
-	}
 
-	#author_info{
-		padding: 10px 0;
+	.header_panel{
+		display: flex;
+		margin: 0 0 10px 0;
 
-		strong{
-			padding: 0 5px;
+		.loading_box{
+			text-align: center;
 		}
 
-		.date{
-			color: #ccc;
+		#author_info{
+			display: flex;
+
+			strong{
+				display: block;
+				font-size: 16px;
+				padding: 0 0 0 6px;
+			}
+
+			span.date{
+				display: block;
+				color: #ccc;
+				padding: 0 0 0 6px;
+			}
+		}
+		
+
+		.settings{
+			margin-left: auto;
+			width: 30px;
+			height: 30px;
+			border-radius: 3px;
+			text-align: center;
+			line-height: 36px;
+			
+
+			i{
+				font-size: 28px;
+				font-weight: bold;
+				transition: all .2s ease;
+
+				&:hover{
+					color:  #1890ff;
+				}
+			}
+
 		}
 	}
+
 
 	#main_pic{
 		position: relative;
 		width: 100%;
 		height: auto;
+
+		.loading_box{
+			padding: 20px 0;
+			text-align: center;
+		}
 
 		img{
 			width: 100%;

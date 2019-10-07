@@ -71,16 +71,16 @@ class Card extends React.Component<cardProps, cardState>  {
 	}
 
 	showModal = () => {
-        this.setState({
-          showUploadModal: true
-        });
-	  };  
+		this.setState({
+			showUploadModal: true
+		});
+	};  
 	  
-	 showModalReply = () => {
-        this.setState({
-          showUploadModalReply: true
-        });
-	  }; 
+	showModalReply = () => {
+		this.setState({
+			showUploadModalReply: true
+		});
+	}; 
 	  
 	handleCancelUploadReply = () => {
 		this.setState({

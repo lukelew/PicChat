@@ -203,7 +203,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 				</div>
 				<div id="topic_list">{topicList}</div>
 				{this.state.isLoading &&
-					(<div className="loading_box">
+					(<div className="topic_list_loading_box">
 						<Icon type="loading" style={{ color: '#1890ff', fontSize: '40px' }} />
 						<p>Loading...</p>
 					</div>)

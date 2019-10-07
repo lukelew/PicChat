@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Avatar, Icon, Empty } from 'antd';
+import { Avatar, Icon, Empty, Menu, Dropdown, message  } from 'antd';
 import Replies from './replies';
 import './index.scss';
 import ReactPanel from '../emoji';
@@ -11,11 +11,11 @@ const MyIcon = Icon.createFromIconfontCN({
 });
 
 interface getIdProps {
-	id: string
+	id: string,
 }
 
 interface topicProps extends RouteComponentProps<getIdProps>{
-	
+
 }
 
 interface replies {
@@ -31,6 +31,7 @@ interface replies {
 }
 
 interface detailState {
+	loginUser: any,
 	isLoading: boolean,
 	id: string,
 	name: string,
@@ -47,6 +48,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 	constructor(props: topicProps){
 		super(props);
 		this.state = {
+			loginUser: {},
 			isLoading: true,
 			id: '',
 			name: '',
@@ -64,9 +66,9 @@ class TopicDetail extends React.Component< topicProps, detailState> {
         this.setState({
           showUploadModal: true
         });
-	  }; 
+	}; 
 
-	  handleCancelUpload = () => {
+	handleCancelUpload = () => {
 		this.setState({
 			showUploadModal: false
 		});
@@ -124,6 +126,28 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					yourReact: curTopic.yourReact ? curTopic.yourReact : ""
 				})
 			})
+
+
+		fetch(process.env.REACT_APP_API_URL + '/users')
+			.then(res => res.json())
+			.then(data => {
+				if (data.status === 'success') {
+					this.setState({
+						loginUser: {
+							name: data.user.name,
+							email: data.user.email,
+							id: data.user.id,
+							avatar: data.user.avatar,
+						}
+					})
+				}
+				else {
+					this.setState({
+						loginUser: {}
+					})
+				}
+			})
+		
 	}
 
 	render() {
@@ -144,15 +168,46 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			)
 		})
 
+		const settingMenu = (
+			<Menu>
+				<Menu.Item>
+					<Icon type="redo" />Update
+				</Menu.Item>
+				<Menu.Item>
+					<Icon type="delete" />Delete
+				</Menu.Item>
+			</Menu>
+		)
 
 		return (
 			<React.Fragment>
 				<div id="topic_detail">
-					<div id="author_info">
-						<Avatar src={'../avatars/' + this.state.avatar + '.png'}/>
-						<strong>{this.state.name}</strong>
-						<span className="date">posted on {this.state.createAt.substr(0,10)}</span>
+					<div className="header_panel">
+						<div id="author_info">
+							{this.state.isLoading &&
+								<div className="loading_box">
+									<Icon type="loading" style={{ color: '#1890ff', fontSize: '40px' }} />
+								</div>
+							}
+							{!this.state.isLoading &&
+								<React.Fragment>
+									<Avatar src={'../avatars/' + this.state.avatar + '.png'} size={40}/>
+									<div className="name_date">
+										<strong>{this.state.name}</strong>
+										<span className="date">posted on {this.state.createAt.substr(0, 10)}</span>
+									</div>
+								</React.Fragment>
+							}
+						</div>
+						{this.state.loginUser.name === this.state.name &&
+							<div className="settings">
+								<Dropdown overlay={settingMenu} placement="bottomCenter">
+									<Icon type="more" />
+								</Dropdown>
+							</div>
+						}
 					</div>
+					
 					<div id="main_pic">
 						{this.state.isLoading &&
 							<div className="loading_box">
