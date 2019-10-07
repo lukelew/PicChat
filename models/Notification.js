@@ -24,6 +24,11 @@ const NotificationSchema = new mongoose.Schema({
         ref: 'Topics',
         required: true
     },
+    belongTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Topics',
+        required: true
+    },
     isRead: {
         type: Boolean,
         required: true,
