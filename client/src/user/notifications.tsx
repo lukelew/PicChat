@@ -70,8 +70,8 @@ class Notification extends React.Component<{}, NotificationState> {
                                                 <strong className="from">{item.fromUser.name}</strong>
                                                 <p className="text">{'has reacted to your picture with '}</p>
                                                 <MyIcon type={'icon-' + item.content} />
-                                                <Link to={`/topics_detail/${item.atTopic}`}>Link</Link>
-                                                {item.isRead == false && 
+                                                <Link to={`/topics_detail/${item.belongTo}`}>Link</Link>
+                                                {item.isRead === false &&
                                                     <em onClick={() => this.markAsRead(item._id)}><Icon type="highlight" />Mark as read</em>
                                                 }
                                             </React.Fragment>
