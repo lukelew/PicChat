@@ -151,7 +151,25 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			})
 		}
 		else{
-			message.error('You can\'t delete this topic')
+			//message.error('You can\'t delete this topic')
+			var url = process.env.REACT_APP_API_URL +'/topics';
+			var post_data = {
+			  originalPicUrl: 'https://picchatbucket.s3-ap-southeast-2.amazonaws.com/content-removal.jpg',
+			  smallPicUrl: 'https://picchatbucket.s3-ap-southeast-2.amazonaws.com/content-removal.jpg', 
+			  topic_id: this.state.id};
+
+			  fetch(url, {
+				method:'PUT',
+				body: JSON.stringify(post_data),
+				headers: new Headers({
+					'Content-Type': 'application/json'
+				  })
+				}).then(res=>res.json()).then(
+					data=>{
+				message.success('Image was replaced with placeholder, because it contaied replies.');
+				var jump = setTimeout(function () { window.location.reload()}, 2000);
+			}
+			  )
 		}
 
 	}

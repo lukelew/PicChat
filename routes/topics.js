@@ -301,7 +301,8 @@ router.put('/', ensureAuthenticated, (req, res) => {
 
 // delete a topic
 router.delete('/', ensureAuthenticated, (req, res) => {
-	Topic.findById(req.body.topic_id, (err, topic) => {
+	const currentId = req.body.topic_id;
+	Topic.findById(currentId, (err, topic) => {
 		if(!topic){
 			return res.send({
 				status: 'failure',
@@ -309,6 +310,12 @@ router.delete('/', ensureAuthenticated, (req, res) => {
 			})
 		}
 		else{
+			if(topic.level === 2){
+				Topic.findById(topic.replyTo, (err, lv1Topic) => {
+					lv1Topic.replies.pull(currentId);
+					lv1Topic.save();
+				})
+			}
 			topic.remove();
 			res.send({
 				status: 'success',
@@ -372,6 +379,8 @@ router.post('/reply', ensureAuthenticated, (req, res) => {
 
 					reply.save()
 						.then(newReply => {
+							lv3Topic.replies.push(newReply._id)
+							lv3Topic.save()
 							lv2Topic.replies.push(newReply._id)
 							lv2Topic.save()
 

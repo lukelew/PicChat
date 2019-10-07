@@ -21,7 +21,10 @@ const TopicSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'React'
 	}],
-	replies: [this],
+	replies: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Topic'
+	}],
 	replyTo: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Topic'

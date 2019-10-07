@@ -40,7 +40,7 @@ class Header extends React.Component {
                     <Link to="/user/notifications"><Button type="link" icon="notification">Notifications</Button><Badge count={this.state.unread} /></Link>
                 </Menu.Item>
                 <Menu.Item key="3">
-                    <Link to="/user/setting"><Button type="link" icon="setting">Setting</Button></Link>
+                    <Link to="/user/setting"><Button type="link" icon="setting">Settings</Button></Link>
                 </Menu.Item>
                 <Menu.Item key="4">
                     <Logout ></Logout>
