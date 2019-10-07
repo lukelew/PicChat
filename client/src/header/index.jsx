@@ -53,7 +53,7 @@ class Header extends React.Component {
             return(
                 <div id='header'>
                     <Link id="logo" to="/">picChat</Link>
-                    <AddTopic />
+                    <AddTopic loginUser={this.props.userName} />
                     <div id='user_menu'>
                         <Dropdown overlay={userMenu}>
                             <div id="user_info">
@@ -71,7 +71,7 @@ class Header extends React.Component {
             return(
                 <div id="header">
                     <Link id="logo" to="/">picChat</Link>
-                    <AddTopic />
+                    <AddTopic loginUser={this.props.userName} />
                     <div id='login'>
                     <BrowserRouter>
                         <Link to ="/login" className="login">Login</Link>

@@ -1,13 +1,18 @@
 import React from "react";
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
 import './index.scss';
 import UploadImage from "./uploadImage";
+
+interface IAddTopicProps {
+  loginUser: any
+}
 
 interface IAddTopicState {
     visible: boolean;
 }
 
-class AddTopic extends React.PureComponent<{}, IAddTopicState> {
+
+class AddTopic extends React.PureComponent<IAddTopicProps, IAddTopicState> {
     upload_props: any;
 
     constructor(props: any) {
@@ -18,9 +23,15 @@ class AddTopic extends React.PureComponent<{}, IAddTopicState> {
         }
 
     showModal = () => {
+      if(this.props.loginUser === ''){
+        message.error('You need to login to post');
+      }
+      else{
         this.setState({
           visible: true
         });
+      }
+        
       };  
 
       handleCancel = () => {
