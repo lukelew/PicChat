@@ -28,3 +28,6 @@ yarn-error.log*
 sendgrid.env
 
 .vscode
+client/.env
+temp_picture_full.jpg
+config/db.js
