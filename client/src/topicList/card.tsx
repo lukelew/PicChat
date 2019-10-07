@@ -71,9 +71,15 @@ class Card extends React.Component<cardProps, cardState>  {
 	}
 
 	showModal = () => {
-		this.setState({
-			showUploadModal: true
-		});
+		if(this.props.user.name === ''){
+			message.error('You need to login to post');
+		}
+		else{
+			this.setState({
+				showUploadModal: true
+			});
+		}
+		
 	};  
 	  
 	showModalReply = () => {

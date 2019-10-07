@@ -65,9 +65,14 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 	}
 
 	showModal = () => {
-        this.setState({
-          showUploadModal: true
-        });
+		if (!this.state.loginUser.name) {
+			message.error('You need to login to post');
+		}
+		else{
+			this.setState({
+				showUploadModal: true
+			});
+		}
 	}; 
 
 	showModalReply = () => {		

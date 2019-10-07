@@ -74,10 +74,15 @@ class Replies extends React.Component<replyPros, replyState> {
 	}
 
 	showModal = () => {
+		if (!this.props.loginUser.name) {
+			message.error('You need to login to post');
+		}
+		else {
 			this.setState({
-			  visible: true
+				visible: true
 			});
-		  };  
+		}	
+	};  
 	
 	showModalReply = () => {
 		if (this.state.reacts.length > 0)

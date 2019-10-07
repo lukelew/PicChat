@@ -73,9 +73,14 @@ class Subreplies extends React.Component<replyPros, replyState> {
     }
 
     showModal = () => {
-        this.setState({
-            visible: true
-        });
+        if (!this.props.loginUser.name) {
+            message.error('You need to login to post');
+        }
+        else {
+            this.setState({
+                visible: true
+            });
+        }	
     };
 
     handleCancel = () => {
