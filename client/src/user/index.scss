@@ -11,12 +11,14 @@
         padding: 24px 0 0 24px;
     }
 }
+#user_panel_menu{
+    min-height: 500px;
+}
 
 #user_topic_list{
     display: flex;
     flex-wrap: wrap;
     padding: 0 0 60px 0;
-    min-height: 400px;
 
     .ant-empty{
         margin: 30px auto;
@@ -25,20 +27,83 @@
 
 #notifications{
     background: #fff;
-    padding: 20px 0 0 24px;
-    min-height: 400px;
+    padding: 24px;
 
-    .ant-list-item-meta-description{
+    .ant-list-item{
+        padding: 10px 0 10px 20px;
+
+        &.unread{
+            background: rgba(187, 66, 98, 0.15);
+        }
+
+        .ant-list-item-meta-description{
+            display: flex;
+        }
+
+        .from{
+            color: #000;
+            padding: 0 5px 0 0;
+        }
+
+        i{
+            padding: 0 5px;
+            font-size: 20px;
+        }
+
+        em{
+            margin-left: auto;
+            font-style: normal;
+            color: #1890ff;
+            padding: 0 20px 0 0;
+            cursor: pointer;
+        }
+    }
+    
+    
+}
+
+#user_setting{
+    background: #fff;
+    padding: 20px 0 80px 24px;
+
+    .currentAvatar{
         display: flex;
+        padding: 0 0 20px 0;
+
+        .avatar_display{
+            margin: 0 30px 0 0;
+        }
+
+        .avatar{
+            width: 80px;
+            height: 80px;    
+            transition: all .2s ease;
+
+            &:hover{
+                transform: scale(1.2)
+            }
+        }
+        
+        .save{
+            margin: 15px 0 0 0;
+        }
     }
 
-    .from{
-        color: #000;
-        padding: 0 5px 0 0;
-    }
+    .avatar_list{
+        width: 360px;
+        display: flex;
+        flex-wrap: wrap;
 
-    i{
-        padding: 0 5px;
-        font-size: 20px;
+        span{
+            width: 60px;
+            height: 60px;
+            margin-right: 14px;
+            margin-top: 10px;
+            transition: all .2s ease;
+
+            &:hover{
+                transform: scale(1.2)
+            }
+        }
     }
 }

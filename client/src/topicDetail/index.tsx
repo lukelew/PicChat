@@ -41,7 +41,8 @@ interface detailState {
 	replies: Array<replies>,
 	reacts: Array<any>,
 	yourReact: any,
-	showUploadModal: boolean
+	showUploadModal: boolean,
+	showUploadModalReply: boolean
 }
 
 class TopicDetail extends React.Component< topicProps, detailState> {
@@ -57,8 +58,9 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 			createAt: '',
 			replies: [],
 			reacts: [],
-			yourReact: "",
-			showUploadModal: false
+			yourReact: '',
+			showUploadModal: false,
+			showUploadModalReply: false
 		}
 	}
 
@@ -68,9 +70,21 @@ class TopicDetail extends React.Component< topicProps, detailState> {
         });
 	}; 
 
+	showModalReply = () => {
+        this.setState({
+			showUploadModalReply: true
+        });
+	}; 
+
 	handleCancelUpload = () => {
 		this.setState({
 			showUploadModal: false
+		});
+	};
+
+	handleCancelUploadReply = () => {
+		this.setState({
+			showUploadModalReply: false
 		});
 	};
 
@@ -107,6 +121,33 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 				return
 			}
 		}
+	}
+
+	handleDeleteTopic = () => {
+		const currentTopic = {
+			topic_id: this.state.id
+		}
+		if(this.state.replies.length == 0) {
+			fetch(process.env.REACT_APP_API_URL + '/topics/', {
+				method: 'DELETE',
+				headers: {
+					'Content-type': 'application/json'
+				},
+				body: JSON.stringify(currentTopic)
+			})
+			.then(res => res.json())
+			.then(data => {
+				if (data.status === 'success'){
+					message.success('Delete Successfully!')
+					var jump = setTimeout(function () { window.location.href='/'}, 2000);
+				}
+				
+			})
+		}
+		else{
+			message.error('You can\'t delete this topic')
+		}
+
 	}
 
 	componentDidMount(){
@@ -163,6 +204,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					topicId={reply._id}
 					reacts={reply.reacts}
 					yourReact={reply.yourReact ? reply.yourReact : ''}
+					loginUser={this.state.loginUser ? this.state.loginUser: {} }
 				/>
 
 			)
@@ -170,10 +212,10 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 
 		const settingMenu = (
 			<Menu>
-				<Menu.Item>
-					<Icon type="redo" />Update
+				<Menu.Item onClick={() => this.showModalReply()}>
+					<Icon type="redo"/> Update
 				</Menu.Item>
-				<Menu.Item>
+				<Menu.Item onClick={() => this.handleDeleteTopic()}>
 					<Icon type="delete" />Delete
 				</Menu.Item>
 			</Menu>
@@ -245,7 +287,14 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 				<UploadBox showModal={ this.state.showUploadModal } 
 						   hideModal={ this.handleCancelUpload }
 						   boxHeader="Upload new picture to reply on topic"
-						   topicId={this.state.id}/>
+						   topicId={ this.state.id }/>
+
+				<UploadBox showModal={ this.state.showUploadModalReply } 
+						   hideModal={ this.handleCancelUploadReply }
+						   boxHeader="Update picture"
+						   topicId={ this.state.id }
+						   update={ true }/>
+
 			</React.Fragment>
 		)
 	}

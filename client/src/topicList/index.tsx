@@ -26,7 +26,7 @@ class TopicList extends React.Component<topicListProps, topicListState> {
 			sort: 1,
 			topics: [],
 			tags: 'From New to Old',
-			pageSize: 4,
+			pageSize: 6,
 			page: 0,
 			canLoad: true
 		}
