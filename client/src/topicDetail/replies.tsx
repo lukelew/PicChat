@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Icon} from 'antd';
+import { Avatar, Icon, Dropdown, Menu} from 'antd';
 import ReactPanel from '../emoji';
 import Subreplies from './sub-replies';
 import UploadImage from "../addTopic/uploadImage";
@@ -10,6 +10,7 @@ const MyIcon = Icon.createFromIconfontCN({
 });
 
 interface replyPros {
+	loginUser: any,
 	topicId: string,
 	originalPicUrl: string,
 	name: string,
@@ -96,10 +97,22 @@ class Replies extends React.Component<replyPros, replyState> {
 					reacts={reply.reacts}
 					yourReact={reply.yourReact ? reply.yourReact : ''}
 					replyTo={reply.replyTo.createBy.name}
+					loginUser={this.props.loginUser ? this.props.loginUser : {}}
 				/>
 			)
 		}) 
 
+		const settingMenu = (
+			<Menu>
+				<Menu.Item>
+					<Icon type="redo" />Update
+				</Menu.Item>
+				<Menu.Item>
+					<Icon type="delete" />Delete
+				</Menu.Item>
+			</Menu>
+		)
+		
 		return(
 			<div className="single_reply">
 				<div className="level2">
@@ -125,6 +138,13 @@ class Replies extends React.Component<replyPros, replyState> {
 						}
 					</div>
 					<div className="button_box">
+						{this.props.loginUser.name === this.props.name &&
+							<div className="settings">
+								<Dropdown overlay={settingMenu} placement="bottomCenter">
+									<Icon type="more" />
+								</Dropdown>
+							</div>
+						}
 						<ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts} />
 						<Icon
 							className="add_reply"

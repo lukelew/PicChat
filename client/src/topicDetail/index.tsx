@@ -163,6 +163,7 @@ class TopicDetail extends React.Component< topicProps, detailState> {
 					topicId={reply._id}
 					reacts={reply.reacts}
 					yourReact={reply.yourReact ? reply.yourReact : ''}
+					loginUser={this.state.loginUser ? this.state.loginUser: {} }
 				/>
 
 			)

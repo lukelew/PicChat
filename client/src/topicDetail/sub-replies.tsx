@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Icon} from 'antd';
+import { Avatar, Icon, Dropdown, Menu} from 'antd';
 import ReactPanel from '../emoji';
 import UploadBox from "../addTopic/uploadImage";
 import './index.scss';
@@ -9,6 +9,7 @@ const MyIcon = Icon.createFromIconfontCN({
 });
 
 interface replyPros {
+    loginUser: any,
     topicId: string,
     originalPicUrl: string,
     name: string,
@@ -82,6 +83,17 @@ class Subreplies extends React.Component<replyPros, replyState> {
     };
 
     render() {
+        const settingMenu = (
+            <Menu>
+                <Menu.Item>
+                    <Icon type="redo" />Update
+				</Menu.Item>
+                <Menu.Item>
+                    <Icon type="delete" />Delete
+				</Menu.Item>
+            </Menu>
+        )
+        
         return(
             <div className="level3" key={this.props.topicId}>
                 <div className="basic_info">
@@ -114,6 +126,13 @@ class Subreplies extends React.Component<replyPros, replyState> {
                     }
                 </div>
                 <div className="button_box">
+                    {this.props.loginUser.name === this.props.name && 
+                        <div className="settings">
+                            <Dropdown overlay={settingMenu} placement="bottomCenter">
+                                <Icon type="more" />
+                            </Dropdown>
+                        </div>
+                    }
                     <ReactPanel topicId={this.props.topicId} yourReact={this.props.yourReact} updateReacts={() => this.updateReacts} deleteReacts={() => this.deleteReacts} />
                     <Icon
                         className="add_reply"
