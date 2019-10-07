@@ -21,4 +21,34 @@ router.get('/toUser', ensureAuthenticated, (req, res) => {
     })
 })
 
+router.get('/unread', ensureAuthenticated, (req, res) => {
+    if (!req.user._id) {
+        res.send({
+            status: 'failure',
+            message: 'You need to login in to get your topics!'
+        })
+    }
+    Notification
+        .find({ toUser: req.user._id, isRead: false })
+        .exec((err, docs) => {
+            res.send(docs)
+        })
+})
+
+router.post('/markread', ensureAuthenticated, (req, res) => {
+    if (!req.user._id) {
+        res.send({
+            status: 'failure',
+            message: 'You need to login in to get your topics!'
+        })
+    }
+    Notification
+        .findById(req.body.notification_id)
+        .exec((err, doc) => {
+            doc.isRead = true;
+            doc.save();
+            res.send(doc)
+        })
+})
+
 module.exports = router;

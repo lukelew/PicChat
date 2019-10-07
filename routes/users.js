@@ -6,6 +6,7 @@ const saltRounds = 10;
 const passport = require('passport');
 const cryptoRandomString = require('crypto-random-string');
 const Token = require('../models/Token');
+const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
 
@@ -163,6 +164,18 @@ router.get('/verify', (req, res) => {
 			})
 		}
 
+	})
+})
+
+// update a user
+router.put('/', ensureAuthenticated, (req, res) => {
+	User.findById(req.user._id, (err, user) => {
+		user.avatar = req.body.avatar;
+		user.save();
+		res.send({
+			status: 'success',
+			message: 'Avatar update created!'
+		})
 	})
 })
 
