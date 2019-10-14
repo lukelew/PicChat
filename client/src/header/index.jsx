@@ -1,18 +1,16 @@
 import {Route, BrowserRouter, Link}from 'react-router-dom';
+import { Menu, Dropdown, Avatar, Button, Badge } from 'antd';
 import './header.scss';
 import React from 'react';
 import Login from './login';
 import Logout from './logout'
 import Register from './register';
 import AddTopic from '../addTopic';
-import { Menu, Dropdown, Avatar, Button, Badge } from 'antd';
 
 class Header extends React.Component {
    state = {
         unread: 0
     }
-
-    
 
     componentDidMount() {
         fetch(process.env.REACT_APP_API_URL + '/notifications/unread', {
@@ -29,8 +27,8 @@ class Header extends React.Component {
         })
     }
 
-
     render(){
+        //user menu for personal information, setting and logout funtion
         const userMenu = (
             <Menu>
                 <Menu.Item key="1">
@@ -47,9 +45,10 @@ class Header extends React.Component {
                 </Menu.Item>
             </Menu>
         );
-
-        if (this.props.isLogin) {
+        
+        if (this.props.isLogin) { //verify whether user is login: 
             const avartarUrl = '../avatars/' + this.props.avatar+'.png'
+            //already logined status
             return(
                 <div id='header'>
                     <Link id="logo" to="/">picChat</Link>
@@ -68,6 +67,7 @@ class Header extends React.Component {
             );
         }
         else{
+            //not login status
             return(
                 <div id="header">
                     <Link id="logo" to="/">picChat</Link>

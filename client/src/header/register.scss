@@ -1,6 +1,7 @@
 @media screen and (max-width: 575px){
-  #avatarY{margin-left: 180px;}
   .register-form-button{width: 70%; margin: 0 60px}
+
+  #avatarY{margin-left: 180px;}
   #avatarN span{
     width: 80px;
     height: 80px;;
@@ -8,6 +9,13 @@
     margin-top: 10px;
     transition: all .2s ease;
   }
+  #avatarN span:hover{
+    transform: scale(1.2);
+  }
+  #avatarY span:hover{
+    transform: scale(1.2);
+  }
+
   .login_text {
     display: block;
     text-align: center;
@@ -23,6 +31,7 @@
     margin-top: 30px;
   }
 }
+
 @media (min-width: 576px) {
   #avatarY{
     margin: -15px 0 0 100px;
@@ -59,18 +68,13 @@
   margin: auto;
 }
 
-#avatarN span:hover{
-  transform: scale(1.2);
-}
-#avatarY span:hover{
-  transform: scale(1.2);
-}
 #text_register{
   font-size: 26px;
   display:inline-block; 
   width:200px; 
   text-align:center;
 }
+
 .mustChoose{
   color: red;
 }

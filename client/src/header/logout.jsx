@@ -1,9 +1,8 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import { message, Button} from 'antd';
 import { Redirect } from 'react-router';
 import './logout.scss';
-
+import 'antd/dist/antd.css';
 
 class Logout extends React.Component{
     constructor(props){
@@ -14,8 +13,7 @@ class Logout extends React.Component{
             email:'',
         };
     }
-
-
+    //request logout
     logout=()=>{
         let url = process.env.REACT_APP_API_URL + '/users/logout';
         fetch(url,{
@@ -26,12 +24,13 @@ class Logout extends React.Component{
                     this.setState({
                         isLogout: true,
                     })
-                    message.success('Login success');
+                    message.success('Logout success');
                     window.location.reload();
-                    console.log('logout success',this.state.isLogout)
                 }
             )
     };
+
+    //logout page
     render(){
         if(this.state.isLogout)
         {   

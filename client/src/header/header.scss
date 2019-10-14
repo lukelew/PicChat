@@ -1,5 +1,6 @@
 @import '../variables.scss';
 
+//header
 #header {
 	margin: 0 auto;
 	padding: 0 40px;
@@ -8,13 +9,14 @@
 	display: flex;
 	justify-content: space-between;
 }
-
+//logo
 #logo {
 	color: #fff;
 	font-family: baloo;
 	font-size: 38px;
 	line-height: 60px;
 }
+//login 
 #login {
 	height: 60px;
 	line-height: 60px;
@@ -32,6 +34,7 @@
 	border: none;
 	color: #fff;
 }
+//register
 .register{
 	margin-left: 10px;
 	text-align: center;

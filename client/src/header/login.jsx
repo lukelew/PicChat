@@ -5,95 +5,99 @@ import './login.scss';
 import 'antd/dist/antd.css';
 
 class Login extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = { 
-        isLogin: false,
-        login_username: '',
-        visible: true,
-        email:'',
-        password:'',
+    constructor(props){
+        super(props);
+        this.state = { 
+            isLogin: false,
+            login_username: '',
+            visible: true,
+            email:'',
+            password:'',
 
-        result:'', //database search result
-        callbackResultEmail: '',
-        callbackTextEmail:'',
+            result:'', //database search result
+            callbackResultEmail: '',
+            callbackTextEmail:'',
+        };
+    }
+    //control drawer
+    onClose = () => { 
+        this.setState({
+            visible: false,
+            isLogin: true,
+        });
     };
-  }
 
-  onClose = () => {
-    this.setState({
-      visible: false,
-      isLogin: true,
-    });
-
-  };
-
-  handleSubmit = e => {
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-          if (!err) {
-              console.log('Received values of form: ', values);
-          }
-      })
-  };
-
-  //judge email whether exists
-  handleChangeEmail(e){
-      this.setState({
-          email: e.target.value
-      })
-  };
-  compareToUserEmail = () =>{
-    let url = process.env.REACT_APP_API_URL + '/users/verifyEmail';
-    let post_data = { 
-        email: this.state.email,
-    }
-    var emailV = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/
-    if(this.state.email===''){
-        this.setState({
-            callbackResultEmail: "error",
-            callbackTextEmail: "Please input your E-mail address"
-        })
-    }
-    else if(emailV.test(this.state.email)) {
-        fetch(url,{
-            method:'POST',
-            body: JSON.stringify(post_data),
-            headers: new Headers({
-            'Content-Type': 'application/json'
-            })
-        }).then(res=>res.text().then(
-            data=>{
-                var dataBack=JSON.parse(data);
-                if(dataBack.status!=="failure"){
-                    this.setState({
-                        callbackResultEmail: "error",
-                        callbackTextEmail: "This E-mail do not existed." 
-                    })
-                }
-                else {
-                    this.setState({
-                        callbackResultEmail: "success",
-                        callbackTextEmail: "Welcome Back!"
-                    })
-                }
+    //check form submit
+    handleSubmit = e => { 
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
             }
-        ))   
-    }else{
-        this.setState({
-            callbackResultEmail: "error",
-            callbackTextEmail: "Please input correct E-mail format!",
-        }) 
-    }
-}
+        })
+    };
 
-  handleChangePassword(e){
+    //judge email whether exists
+    handleChangeEmail(e){
+        this.setState({
+            email: e.target.value
+        })
+    };
+
+    //judge email whether exists
+    compareToUserEmail = () =>{
+        let url = process.env.REACT_APP_API_URL + '/users/verifyEmail';
+        let post_data = { 
+            email: this.state.email,
+        }
+        var emailV = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/ //email form rule
+
+        if(this.state.email===''){//check empty input
+            this.setState({
+                callbackResultEmail: "error",
+                callbackTextEmail: "Please input your E-mail address"
+            })
+        }
+        else if(emailV.test(this.state.email)) { //check email form
+            fetch(url,{
+                method:'POST',
+                body: JSON.stringify(post_data),
+                headers: new Headers({
+                'Content-Type': 'application/json'
+                })
+            }).then(res=>res.text().then(
+                data=>{
+                    var dataBack=JSON.parse(data);
+                    if(dataBack.status!=="failure"){
+                        this.setState({
+                            callbackResultEmail: "error",
+                            callbackTextEmail: "This E-mail do not existed." 
+                        })
+                    }
+                    else {
+                        this.setState({
+                            callbackResultEmail: "success",
+                            callbackTextEmail: "Welcome Back!"
+                        })
+                    }
+                }
+            ))   
+        }
+        else{ //error email form
+            this.setState({
+                callbackResultEmail: "error",
+                callbackTextEmail: "Please input correct E-mail format!",
+            }) 
+        }
+    }
+    //record email value
+    handleChangePassword(e){
       this.setState({
           password: e.target.value
       })
-  };
+    };
 
-  //Post_data_login
+    //Post_data_login
     postData = () => {
         if(this.state.email===''){
             this.setState({
@@ -108,35 +112,32 @@ class Login extends React.Component {
         };
         this.props.form.validateFields(err => {
             if (!err) {
-            fetch(url,{
-                method:'POST',
-                body: JSON.stringify(post_data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(
-                    res=>res.json()
-                )
-            .then(
+                fetch(url,{
+                    method:'POST',
+                    body: JSON.stringify(post_data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res=>res.json())
+                .then(
                     data=>{
-                        if(data.status==='failure'){
-                            message.error(data.message+'!Please try again!')
-                        }
-                        else if(data.user.email===this.state.email){
-                            this.setState({
-                                isLogin: true,
-                                login_username: data.user.name
-                            });
-                            window.location.reload();
-                            // message.success('Login Success',3);
-                        }else{
-                            this.setState({
-                                isLogin: false
-                            });
-                            message.success('Login False');
-                            window.location.reload();
-                        } 
+                            if(data.status==='failure'){
+                                message.error(data.message+'!Please try again!')
+                            }
+                            else if(data.user.email===this.state.email){
+                                this.setState({
+                                    isLogin: true,
+                                    login_username: data.user.name
+                                });
+                                window.location.reload();
+                            }else{
+                                this.setState({
+                                    isLogin: false
+                                });
+                                message.success('Login False');
+                                window.location.reload();
+                            } 
                     }
                 )
            }
@@ -153,11 +154,12 @@ render() {
         query: datapass
     };
     
-    if(this.state.isLogin){
+    //login page
+    if(this.state.isLogin){ //return to homepage
         return <Redirect to= {path}/> 
     }
     else{
-        return (
+        return ( //login drawer
             <div id='login'>
                 <div id='login_form'>
                     <Drawer
@@ -186,7 +188,9 @@ render() {
                         {/* login_password*/}
                         <Form.Item  hasFeedback>
                             {getFieldDecorator('password', {
-                                rules: [{ required: true, message: 'Please input your Password!' }],
+                                rules: [
+                                    { required: true, message: 'Please input your Password!' }
+                                ],
                             })(
                                 <Input.Password
                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -199,9 +203,9 @@ render() {
 
                         {/* login_submit*/}
                         <Form.Item>
-                          {/* <a className="login-form-forgot" href="/register">Forgot password?</a> */}
-                          <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.postData}>Login</Button>
-
+                            <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.postData}>
+                                Login
+                            </Button>
                         </Form.Item>
                     </Form>
                     </Drawer>
@@ -211,4 +215,5 @@ render() {
     }
   }
 };
+
 export default Form.create()(Login);
