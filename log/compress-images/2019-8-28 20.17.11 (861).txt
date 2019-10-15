@@ -1,8 +1,0 @@
-File from: [temp_picture_full.jpg]
-
-File to: [temp_picture_compressed.jpgtemp_picture_full.jpg]
-
-Compression algorithm: [mozjpeg]
-
-Description: Error: Command failed: C:\Users\evgen\OneDrive\Рабочий стол\UTS\advanced_ip\PicChat\node_modules\mozjpeg\vendor\cjpeg.exe -quality 60 -outfile temp_picture_compressed.jpgtemp_picture_full.jpg temp_picture_full.jpg
-C:\Users\evgen\OneDrive\??????? ????\UTS\advanced_ip\PicChat\node_modules\mozjpeg\vendor\cjpeg.exe: can't open temp_picture_compressed.jpgtemp_picture_full.jpg

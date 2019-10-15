@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
-const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
@@ -10,7 +8,7 @@ var cors = require('cors');
 
 const port = process.env.PORT || 8080;
 
-// Database
+// Database Config
 const db = require('./config/db');
 
 // Passport Config
@@ -28,6 +26,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors());
 
+// Routers
 const users = require('./routes/users');
 app.use('/users', users);
 
@@ -43,7 +42,6 @@ app.use('/notifications', notifications);
 const images = require('./routes/images');
 app.use('/images', images);
 
-// Routers
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, '/client/build/')));
 
@@ -52,14 +50,5 @@ if (process.env.NODE_ENV === 'production') {
 	});
 }
 
+// Start the server on defined port
 server.listen(port);
-
-io.on('connection', function (socket) {
-	console.log('new user connected');
-	socket.on('mssg', function (msg) {
-		console.log(msg);
-	});
-	socket.on('disconnect', function () {
-		console.log('user disconnected');
-	});
-});

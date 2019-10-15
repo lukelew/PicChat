@@ -1,7 +1,6 @@
 import React from 'react';
 import { message, Button} from 'antd';
 import { Redirect } from 'react-router';
-import './logout.scss';
 import 'antd/dist/antd.css';
 
 class Logout extends React.Component{

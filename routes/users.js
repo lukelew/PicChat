@@ -4,8 +4,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const passport = require('passport');
-const cryptoRandomString = require('crypto-random-string');
-const Token = require('../models/Token');
 const { ensureAuthenticated } = require('../config/ensureAuth');
 
 router.use(express.json());
@@ -136,37 +134,6 @@ router.post('/register', (req, res) => {
 
 })
 
-// verify a user
-router.get('/verify', (req, res) => {
-	Token.findOne({token: req.query.token}, (err, token) => {
-		if(!token) {
-			res.send({
-				status: 'failure',
-				message: 'Can\'t find this token'
-			})
-		}
-		else{
-			User.findById(token.userId, (err, user) => {
-				if(!user) {
-					res.send({
-						status: 'failure',
-						message: 'Can\'t find this user'
-					})
-				}
-				else{
-					user.isVerified = true
-					user.save()
-					res.send({
-						status: 'success',
-						message: 'Congratulation! You\'re verifed!'
-					})
-				}
-			})
-		}
-
-	})
-})
-
 // update a user
 router.put('/', ensureAuthenticated, (req, res) => {
 	User.findById(req.user._id, (err, user) => {
@@ -187,21 +154,7 @@ router.get('/logout', (req, res) => {
 		message: 'User logout'
 	})
 	console.log('User logout')
-});
-
-// send email
-router.get('/email', (req, res) => {
-	const msg = {
-		to: '13298498@student.uts.edu.au',
-		from: 'ailuqun313@gmail.com',
-		subject: 'Sending with Twilio SendGrid is Fun',
-		text: 'and easy to do anywhere, even with Node.js',
-		html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-	};
-	sgMail.send(msg);
-	res.send('done')
-})
-	
+});	
 
 // leaderboard
 router.get('/leaderboard', (req, res) => {

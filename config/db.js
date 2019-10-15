@@ -6,7 +6,7 @@ mongoose.connect('mongodb+srv://Luke:l9u9q9u9n9@development-2nzet.mongodb.net/te
 		console.log('Database connection successfully')
 	})
 	.catch(err => {
-		console.log('connection error')
+		console.log('connection error:'+ err)
 	})
 
 

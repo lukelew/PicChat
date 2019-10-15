@@ -17,10 +17,6 @@ const UserSchema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
-	isVerified: {
-		type: Boolean,
-		default: false
-	},
 	reactTimes: {
 		type: Number,
 		default: 0
