@@ -4,12 +4,12 @@
 
 This project was built for Assignment 3 in Advanced Internet Programming.
 
-##### Group members are: 
+### Group members are: 
 - Qun Lu - 13298498
 - Tianlin Wen - 12833644 
 - Evgeniya Yueryva - 13066093
 
-##### Structure
+### Structure
 Our Back-end and Front-end are separeted. So there are two individual node projects actually. All the files in the root of the folders are back-end based on expressJS. The Front-end is a project based on React.
 **/client** contains the project of front-end.
 **/client/src** contains all the sources files of front-end.
@@ -19,7 +19,7 @@ Our Back-end and Front-end are separeted. So there are two individual node proje
 **/routes** contains all the requests and back-end logics.
 **server.js** is the entry of the back-end.
 
-##### Functions
+### Functions
 1. Registering as a new user and login in.
 2. Users could upload images to start a new post.
 3. Any other users could reply to the post by uploading some other pictures following.
@@ -28,6 +28,7 @@ Our Back-end and Front-end are separeted. So there are two individual node proje
 6. Leaderboard of the most active users.
 7. Uploaded pictures will be anaylzed to check whether it contains any text or inappropriate contents.
 8. Responsive Design.
+
 **Bouns:**
 7. Users could set and change an avatar
 8. User could check all his posts in the *MyPosts* page.
@@ -37,7 +38,7 @@ Our Back-end and Front-end are separeted. So there are two individual node proje
 12. Loading effects are added for most interaction to offer a better user experience.
 
 
-##### Installing
+### Installing
 To start using this application by simply run `npm install` in both **/** and **/client** to install all the necessary dependencies.
 
 Then run `node server.js` to start the server. By default, our online database in MongoDB Atals will be connected.
