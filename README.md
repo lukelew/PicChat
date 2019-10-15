@@ -10,14 +10,15 @@ This project was built for Assignment 3 in Advanced Internet Programming.
 - Evgeniya Yueryva - 13066093
 
 ### Structure
-Our Back-end and Front-end are separeted. So there are two individual node projects actually. All the files in the root of the folders are back-end based on expressJS. The Front-end is a project based on React.
-**/client** contains the project of front-end.
-**/client/src** contains all the sources files of front-end.
-**/client/src/.env** stores the variable which is used for concatenating the address of all requests.
-**/config** contains all the configuration for the app.
-**/models** contains all the models for our data.
-**/routes** contains all the requests and back-end logics.
-**server.js** is the entry of the back-end.
+Our Back-end and Front-end are separeted. So there are two individual node projects actually. All the files in the root of the folders are back-end based on expressJS. The Front-end is a project based on React.  
+**/client** contains the project of front-end.  
+
+**/client/src** contains all the sources files of front-end.  
+**/client/src/.env** stores the variable which is used for concatenating the address of all requests.  
+**/config** contains all the configuration for the app.  
+**/models** contains all the models for our data.  
+**/routes** contains all the requests and back-end logics.  
+**server.js** is the entry of the back-end.  
 
 ### Functions
 1. Registering as a new user and login in.
@@ -27,15 +28,14 @@ Our Back-end and Front-end are separeted. So there are two individual node proje
 5. Users could browse all the pictures sorted by receny and populairty.
 6. Leaderboard of the most active users.
 7. Uploaded pictures will be anaylzed to check whether it contains any text or inappropriate contents.
-8. Responsive Design.
-
-**Bouns:**
-7. Users could set and change an avatar
-8. User could check all his posts in the *MyPosts* page.
-9. If someone react to your pictures, you will get a notification in the *Notification* page. The number of unread notifications will be shown in the avatars as a badge.
-10. Uploaded images will be processed and compressed, two different size of the same picture will be stored. The smaller one will be used in the homepage. The original one will be used in the detail page of that picture.
-11. Almost a SPA(single page application), all request are asynchronous. Reloading just occur in a few places.
-12. Loading effects are added for most interaction to offer a better user experience.
+8. Responsive Design.  
+  **Bouns:**  
+9. Users could set and change an avatar.   
+10. User could check all his posts in the *MyPosts* page.  
+11. If someone react to your pictures, you will get a notification in the *Notification* page. The number of unread notifications will be shown in the avatars as a badge.  
+12. Uploaded images will be processed and compressed, two different size of the same picture will be stored. The smaller one will be used in the homepage. The original one will be used in the detail page of that picture.  
+13. Almost a SPA(single page application), all request are asynchronous. Reloading just occur in a few places.  
+14. Loading effects are added for most interaction to offer a better user experience.  
 
 
 ### Installing
