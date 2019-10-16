@@ -50,6 +50,7 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
               message.success(`File uploaded successfully!`);
               this.enableUploadButton();
             } else if (info.file.status == 'error') {
+              //General error message. Can be improved to be more specific depends on error type
               message.error(`The image contains text/unappropriate content and can't be uploaded.`);
             }
           };
@@ -101,8 +102,6 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
                 };
               }
 
-              console.log(post_data);
-
               if (this.props.update == true) {
                 fetch(url, {
                   method:'PUT',
@@ -136,7 +135,7 @@ class UploadImage extends React.Component<IUploadImageProps, IUploadImageState> 
 
               this.props.hideModal();
       
-              //TODO: change this refresh with the component update
+              //TODO: instead of reload component update shall be used 
               window.location.reload();
             };
         
